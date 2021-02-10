@@ -23,7 +23,7 @@ var (
 	tmpl_layout, _ = template.ParseFiles("templates/layout_go.html")
 	tmpl_timeline, _ = template.ParseFiles("templates/timeline_go.html")
 
-	user = User{1, "", "", ""}
+	user *User
 	username string
 	database *sql.DB
 )
@@ -40,13 +40,12 @@ func timeline(w http.ResponseWriter, r *http.Request) {
 	*/
 	fmt.Println("We got a visitor from: " + r.RemoteAddr)
 	
-	if &user == nil {
+	if user == nil {
 		http.Redirect(w, r, URL + "/public", http.StatusPermanentRedirect)
 	} else { 
-		//data, _ := database.Query("select user_id from user")
+		//data, _ := database.Query(...) TODO
 		
 		tmpl_layout.Execute(w, nil)
-		//tmpl_timeline.Execute(w, nil)
 	}
 }
 
@@ -54,7 +53,7 @@ func timeline(w http.ResponseWriter, r *http.Request) {
 // Method: GET
 func public_timeline(w http.ResponseWriter, r *http.Request) {
 	/*Displays the latest messages of all users.*/
-	// data, _ := database.Query("select user_id from user")
+	// data, _ := database.Query(...) TODO
 	
 	tmpl_layout.Execute(w, nil)
 }
@@ -62,7 +61,14 @@ func public_timeline(w http.ResponseWriter, r *http.Request) {
 // Route: /<username> 
 // Method: GET
 func user_timeline(w http.ResponseWriter, r *http.Request) {
-	// TODO
+	var profile_user *string = nil // = query_db(...) TODO
+	if profile_user == nil {
+		w.WriteHeader(http.StatusNotFound)
+	}
+	if user != nil {
+		//followd = query_db() TODO
+		// render template TODO
+	}
 }
 
 func main() {
@@ -72,7 +78,7 @@ func main() {
 	router := mux.NewRouter()
 	router.HandleFunc("/", timeline)
 	router.HandleFunc("/public", public_timeline)
-	//router.HandleFunc("/" + username, user_timeline)
+	router.HandleFunc("/" + username, user_timeline)
 
 	s := http.StripPrefix("/static/", http.FileServer(http.Dir("./static/")))
 	router.PathPrefix("/static/").Handler(s)
@@ -80,8 +86,8 @@ func main() {
 	server := &http.Server {
 		Handler: 	router,
 		Addr: 		"127.0.0.1:10000",
-	}
 		// TODO: enforce timeouts
+	}
 	
 	http.Handle("/", router)
 	
