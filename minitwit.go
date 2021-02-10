@@ -49,14 +49,15 @@ func main() {
 		var id int
 		row.Scan(&id)
 		fmt.Println(id)
+	}
   
 	router := mux.NewRouter()
 	// Handlefunc("<URL path>", <handler aka method aka controller>)
 	router.HandleFunc("/", timeline)
 	router.HandleFunc("/public", public_timeline)
 	router.HandleFunc("/" + username, user_timeline)
-	router.HandleFunc("/login", login)
-	router.HandleFunc("/register", register)
+	router.HandleFunc("/login", login).Methods("GET", "POST")
+	router.HandleFunc("/register", register).Methods("GET", "POST")
 	router.HandleFunc("/logout", logout)
 
 	
@@ -70,19 +71,19 @@ func main() {
 
 // Route: '/login'
 // Methods : GET, POST
-func login() {
+func login(w http.ResponseWriter, r *http.Request) {
 
 }
 
 
 // Route: '/register'
 // Methods: GET, POST
-func register() {
+func register(w http.ResponseWriter, r *http.Request) {
 
 }
 
 
 // Route: '/logout'
-func logout() {
+func logout(w http.ResponseWriter, r *http.Request) {
 
 }
