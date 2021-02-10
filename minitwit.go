@@ -5,6 +5,8 @@ import (
 	_ "github.com/mattn/go-sqlite3"
 	"database/sql"
 
+	
+	// misc
 	"fmt"
 	"log"
 	"net/http"
@@ -71,14 +73,45 @@ func user_timeline(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-func main() {
-	database, _ = sql.Open("sqlite3", "minitwit.db") // TODO: make it reference /tmp
+// Route: '/login'
+// Methods : GET, POST
+func login(w http.ResponseWriter, r *http.Request) {
+
+}
+
+
+// Route: '/register'
+// Methods: GET, POST
+func register(w http.ResponseWriter, r *http.Request) {
+
+}
+
+
+// Route: '/logout'
+func logout(w http.ResponseWriter, r *http.Request) {
+
+}
+
+func main() { 
+  database, _ = sql.Open("sqlite3", "minitwit.db") // TODO: make it reference /tmp
 	defer database.Close()
 	
+	row, _ := database.Query("select user_id from user")
+	defer row.Close()
+	for row.Next() {
+		var id int
+		row.Scan(&id)
+		fmt.Println(id)
+	}
+  
 	router := mux.NewRouter()
+	// Handlefunc("<URL path>", <handler aka method aka controller>)
 	router.HandleFunc("/", timeline)
 	router.HandleFunc("/public", public_timeline)
 	router.HandleFunc("/" + username, user_timeline)
+	router.HandleFunc("/login", login).Methods("GET", "POST")
+	router.HandleFunc("/register", register).Methods("GET", "POST")
+	router.HandleFunc("/logout", logout)
 
 	s := http.StripPrefix("/static/", http.FileServer(http.Dir("./static/")))
 	router.PathPrefix("/static/").Handler(s)
