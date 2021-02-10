@@ -20,7 +20,8 @@ type User struct {
 }
 
 var (
-	tmpl_timeline = template.Must(template.ParseFiles("templates/layout_go.html"))
+	tmpl_layout, _ = template.ParseFiles("templates/layout_go.html")
+	tmpl_timeline, _ = template.ParseFiles("templates/timeline_go.html")
 
 	user = User{1, "", "", ""}
 	username string
@@ -41,11 +42,12 @@ func timeline(w http.ResponseWriter, r *http.Request) {
 	
 	if &user == nil {
 		http.Redirect(w, r, URL, http.StatusPermanentRedirect)
-	} else {
+	} else { // TODO: control flow not correct
 		//data, _ := database.Query("select user_id from user")
 		// var data = "" // var data = query_db()
 		
-		tmpl_timeline.Execute(w, nil)
+		//tmpl_layout.Execute(w, nil)
+		//tmpl_timeline.Execute(w, nil)
 	}
 }
 
@@ -55,8 +57,9 @@ func public_timeline(w http.ResponseWriter, r *http.Request) {
 	/*Displays the latest messages of all users.*/
 	// data, _ := database.Query("select user_id from user")
 	// var data = "" // var data = query_db()
-		
-	tmpl_timeline.Execute(w, nil)
+	
+	tmpl_layout.Execute(w, nil)
+	//tmpl_timeline.Execute(w, nil)
 	
 	//http.ServeFile(w, r, "templates/timeline.html")
 	
