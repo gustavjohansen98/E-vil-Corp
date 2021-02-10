@@ -6,6 +6,7 @@ import (
 	"database/sql"
 
 	"fmt"
+	"log"
 	"net/http"
 	"html/template"
 	"github.com/gorilla/mux"
@@ -19,12 +20,14 @@ type User struct {
 }
 
 var (
+	tmpl_timeline = template.Must(template.ParseFiles("templates/layout_go.html"))
+
 	user = User{1, "", "", ""}
 	username string
 	database *sql.DB
 )
 
-const URL = "http://localhost:10000"
+const URL = "http://localhost:10000/"
 
 // Route: /
 // Method: GET
@@ -39,17 +42,24 @@ func timeline(w http.ResponseWriter, r *http.Request) {
 	if &user == nil {
 		http.Redirect(w, r, URL, http.StatusPermanentRedirect)
 	} else {
-		data, _ := database.Query("select user_id from user")
+		//data, _ := database.Query("select user_id from user")
 		// var data = "" // var data = query_db()
-		t := template.Must(template.ParseFiles("templates/timeline.html"))
 		
-		t.ExecuteTemplate(w, "public_timeline", data)
+		tmpl_timeline.Execute(w, nil)
 	}
 }
 
 // Route: /public
 // Method: GET
 func public_timeline(w http.ResponseWriter, r *http.Request) {
+	/*Displays the latest messages of all users.*/
+	// data, _ := database.Query("select user_id from user")
+	// var data = "" // var data = query_db()
+		
+	tmpl_timeline.Execute(w, nil)
+	
+	//http.ServeFile(w, r, "templates/timeline.html")
+	
 	// TODO
 }
 
@@ -67,9 +77,14 @@ func main() {
 	router.HandleFunc("/", timeline)
 	router.HandleFunc("/public", public_timeline)
 	router.HandleFunc("/" + username, user_timeline)
+
+	s := http.StripPrefix("/static/", http.FileServer(http.Dir("./static/")))
+	router.PathPrefix("/static/").Handler(s)
+	
+//	router.PathPrefix("/static/").Handler(http.StripPrefix("/static/", http.FileServer(http.Dir("/static/"))))
 	
 	http.Handle("/", router)
 	
 	fmt.Println("Opened server at: " + URL)
-	http.ListenAndServe(":10000", nil)
+	log.Fatal(http.ListenAndServe(":10000", nil))
 }
