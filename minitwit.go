@@ -28,7 +28,7 @@ var (
 	database *sql.DB
 )
 
-const URL = "http://localhost:10000/"
+const URL = "http://127.0.0.1:10000/"
 
 // Route: /
 // Method: GET
@@ -41,12 +41,11 @@ func timeline(w http.ResponseWriter, r *http.Request) {
 	fmt.Println("We got a visitor from: " + r.RemoteAddr)
 	
 	if &user == nil {
-		http.Redirect(w, r, URL, http.StatusPermanentRedirect)
-	} else { // TODO: control flow not correct
+		http.Redirect(w, r, URL + "/public", http.StatusPermanentRedirect)
+	} else { 
 		//data, _ := database.Query("select user_id from user")
-		// var data = "" // var data = query_db()
 		
-		//tmpl_layout.Execute(w, nil)
+		tmpl_layout.Execute(w, nil)
 		//tmpl_timeline.Execute(w, nil)
 	}
 }
@@ -56,14 +55,8 @@ func timeline(w http.ResponseWriter, r *http.Request) {
 func public_timeline(w http.ResponseWriter, r *http.Request) {
 	/*Displays the latest messages of all users.*/
 	// data, _ := database.Query("select user_id from user")
-	// var data = "" // var data = query_db()
 	
 	tmpl_layout.Execute(w, nil)
-	//tmpl_timeline.Execute(w, nil)
-	
-	//http.ServeFile(w, r, "templates/timeline.html")
-	
-	// TODO
 }
 
 // Route: /<username> 
@@ -79,15 +72,19 @@ func main() {
 	router := mux.NewRouter()
 	router.HandleFunc("/", timeline)
 	router.HandleFunc("/public", public_timeline)
-	router.HandleFunc("/" + username, user_timeline)
+	//router.HandleFunc("/" + username, user_timeline)
 
 	s := http.StripPrefix("/static/", http.FileServer(http.Dir("./static/")))
 	router.PathPrefix("/static/").Handler(s)
 	
-//	router.PathPrefix("/static/").Handler(http.StripPrefix("/static/", http.FileServer(http.Dir("/static/"))))
+	server := &http.Server {
+		Handler: 	router,
+		Addr: 		"127.0.0.1:10000",
+	}
+		// TODO: enforce timeouts
 	
 	http.Handle("/", router)
 	
 	fmt.Println("Opened server at: " + URL)
-	log.Fatal(http.ListenAndServe(":10000", nil))
+	log.Fatal(server.ListenAndServe())
 }
