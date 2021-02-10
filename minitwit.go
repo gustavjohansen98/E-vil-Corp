@@ -51,13 +51,38 @@ func main() {
 		fmt.Println(id)
   
 	router := mux.NewRouter()
+	// Handlefunc("<URL path>", <handler aka method aka controller>)
 	router.HandleFunc("/", timeline)
 	router.HandleFunc("/public", public_timeline)
 	router.HandleFunc("/" + username, user_timeline)
+	router.HandleFunc("/login", login)
+	router.HandleFunc("/register", register)
+	router.HandleFunc("/logout", logout)
+
 	
 	http.Handle("/", router)
 	
 	fmt.Println("Opened server at: http://localhost:10000")
 	http.ListenAndServe(":10000", nil)
+
+}
+
+
+// Route: '/login'
+// Methods : GET, POST
+func login() {
+
+}
+
+
+// Route: '/register'
+// Methods: GET, POST
+func register() {
+
+}
+
+
+// Route: '/logout'
+func logout() {
 
 }
