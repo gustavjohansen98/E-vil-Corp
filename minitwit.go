@@ -7,6 +7,7 @@ import (
 
 	
 	// misc
+	"time"
 	"fmt"
 	"log"
 	"net/http"
@@ -31,6 +32,13 @@ var (
 )
 
 const URL = "http://127.0.0.1:10000/"
+
+func format_datetime(unix_timestamp int64) string {
+	// Function returns date string in required format
+	t := time.Unix(unix_timestamp)
+	strDate := t.Format("2016-12-18 @ 18:18")
+	return strDate
+}
 
 // Route: /
 // Method: GET
