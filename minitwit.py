@@ -75,6 +75,10 @@ def before_request():
     up the current user so that we know he's there.
     """
     g.db = connect_db()
+
+    # so, this is why g.user is called all the time :
+    # before each request is issued, we check if the user exists 
+    # if g.user evaluates to true, then user exists, otherwise not
     g.user = None
     if 'user_id' in session:
         g.user = query_db('select * from user where user_id = ?',
@@ -184,6 +188,7 @@ def add_message():
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     """Logs the user in."""
+    
     if g.user:
         return redirect(url_for('timeline'))
     error = None
@@ -205,9 +210,20 @@ def login():
 @app.route('/register', methods=['GET', 'POST'])
 def register():
     """Registers the user."""
+    # g is a namespace object that has the same lifetime as an application context.
+    # the data in g is lost efter the context ends
+    # do not use g to store data between requests or sessions 
+
+    # in this context, the g.user is used to store the user currently logged in
+    # this is done using the before.request for each flask call
+    # --------------------- #
+
+    # if the user is already there, redirect to base and no error should be given
     if g.user:
         return redirect(url_for('timeline'))
     error = None
+
+    # the logic handling the sign up form  
     if request.method == 'POST':
         if not request.form['username']:
             error = 'You have to enter a username'
@@ -228,6 +244,8 @@ def register():
             g.db.commit()
             flash('You were successfully registered and can login now')
             return redirect(url_for('login'))
+
+    # the base case if we did not reach succes in creating the new user
     return render_template('register.html', error=error)
 
 

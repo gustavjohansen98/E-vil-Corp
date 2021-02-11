@@ -93,6 +93,9 @@ docs/_build/
 .pybuilder/
 target/
 
+# VSCODE (this should be excluded in the global gitconfig for each user, but whatever
+.vscode/*
+
 # Jupyter Notebook
 .ipynb_checkpoints
 
