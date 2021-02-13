@@ -13,6 +13,9 @@ import (
 	"net/http"
 	"html/template"
 	"github.com/gorilla/mux"
+    "crypto/md5"
+    "strings"
+    "encoding/hex"
 )
 
 type User struct {
@@ -38,6 +41,20 @@ func format_datetime(unix_timestamp int64) string {
 	t := time.Unix(unix_timestamp,0)
 	strDate := t.Format("2006-01-02 @ 15:04")
 	return strDate
+}
+
+func gravatar_url(email string )string{
+    
+    size := 80
+    email_striped := strings.TrimSpace(email)
+    email_formated := strings.ToLower(email_striped)
+    email_hash := md5.Sum([]byte(email_formated))
+    email_hash_string := hex.EncodeToString(email_hash[:])
+    
+    
+    img_url := fmt.Sprintf("http://www.gravatar.com/avatar/%s?d=identicon&s=%d",email_hash_string , size)
+    return img_url 
+
 }
 // Route: /
 // Method: GET
