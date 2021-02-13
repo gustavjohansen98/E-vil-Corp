@@ -35,7 +35,7 @@ const URL = "http://127.0.0.1:10000/"
 
 func format_datetime(unix_timestamp int64) string {
 	// Function returns date string in required format
-	t := time.Unix(unix_timestamp)
+	t := time.Unix(unix_timestamp,0)
 	strDate := t.Format("2016-12-18 @ 18:18")
 	return strDate
 }
