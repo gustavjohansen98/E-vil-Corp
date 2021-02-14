@@ -13,9 +13,12 @@ import (
 	"net/http"
 	"html/template"
 	"github.com/gorilla/mux"
+	"github.com/gorilla/sessions"
+	"github.com/gorilla/securecookie"
     "crypto/md5"
     "strings"
     "encoding/hex"
+	"encoding/gob"
 	"errors"
 )
 
@@ -24,14 +27,13 @@ type User struct {	// meta data for the user
 	username string
 	email string
 	pw_hash string
-
 	authenticated bool	// to see if user is auth and thus allowed to continue the session 
 }
 
 // will be used to manage user sessions 
 var store *sessions.CookieStore
 
-var tpl *template.Template // the tpl object will hold all the templates from /templates to be displayed 
+var tpl *template.Template
 
 var (
 	tmpl_layout, _ = template.ParseFiles("templates/layout_go.html")
@@ -52,10 +54,10 @@ func init() {
 				encryptionKeyOne,
 			)
 	
-	store.Options = &sessions.Options(
-				MaxAge: 60 * 15,	// how long will we allow a session (15 minutes) 
-				HttpOnly: true,		// so the session cannot be altered by js 
-			)
+	store.Options = &sessions.Options{
+				MaxAge:		60*15,	// how long will we allow a session (15 minutes) 
+				HttpOnly:	true,		// so the session cannot be altered by js 
+			}
 
 	gob.Register(User{}) // register the User type with gob encoding package so it can be written as a session value
 
@@ -179,14 +181,14 @@ func login(w http.ResponseWriter, r *http.Request) {
 	}
 
 	// everything is good to go, and the user can be redirected to public timeline
-	http.Redirect(w, e, "/public")
+	http.Redirect(w, r, "/public", http.StatusFound)
 }
 
 
 // Route: '/register'
 // Methods: GET, POST
 func register(w http.ResponseWriter, r *http.Request) {
-	return errors.New("Not yet implemented")
+	// return errors.New("not implemented")
 }
 
 func logout(w http.ResponseWriter, r *http.Request) {
