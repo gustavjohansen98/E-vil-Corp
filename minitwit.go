@@ -16,14 +16,22 @@ import (
     "crypto/md5"
     "strings"
     "encoding/hex"
+	"errors"
 )
 
-type User struct {
+type User struct {	// meta data for the user
 	user_id int
 	username string
 	email string
 	pw_hash string
+
+	authenticated bool	// to see if user is auth and thus allowed to continue the session 
 }
+
+// will be used to manage user sessions 
+var store *sessions.CookieStore
+
+var tpl *template.Template // the tpl object will hold all the templates from /templates to be displayed 
 
 var (
 	tmpl_layout, _ = template.ParseFiles("templates/layout_go.html")
@@ -33,6 +41,26 @@ var (
 	username string
 	database *sql.DB
 )
+
+func init() {
+
+	authKeyOne := securecookie.GenerateRandomKey(64)
+	encryptionKeyOne := securecookie.GenerateRandomKey(32)
+
+	store = sessions.NewCookieStore(
+				authKeyOne, 
+				encryptionKeyOne,
+			)
+	
+	store.Options = &sessions.Options(
+				MaxAge: 60 * 15,	// how long will we allow a session (15 minutes) 
+				HttpOnly: true,		// so the session cannot be altered by js 
+			)
+
+	gob.Register(User{}) // register the User type with gob encoding package so it can be written as a session value
+
+	tpl = template.Must(template.ParseGlob("templates/*.html")) // parse all the templates in the templates folder . these can also be found in main
+}
 
 const URL = "http://127.0.0.1:10000/"
 
@@ -97,23 +125,101 @@ func user_timeline(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-// Route: '/login'
-// Methods : GET, POST
-func login(w http.ResponseWriter, r *http.Request) {
 
+// Methods : GET, POST
+// authenticate the user
+func login(w http.ResponseWriter, r *http.Request) {
+	// get the session from the client
+	session, err := store.Get(r, "cookie-name")	
+
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+
+	// if an authenticated user is already in session -> redirect to public timeline
+	existing_user := getUser(session)
+	if auth := existing_user.authenticated; auth {
+		http.Redirect(w, r, "/public", http.StatusFound)
+	}
+
+	_username := r.FormValue("username")
+	// TODO: query the db to check if username exists and retrieve the password to handle wrong password
+	
+	// handle wrong password
+	if r.FormValue("password") != "1234" { 	// this should check with db, but hardcoded for now
+		
+		if r.FormValue("password") == "" {	// handle emptystring as parameter
+			session.AddFlash("You must enter a password")
+		}
+
+		session.AddFlash("The password you entered was incorrect")
+		err = session.Save(r, w)
+		if err != nil {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return
+		}
+
+		http.Redirect(w, r, "/login", http.StatusFound)
+		return
+	}
+
+	// handle correct login credentials
+	user := &User {	// set the user variable for the session
+		username: _username,
+		authenticated: true,
+	}
+
+	session.Values["user"] = user // save the user for the session
+
+	err = session.Save(r, w)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+
+	// everything is good to go, and the user can be redirected to public timeline
+	http.Redirect(w, e, "/public")
 }
 
 
 // Route: '/register'
 // Methods: GET, POST
 func register(w http.ResponseWriter, r *http.Request) {
-
+	return errors.New("Not yet implemented")
 }
 
-
-// Route: '/logout'
 func logout(w http.ResponseWriter, r *http.Request) {
+	
+	session, err := store.Get(r, "cookie-name")
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
 
+	session.Values["user"] = User{} // we give this session an empty unautheticated user
+	session.Options.MaxAge = -1 // the cookie will immediately be expired when we save the session
+
+	err = session.Save(r, w)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+
+	http.Redirect(w, r, "/public", http.StatusFound) 
+}
+
+// helper method to get the user in session
+func getUser(s *sessions.Session) User {
+	val := s.Values["user"]
+	var user = User{}
+	user, ok := val.(User)
+
+	if !ok {
+		return User{ authenticated: false }
+	}
+
+	return user
 }
 
 func main() { 
