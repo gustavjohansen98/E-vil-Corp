@@ -41,6 +41,39 @@
         }
       },
       {
+        "HashCode": -1996845922,
+        "Kind": "Components.Component",
+        "Name": "minitwit.Pages.Index",
+        "AssemblyName": "minitwit",
+        "CaseSensitive": true,
+        "TagMatchingRules": [
+          {
+            "TagName": "Index"
+          }
+        ],
+        "Metadata": {
+          "Runtime.Name": "Components.IComponent",
+          "Common.TypeName": "minitwit.Pages.Index"
+        }
+      },
+      {
+        "HashCode": -343093315,
+        "Kind": "Components.Component",
+        "Name": "minitwit.Pages.Index",
+        "AssemblyName": "minitwit",
+        "CaseSensitive": true,
+        "TagMatchingRules": [
+          {
+            "TagName": "minitwit.Pages.Index"
+          }
+        ],
+        "Metadata": {
+          "Runtime.Name": "Components.IComponent",
+          "Common.TypeName": "minitwit.Pages.Index",
+          "Components.NameMatch": "Components.FullyQualifiedNameMatch"
+        }
+      },
+      {
         "HashCode": 1721847025,
         "Kind": "Components.Component",
         "Name": "minitwit.Shared.MainLayout",
@@ -133,105 +166,6 @@
           "Runtime.Name": "Components.None",
           "Common.TypeName": "minitwit.Shared.MainLayout.Body",
           "Components.IsSpecialKind": "Components.ChildContent",
-          "Components.NameMatch": "Components.FullyQualifiedNameMatch"
-        }
-      },
-      {
-        "HashCode": -1996845922,
-        "Kind": "Components.Component",
-        "Name": "minitwit.Pages.Index",
-        "AssemblyName": "minitwit",
-        "CaseSensitive": true,
-        "TagMatchingRules": [
-          {
-            "TagName": "Index"
-          }
-        ],
-        "Metadata": {
-          "Runtime.Name": "Components.IComponent",
-          "Common.TypeName": "minitwit.Pages.Index"
-        }
-      },
-      {
-        "HashCode": -343093315,
-        "Kind": "Components.Component",
-        "Name": "minitwit.Pages.Index",
-        "AssemblyName": "minitwit",
-        "CaseSensitive": true,
-        "TagMatchingRules": [
-          {
-            "TagName": "minitwit.Pages.Index"
-          }
-        ],
-        "Metadata": {
-          "Runtime.Name": "Components.IComponent",
-          "Common.TypeName": "minitwit.Pages.Index",
-          "Components.NameMatch": "Components.FullyQualifiedNameMatch"
-        }
-      },
-      {
-        "HashCode": -2104968990,
-        "Kind": "Components.Component",
-        "Name": "minitwit.Pages.Counter",
-        "AssemblyName": "minitwit",
-        "CaseSensitive": true,
-        "TagMatchingRules": [
-          {
-            "TagName": "Counter"
-          }
-        ],
-        "Metadata": {
-          "Runtime.Name": "Components.IComponent",
-          "Common.TypeName": "minitwit.Pages.Counter"
-        }
-      },
-      {
-        "HashCode": 1328295569,
-        "Kind": "Components.Component",
-        "Name": "minitwit.Pages.Counter",
-        "AssemblyName": "minitwit",
-        "CaseSensitive": true,
-        "TagMatchingRules": [
-          {
-            "TagName": "minitwit.Pages.Counter"
-          }
-        ],
-        "Metadata": {
-          "Runtime.Name": "Components.IComponent",
-          "Common.TypeName": "minitwit.Pages.Counter",
-          "Components.NameMatch": "Components.FullyQualifiedNameMatch"
-        }
-      },
-      {
-        "HashCode": -1662906758,
-        "Kind": "Components.Component",
-        "Name": "minitwit.Pages.FetchData",
-        "AssemblyName": "minitwit",
-        "CaseSensitive": true,
-        "TagMatchingRules": [
-          {
-            "TagName": "FetchData"
-          }
-        ],
-        "Metadata": {
-          "Runtime.Name": "Components.IComponent",
-          "Common.TypeName": "minitwit.Pages.FetchData"
-        }
-      },
-      {
-        "HashCode": 51521207,
-        "Kind": "Components.Component",
-        "Name": "minitwit.Pages.FetchData",
-        "AssemblyName": "minitwit",
-        "CaseSensitive": true,
-        "TagMatchingRules": [
-          {
-            "TagName": "minitwit.Pages.FetchData"
-          }
-        ],
-        "Metadata": {
-          "Runtime.Name": "Components.IComponent",
-          "Common.TypeName": "minitwit.Pages.FetchData",
           "Components.NameMatch": "Components.FullyQualifiedNameMatch"
         }
       },
@@ -12907,18 +12841,8 @@
   "RootNamespace": "minitwit",
   "Documents": [
     {
-      "FilePath": "/home/lvol/Desktop/E-vil-Corp/minitwit/Pages/FetchData.razor",
-      "TargetPath": "Pages\\FetchData.razor",
-      "FileKind": "component"
-    },
-    {
       "FilePath": "/home/lvol/Desktop/E-vil-Corp/minitwit/Shared/MainLayout.razor",
       "TargetPath": "Shared\\MainLayout.razor",
-      "FileKind": "component"
-    },
-    {
-      "FilePath": "/home/lvol/Desktop/E-vil-Corp/minitwit/Pages/Counter.razor",
-      "TargetPath": "Pages\\Counter.razor",
       "FileKind": "component"
     },
     {

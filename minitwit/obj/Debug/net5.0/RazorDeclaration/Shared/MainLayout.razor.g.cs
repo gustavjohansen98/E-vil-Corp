@@ -89,6 +89,7 @@ using minitwit.Shared;
         {
         }
         #pragma warning restore 1998
+        [global::Microsoft.AspNetCore.Components.InjectAttribute] private IMiniMain MiniMain { get; set; }
     }
 }
 #pragma warning restore 1591
