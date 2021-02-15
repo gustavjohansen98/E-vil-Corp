@@ -14,7 +14,8 @@ namespace DB.Tests
     {
         private readonly SqliteConnection _connection;
         private readonly MinitwitContext _context;
-        private readonly UserRepository _repository;
+        private readonly UserRepository _userRepo;
+        private readonly FollowerRepository _followerRepo;
 
         public ReposTest()
         {
@@ -23,7 +24,8 @@ namespace DB.Tests
             var builder = new DbContextOptionsBuilder<MinitwitContext>().UseSqlite(_connection);
             _context = new DBTestContext(builder.Options);
             _context.Database.EnsureCreated();
-            _repository = new UserRepository(_context);
+            _userRepo = new UserRepository(_context);
+            _followerRepo = new FollowerRepository(_context);
         }
 
         [Fact]
@@ -32,7 +34,7 @@ namespace DB.Tests
             var username = "user1";
             var userid = 1;
 
-            var user = _repository.GetUserFromID(userid);
+            var user = _userRepo.GetUserFromID(userid);
 
             Assert.Equal(username, user.username);
         }
@@ -40,7 +42,7 @@ namespace DB.Tests
         [Fact]
         public void Given_Username_returns_userID()
         {
-            var userID = _repository.GetUserIDFromUsername("user1");
+            var userID = _userRepo.GetUserIDFromUsername("user1");
 
             Assert.Equal(1, userID);
         }
@@ -48,27 +50,76 @@ namespace DB.Tests
         [Fact]
         public void Given_wrong_username_returns_negative()
         {
-            var userID = _repository.GetUserIDFromUsername("Paolo");
+            var userID = _userRepo.GetUserIDFromUsername("Paolo");
 
             Assert.Equal(-1, userID);
         }
 
         [Fact]
-        public void Given_new_user_AddUser()
+        public void Given_new_user_AddUser_returns_Created()
         {
             var newUser = new User {
-                ID = 3,
+                ID = 5,
                 username = "mock",
                 email = "test@mail.com",
                 pw_hash = "some_hash"
             };
 
-            var statusCode = _repository.AddUser(newUser);
-            var insertedUser = _repository.GetUserFromID(newUser.ID);
+            var statusCode = _userRepo.AddUser(newUser);
+            var insertedUser = _userRepo.GetUserFromID(newUser.ID);
 
             Assert.Equal(Created, statusCode);
             Assert.Equal(newUser, insertedUser);
         }
+
+
+        // tests for followerrepo .. yeah i know i know, should have had a test class to itself but what the hell
+
+        [Fact]
+        public void Given_usernames_to_FollowUser_return_NoContent()
+        {
+            var usernameInSession = "user3";
+            var usernameToFollow = "user4";
+
+            var statusCode = _followerRepo.FollowUser(usernameInSession, usernameToFollow);
+
+            Assert.Equal(NoContent, statusCode);
+        }
+
+        [Fact]
+        public void Given_invalid_username_to_FollowUser_returns_NotFound()
+        {
+            var usernameInSession = "I don't exist";
+            var usernameToFollow = "user2";
+
+            var statusCode = _followerRepo.FollowUser(usernameInSession, usernameToFollow);
+
+            Assert.Equal(NotFound, statusCode);
+        }
+
+        [Fact]
+        public void Given_existing_followers_to_FollowerUser_returns_NotAcceptable()
+        {
+            var usernameInSession = "user1";
+            var usernameToFollow = "user2"; // these already exists, check the DBTestContext.cs
+
+            var statusCode = _followerRepo.FollowUser(usernameInSession, usernameToFollow);
+
+            Assert.Equal(NotAcceptable, statusCode);
+        }
+
+        [Fact]
+        public void Given_usernames_to_UnfollowUser_returns_NoContent()
+        {
+            var usernameInSession = "user1";
+            var usernameToUnfollow = "user2";
+
+            var statusCode = _followerRepo.UnfollowUser(usernameInSession, usernameToUnfollow);
+
+            Assert.Equal(NoContent, statusCode);
+        }
+
+
 
         public void Dispose()
         {

@@ -14,14 +14,15 @@ namespace DB.Tests
 
             modelBuilder.Entity<User>().HasData(
                 new User { ID = 1, username = "user1", email = "user1@test.com", pw_hash = "hash" },
-                new User { ID = 2, username = "user2", email = "user2@test.com", pw_hash = "hash" }
+                new User { ID = 2, username = "user2", email = "user2@test.com", pw_hash = "hash" },
+                new User { ID = 3, username = "user3", email = "user3@test.com", pw_hash = "hash" },
+                new User { ID = 4, username = "user4", email = "user4@test.com", pw_hash = "hash" }
             );
 
-            // modelBuilder.Entity<Tag>().HasData(
-            //     new Tag { Id = 1, Name = "tag1" },
-            //     new Tag { Id = 2, Name = "tag2" },
-            //     new Tag { Id = 3, Name = "tag3" }
-            // );
+            modelBuilder.Entity<Follower>().HasData(
+                new Follower { who_id = 1, whom_id = 2 },
+                new Follower { who_id = 2, whom_id = 1 }
+            );
 
             // modelBuilder.Entity<Task>().HasData(
             //     new Task { Id = 1, Title = "title1", Description = "description1", AssignedToId = null, State = New },

@@ -31,7 +31,7 @@ namespace Repos
                 whom_id = userToFollowID
             };
 
-            var entityAlreadyExists = _context.Followers.Find(follow);
+            var entityAlreadyExists = _context.Followers.Find(userInSessionID, userToFollowID);
             if (entityAlreadyExists != null)
                 return NotAcceptable;
 
@@ -49,8 +49,10 @@ namespace Repos
             if (userInSessionID < 0 || userToUnfollowID < 0)
                 return NotFound;
 
-            var follower = _context.Followers.Where(x => x.who_id == userInSessionID && x.whom_id == userToUnfollowID)
-                                             .FirstOrDefault<Follower>();
+            // var follower = _context.Followers.Where(x => x.who_id == userInSessionID && x.whom_id == userToUnfollowID)
+            //                                  .FirstOrDefault<Follower>();
+
+            var follower = _context.Followers.Find(userToUnfollowID, userInSessionID);
 
             if (follower == null)
                 return NotAcceptable;
@@ -60,6 +62,9 @@ namespace Repos
 
             return NoContent;
         }
+
+
+        // TODO : method for retriveing a collection of all the followers given a who_id and vice versa 
     
     }
 }
