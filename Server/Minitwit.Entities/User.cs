@@ -1,0 +1,18 @@
+using System.ComponentModel.DataAnnotations;
+
+namespace Minitwit.Entities
+{
+    public class User
+    {
+        public int ID { get; set; }
+
+        [Required]
+        public string username { get; set; }
+
+        [Required]
+        public string email { get; set; } 
+
+        [Required]
+        public string pw_hash { get; set; }
+    }
+}
