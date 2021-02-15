@@ -7,15 +7,15 @@
   <div class=navigation>
     @if ("" != null)
     {
-      <a href="">my timeline |</a> 
-      <a href="">public timeline |</a> 
-      <a href="">sign out [@MiniMain.User]</a>
+      <a href=@MiniMain.Url_for("timeline")>my timeline |</a> 
+      <a href=@MiniMain.Url_for("public timeline")>public timeline |</a> 
+      <a href=@MiniMain.Url_for("logout")>sign out [@MiniMain.User]</a>
     }
     else 
     {
-    <a href="{{ url_for('public_timeline') }}">public timeline |</a> 
-    <a href="{{ url_for('register') }}">sign up |</a> 
-    <a href="{{ url_for('login') }}">sign in</a>
+      <a href=@MiniMain.Url_for("public timeline")>public timeline |</a> 
+      <a href=@MiniMain.Url_for("register")>sign up |</a> 
+      <a href=@MiniMain.Url_for("login")>sign in</a>
     }
   </div>
   @* {% with flashes = get_flashed_messages() %}

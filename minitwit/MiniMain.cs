@@ -8,7 +8,7 @@ namespace minitwit
     {
         public string User { get; set; }
         public IEnumerable<string> Messages { get; set; }
-        private string URL = "";
+        private string URL = "http://localhost:5000/";
 
         public MiniMain()
         {
@@ -38,7 +38,7 @@ namespace minitwit
                     break;
             }
 
-            throw new NotImplementedException();
+            return "";
         }
     }
 
