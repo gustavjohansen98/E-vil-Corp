@@ -10,6 +10,6 @@ namespace Repos
 
         User GetUserFromID(int userID);
 
-        int GetUserFromUsername(string username);
+        int GetUserIDFromUsername(string username);
     }
 }

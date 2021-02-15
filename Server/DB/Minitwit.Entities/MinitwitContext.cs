@@ -47,14 +47,6 @@ namespace Minitwit.Entities
 
             modelBuilder.Entity<Message>();
 
-            // var userMock = new User {
-            //     ID = 1,
-            //     username = "test",
-            //     email = "test@mail.com",
-            //     pw_hash = "lol"
-            // };
-
-            // modelBuilder.Entity<User>().HasData(userMock);
         }
     }
 }

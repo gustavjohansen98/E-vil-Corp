@@ -22,7 +22,7 @@ namespace Repos
             _context.Users.Add(user);
             _context.SaveChanges();
 
-            return NoContent;
+            return Created;
         }
 
         public User GetUserFromID(int userID)
@@ -34,7 +34,7 @@ namespace Repos
             return user;
         }
 
-        public int GetUserFromUsername(string username)
+        public int GetUserIDFromUsername(string username)
         {
             var user = _context.Users
                             .Where(u => u.username == $"{username}")

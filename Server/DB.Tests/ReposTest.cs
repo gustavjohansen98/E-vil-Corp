@@ -12,7 +12,6 @@ namespace DB.Tests
 {
     public class ReposTest : IDisposable
     {
-
         private readonly SqliteConnection _connection;
         private readonly MinitwitContext _context;
         private readonly UserRepository _repository;
@@ -25,12 +24,6 @@ namespace DB.Tests
             _context = new DBTestContext(builder.Options);
             _context.Database.EnsureCreated();
             _repository = new UserRepository(_context);
-        }
-
-        [Fact]
-        public void Test1()
-        {
-          var test = new Follower();
         }
 
         [Fact]
@@ -47,9 +40,17 @@ namespace DB.Tests
         [Fact]
         public void Given_Username_returns_userID()
         {
-            var userID = _repository.GetUserFromUsername("user1");
+            var userID = _repository.GetUserIDFromUsername("user1");
 
             Assert.Equal(1, userID);
+        }
+
+        [Fact]
+        public void Given_wrong_username_returns_negative()
+        {
+            var userID = _repository.GetUserIDFromUsername("Paolo");
+
+            Assert.Equal(-1, userID);
         }
 
         [Fact]
@@ -65,7 +66,7 @@ namespace DB.Tests
             var statusCode = _repository.AddUser(newUser);
             var insertedUser = _repository.GetUserFromID(newUser.ID);
 
-            Assert.Equal(NoContent, statusCode);
+            Assert.Equal(Created, statusCode);
             Assert.Equal(newUser, insertedUser);
         }
 

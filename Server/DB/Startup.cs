@@ -38,7 +38,8 @@ namespace Server
             services.AddDbContext<IMinitwitContext, MinitwitContext>(o => o.UseSqlite("Filename=minitwit.db"));
             
             services.AddScoped<IUserRepository, UserRepository>();
-            
+            services.AddScoped<IFollowerRepository, FollowerRepository>();
+
             services.AddControllers();
         }
 
