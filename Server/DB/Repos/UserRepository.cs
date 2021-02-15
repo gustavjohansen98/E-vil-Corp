@@ -1,6 +1,7 @@
 using System;
 using System.Net;
 using System.Collections.Generic;
+using System.Linq;
 using Minitwit.Entities;
 using static System.Net.HttpStatusCode;
 
@@ -35,7 +36,9 @@ namespace Repos
 
         public int GetUserFromUsername(string username)
         {
-            var user = _context.Users.Find(username);
+            var user = _context.Users
+                            .Where(u => u.username == $"{username}")
+                            .FirstOrDefault<User>();
             if (user == null)
                 return -1;
 

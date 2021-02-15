@@ -3,6 +3,7 @@ using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
 using Xunit;
 using Moq;
+using static System.Net.HttpStatusCode;
 
 using Minitwit.Entities;
 using Repos;
@@ -35,17 +36,37 @@ namespace DB.Tests
         [Fact]
         public void Given_userid_returns_user()
         {
-            // var user = new User{
-
-            // };
-
             var username = "user1";
             var userid = 1;
 
             var user = _repository.GetUserFromID(userid);
 
             Assert.Equal(username, user.username);
+        }
 
+        [Fact]
+        public void Given_Username_returns_userID()
+        {
+            var userID = _repository.GetUserFromUsername("user1");
+
+            Assert.Equal(1, userID);
+        }
+
+        [Fact]
+        public void Given_new_user_AddUser()
+        {
+            var newUser = new User {
+                ID = 3,
+                username = "mock",
+                email = "test@mail.com",
+                pw_hash = "some_hash"
+            };
+
+            var statusCode = _repository.AddUser(newUser);
+            var insertedUser = _repository.GetUserFromID(newUser.ID);
+
+            Assert.Equal(NoContent, statusCode);
+            Assert.Equal(newUser, insertedUser);
         }
 
         public void Dispose()
