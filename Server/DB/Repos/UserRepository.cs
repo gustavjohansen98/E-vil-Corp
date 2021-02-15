@@ -24,13 +24,22 @@ namespace Repos
             return NoContent;
         }
 
-        public User GetUser(int userID)
+        public User GetUserFromID(int userID)
         {
             var user = _context.Users.Find(userID);
             if (user == null) 
                 return null;
 
             return user;
+        }
+
+        public int GetUserFromUsername(string username)
+        {
+            var user = _context.Users.Find(username);
+            if (user == null)
+                return -1;
+
+            return user.ID;
         }
 
     }

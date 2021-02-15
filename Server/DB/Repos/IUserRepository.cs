@@ -8,6 +8,8 @@ namespace Repos
     {
         HttpStatusCode AddUser(User user);
 
-        User GetUser(int userID);
+        User GetUserFromID(int userID);
+
+        int GetUserFromUsername(string username);
     }
 }
