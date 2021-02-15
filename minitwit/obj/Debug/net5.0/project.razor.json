@@ -8,35 +8,35 @@
   "ProjectWorkspaceState": {
     "TagHelpers": [
       {
-        "HashCode": 1309787238,
+        "HashCode": -1583337793,
         "Kind": "Components.Component",
-        "Name": "minitwit.App",
+        "Name": "minitwit.Pages.Timeline",
         "AssemblyName": "minitwit",
         "CaseSensitive": true,
         "TagMatchingRules": [
           {
-            "TagName": "App"
+            "TagName": "Timeline"
           }
         ],
         "Metadata": {
           "Runtime.Name": "Components.IComponent",
-          "Common.TypeName": "minitwit.App"
+          "Common.TypeName": "minitwit.Pages.Timeline"
         }
       },
       {
-        "HashCode": 33329086,
+        "HashCode": 1182389461,
         "Kind": "Components.Component",
-        "Name": "minitwit.App",
+        "Name": "minitwit.Pages.Timeline",
         "AssemblyName": "minitwit",
         "CaseSensitive": true,
         "TagMatchingRules": [
           {
-            "TagName": "minitwit.App"
+            "TagName": "minitwit.Pages.Timeline"
           }
         ],
         "Metadata": {
           "Runtime.Name": "Components.IComponent",
-          "Common.TypeName": "minitwit.App",
+          "Common.TypeName": "minitwit.Pages.Timeline",
           "Components.NameMatch": "Components.FullyQualifiedNameMatch"
         }
       },
@@ -70,6 +70,92 @@
         "Metadata": {
           "Runtime.Name": "Components.IComponent",
           "Common.TypeName": "minitwit.Pages.Index",
+          "Components.NameMatch": "Components.FullyQualifiedNameMatch"
+        }
+      },
+      {
+        "HashCode": 2040593770,
+        "Kind": "Components.Component",
+        "Name": "minitwit.Shared.SurveyPrompt",
+        "AssemblyName": "minitwit",
+        "CaseSensitive": true,
+        "TagMatchingRules": [
+          {
+            "TagName": "SurveyPrompt"
+          }
+        ],
+        "BoundAttributes": [
+          {
+            "Kind": "Components.Component",
+            "Name": "Title",
+            "TypeName": "System.String",
+            "Metadata": {
+              "Common.PropertyName": "Title"
+            }
+          }
+        ],
+        "Metadata": {
+          "Runtime.Name": "Components.IComponent",
+          "Common.TypeName": "minitwit.Shared.SurveyPrompt"
+        }
+      },
+      {
+        "HashCode": -2118042423,
+        "Kind": "Components.Component",
+        "Name": "minitwit.Shared.SurveyPrompt",
+        "AssemblyName": "minitwit",
+        "CaseSensitive": true,
+        "TagMatchingRules": [
+          {
+            "TagName": "minitwit.Shared.SurveyPrompt"
+          }
+        ],
+        "BoundAttributes": [
+          {
+            "Kind": "Components.Component",
+            "Name": "Title",
+            "TypeName": "System.String",
+            "Metadata": {
+              "Common.PropertyName": "Title"
+            }
+          }
+        ],
+        "Metadata": {
+          "Runtime.Name": "Components.IComponent",
+          "Common.TypeName": "minitwit.Shared.SurveyPrompt",
+          "Components.NameMatch": "Components.FullyQualifiedNameMatch"
+        }
+      },
+      {
+        "HashCode": 1766552342,
+        "Kind": "Components.Component",
+        "Name": "minitwit.Shared.NavMenu",
+        "AssemblyName": "minitwit",
+        "CaseSensitive": true,
+        "TagMatchingRules": [
+          {
+            "TagName": "NavMenu"
+          }
+        ],
+        "Metadata": {
+          "Runtime.Name": "Components.IComponent",
+          "Common.TypeName": "minitwit.Shared.NavMenu"
+        }
+      },
+      {
+        "HashCode": -1711571167,
+        "Kind": "Components.Component",
+        "Name": "minitwit.Shared.NavMenu",
+        "AssemblyName": "minitwit",
+        "CaseSensitive": true,
+        "TagMatchingRules": [
+          {
+            "TagName": "minitwit.Shared.NavMenu"
+          }
+        ],
+        "Metadata": {
+          "Runtime.Name": "Components.IComponent",
+          "Common.TypeName": "minitwit.Shared.NavMenu",
           "Components.NameMatch": "Components.FullyQualifiedNameMatch"
         }
       },
@@ -166,6 +252,39 @@
           "Runtime.Name": "Components.None",
           "Common.TypeName": "minitwit.Shared.MainLayout.Body",
           "Components.IsSpecialKind": "Components.ChildContent",
+          "Components.NameMatch": "Components.FullyQualifiedNameMatch"
+        }
+      },
+      {
+        "HashCode": 1309787238,
+        "Kind": "Components.Component",
+        "Name": "minitwit.App",
+        "AssemblyName": "minitwit",
+        "CaseSensitive": true,
+        "TagMatchingRules": [
+          {
+            "TagName": "App"
+          }
+        ],
+        "Metadata": {
+          "Runtime.Name": "Components.IComponent",
+          "Common.TypeName": "minitwit.App"
+        }
+      },
+      {
+        "HashCode": 33329086,
+        "Kind": "Components.Component",
+        "Name": "minitwit.App",
+        "AssemblyName": "minitwit",
+        "CaseSensitive": true,
+        "TagMatchingRules": [
+          {
+            "TagName": "minitwit.App"
+          }
+        ],
+        "Metadata": {
+          "Runtime.Name": "Components.IComponent",
+          "Common.TypeName": "minitwit.App",
           "Components.NameMatch": "Components.FullyQualifiedNameMatch"
         }
       },
@@ -12846,6 +12965,16 @@
       "FileKind": "component"
     },
     {
+      "FilePath": "/home/lvol/Desktop/E-vil-Corp/minitwit/Shared/NavMenu.razor",
+      "TargetPath": "Shared\\NavMenu.razor",
+      "FileKind": "component"
+    },
+    {
+      "FilePath": "/home/lvol/Desktop/E-vil-Corp/minitwit/Shared/SurveyPrompt.razor",
+      "TargetPath": "Shared\\SurveyPrompt.razor",
+      "FileKind": "component"
+    },
+    {
       "FilePath": "/home/lvol/Desktop/E-vil-Corp/minitwit/App.razor",
       "TargetPath": "App.razor",
       "FileKind": "component"
@@ -12854,6 +12983,11 @@
       "FilePath": "/home/lvol/Desktop/E-vil-Corp/minitwit/_Imports.razor",
       "TargetPath": "_Imports.razor",
       "FileKind": "componentImport"
+    },
+    {
+      "FilePath": "/home/lvol/Desktop/E-vil-Corp/minitwit/Pages/Timeline.razor",
+      "TargetPath": "Pages\\Timeline.razor",
+      "FileKind": "component"
     },
     {
       "FilePath": "/home/lvol/Desktop/E-vil-Corp/minitwit/Pages/Index.razor",

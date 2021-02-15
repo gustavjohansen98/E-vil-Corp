@@ -621,3 +621,10 @@
 /home/lvol/Desktop/E-vil-Corp/minitwit/obj/Debug/net5.0/Razor/Shared/MainLayout.razor.g.cs
 /home/lvol/Desktop/E-vil-Corp/minitwit/obj/Debug/net5.0/scopedcss/Shared/MainLayout.razor.rz.scp.css
 /home/lvol/Desktop/E-vil-Corp/minitwit/obj/Debug/net5.0/scopedcss/projectbundle/minitwit.bundle.scp.css
+/home/lvol/Desktop/E-vil-Corp/minitwit/obj/Debug/net5.0/RazorDeclaration/Pages/Timeline.razor.g.cs
+/home/lvol/Desktop/E-vil-Corp/minitwit/obj/Debug/net5.0/RazorDeclaration/Shared/SurveyPrompt.razor.g.cs
+/home/lvol/Desktop/E-vil-Corp/minitwit/obj/Debug/net5.0/RazorDeclaration/Shared/NavMenu.razor.g.cs
+/home/lvol/Desktop/E-vil-Corp/minitwit/obj/Debug/net5.0/Razor/Pages/Timeline.razor.g.cs
+/home/lvol/Desktop/E-vil-Corp/minitwit/obj/Debug/net5.0/Razor/Shared/SurveyPrompt.razor.g.cs
+/home/lvol/Desktop/E-vil-Corp/minitwit/obj/Debug/net5.0/Razor/Shared/NavMenu.razor.g.cs
+/home/lvol/Desktop/E-vil-Corp/minitwit/obj/Debug/net5.0/scopedcss/Shared/NavMenu.razor.rz.scp.css

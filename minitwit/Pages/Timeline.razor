@@ -1,0 +1,15 @@
+@page "/public"
+@inject IMiniMain MiniMain
+
+<body>
+    @* @if ("request endpoint" != null) public_timeline *@
+        <h1>Public Timeline</h1>
+    else if ("request endpoint" == "user_timeline")
+    {
+        @* {{ profile_user.username }}'s Timeline *@
+    }
+    else
+    {
+        @* My Timeline *@
+    }
+</body>
