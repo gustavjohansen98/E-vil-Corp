@@ -1,9 +1,14 @@
 @page "/public"
 @inject IMiniMain MiniMain
+@using System.Collections.Generic
+@using System.Linq
 
 <body>
-    @* @if ("request endpoint" != null) public_timeline *@
-        <h1>Public Timeline</h1>
+     @if ("request endpoint" != null) @* public_timeline *@
+     {
+         @* TODO make look proper *@
+        <p>Public Timeline</p>
+     }
     else if ("request endpoint" == "user_timeline")
     {
         @* {{ profile_user.username }}'s Timeline *@
@@ -12,4 +17,56 @@
     {
         @* My Timeline *@
     }
+    @* {% if g.user %} *@
+    @if (MiniMain.User != null)
+    {
+        @* {% if request.endpoint == 'user_timeline' %} *@
+        @if ("request endpoint" == "user timeline")
+        {
+            <div class=followstatus>
+            @* {% if g.user.user_id == profile_user.user_id %} *@
+            @if (MiniMain.User == "profile_user.user_id")
+            {
+                @* This is you! *@
+            }
+            @* {% elif followed %} *@
+            @if (false)
+            {
+                @* You are currently following this user. *@
+                <a class=unfollow href="{{ url_for('unfollow_user', username=profile_user.username)}}">Unfollow user</a>
+            }
+            @* {% else %} *@
+            else
+            {
+                @* You are not yet following this user. *@
+                <a class=follow href="{{ url_for('follow_user', username=profile_user.username)}}">Follow user</a>
+            }
+            </div>
+        }
+        @* {% elif request.endpoint == 'timeline' %} *@
+        else if ("request.endport" == "timeline")
+        {
+            <div class=twitbox>
+                <h3>What's on your mind {{ g.user.username }}?</h3>
+                <form action="{{ url_for('add_message') }}" method=post>
+                <input type=text name=text size=60>
+                <input type=submit value="Share">
+                </form>
+            </div>
+        }
+    }
+    <ul >
+        @if (MiniMain.Messages.ToList().Count == 0)
+        {
+            <li><em>There's no messages so far</em></li>
+        }
+    @* {% for message in messages %} *@
+        else
+        {
+            @* <li><img src="{{ message.email|gravatar(size=48) }}"> *@
+            @* <strong><a href="{{ url_for('user_timeline', username=message.username)}}">{{ message.username }}</a></strong> *@
+            @* {{ message.text }} *@
+            @* <small>&mdash; {{ message.pub_date|datetimeformat }}</small> *@
+        }
+    </ul>
 </body>

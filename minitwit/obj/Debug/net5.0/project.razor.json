@@ -8,6 +8,105 @@
   "ProjectWorkspaceState": {
     "TagHelpers": [
       {
+        "HashCode": 1309787238,
+        "Kind": "Components.Component",
+        "Name": "minitwit.App",
+        "AssemblyName": "minitwit",
+        "CaseSensitive": true,
+        "TagMatchingRules": [
+          {
+            "TagName": "App"
+          }
+        ],
+        "Metadata": {
+          "Runtime.Name": "Components.IComponent",
+          "Common.TypeName": "minitwit.App"
+        }
+      },
+      {
+        "HashCode": 33329086,
+        "Kind": "Components.Component",
+        "Name": "minitwit.App",
+        "AssemblyName": "minitwit",
+        "CaseSensitive": true,
+        "TagMatchingRules": [
+          {
+            "TagName": "minitwit.App"
+          }
+        ],
+        "Metadata": {
+          "Runtime.Name": "Components.IComponent",
+          "Common.TypeName": "minitwit.App",
+          "Components.NameMatch": "Components.FullyQualifiedNameMatch"
+        }
+      },
+      {
+        "HashCode": -1996845922,
+        "Kind": "Components.Component",
+        "Name": "minitwit.Pages.Index",
+        "AssemblyName": "minitwit",
+        "CaseSensitive": true,
+        "TagMatchingRules": [
+          {
+            "TagName": "Index"
+          }
+        ],
+        "Metadata": {
+          "Runtime.Name": "Components.IComponent",
+          "Common.TypeName": "minitwit.Pages.Index"
+        }
+      },
+      {
+        "HashCode": -343093315,
+        "Kind": "Components.Component",
+        "Name": "minitwit.Pages.Index",
+        "AssemblyName": "minitwit",
+        "CaseSensitive": true,
+        "TagMatchingRules": [
+          {
+            "TagName": "minitwit.Pages.Index"
+          }
+        ],
+        "Metadata": {
+          "Runtime.Name": "Components.IComponent",
+          "Common.TypeName": "minitwit.Pages.Index",
+          "Components.NameMatch": "Components.FullyQualifiedNameMatch"
+        }
+      },
+      {
+        "HashCode": -1583337793,
+        "Kind": "Components.Component",
+        "Name": "minitwit.Pages.Timeline",
+        "AssemblyName": "minitwit",
+        "CaseSensitive": true,
+        "TagMatchingRules": [
+          {
+            "TagName": "Timeline"
+          }
+        ],
+        "Metadata": {
+          "Runtime.Name": "Components.IComponent",
+          "Common.TypeName": "minitwit.Pages.Timeline"
+        }
+      },
+      {
+        "HashCode": 1182389461,
+        "Kind": "Components.Component",
+        "Name": "minitwit.Pages.Timeline",
+        "AssemblyName": "minitwit",
+        "CaseSensitive": true,
+        "TagMatchingRules": [
+          {
+            "TagName": "minitwit.Pages.Timeline"
+          }
+        ],
+        "Metadata": {
+          "Runtime.Name": "Components.IComponent",
+          "Common.TypeName": "minitwit.Pages.Timeline",
+          "Components.NameMatch": "Components.FullyQualifiedNameMatch"
+        }
+      },
+      {
         "HashCode": 2040593770,
         "Kind": "Components.Component",
         "Name": "minitwit.Shared.SurveyPrompt",
@@ -57,39 +156,6 @@
         "Metadata": {
           "Runtime.Name": "Components.IComponent",
           "Common.TypeName": "minitwit.Shared.SurveyPrompt",
-          "Components.NameMatch": "Components.FullyQualifiedNameMatch"
-        }
-      },
-      {
-        "HashCode": 1766552342,
-        "Kind": "Components.Component",
-        "Name": "minitwit.Shared.NavMenu",
-        "AssemblyName": "minitwit",
-        "CaseSensitive": true,
-        "TagMatchingRules": [
-          {
-            "TagName": "NavMenu"
-          }
-        ],
-        "Metadata": {
-          "Runtime.Name": "Components.IComponent",
-          "Common.TypeName": "minitwit.Shared.NavMenu"
-        }
-      },
-      {
-        "HashCode": -1711571167,
-        "Kind": "Components.Component",
-        "Name": "minitwit.Shared.NavMenu",
-        "AssemblyName": "minitwit",
-        "CaseSensitive": true,
-        "TagMatchingRules": [
-          {
-            "TagName": "minitwit.Shared.NavMenu"
-          }
-        ],
-        "Metadata": {
-          "Runtime.Name": "Components.IComponent",
-          "Common.TypeName": "minitwit.Shared.NavMenu",
           "Components.NameMatch": "Components.FullyQualifiedNameMatch"
         }
       },
@@ -190,101 +256,35 @@
         }
       },
       {
-        "HashCode": 1309787238,
+        "HashCode": 1766552342,
         "Kind": "Components.Component",
-        "Name": "minitwit.App",
+        "Name": "minitwit.Shared.NavMenu",
         "AssemblyName": "minitwit",
         "CaseSensitive": true,
         "TagMatchingRules": [
           {
-            "TagName": "App"
+            "TagName": "NavMenu"
           }
         ],
         "Metadata": {
           "Runtime.Name": "Components.IComponent",
-          "Common.TypeName": "minitwit.App"
+          "Common.TypeName": "minitwit.Shared.NavMenu"
         }
       },
       {
-        "HashCode": 33329086,
+        "HashCode": -1711571167,
         "Kind": "Components.Component",
-        "Name": "minitwit.App",
+        "Name": "minitwit.Shared.NavMenu",
         "AssemblyName": "minitwit",
         "CaseSensitive": true,
         "TagMatchingRules": [
           {
-            "TagName": "minitwit.App"
+            "TagName": "minitwit.Shared.NavMenu"
           }
         ],
         "Metadata": {
           "Runtime.Name": "Components.IComponent",
-          "Common.TypeName": "minitwit.App",
-          "Components.NameMatch": "Components.FullyQualifiedNameMatch"
-        }
-      },
-      {
-        "HashCode": -1583337793,
-        "Kind": "Components.Component",
-        "Name": "minitwit.Pages.Timeline",
-        "AssemblyName": "minitwit",
-        "CaseSensitive": true,
-        "TagMatchingRules": [
-          {
-            "TagName": "Timeline"
-          }
-        ],
-        "Metadata": {
-          "Runtime.Name": "Components.IComponent",
-          "Common.TypeName": "minitwit.Pages.Timeline"
-        }
-      },
-      {
-        "HashCode": 1182389461,
-        "Kind": "Components.Component",
-        "Name": "minitwit.Pages.Timeline",
-        "AssemblyName": "minitwit",
-        "CaseSensitive": true,
-        "TagMatchingRules": [
-          {
-            "TagName": "minitwit.Pages.Timeline"
-          }
-        ],
-        "Metadata": {
-          "Runtime.Name": "Components.IComponent",
-          "Common.TypeName": "minitwit.Pages.Timeline",
-          "Components.NameMatch": "Components.FullyQualifiedNameMatch"
-        }
-      },
-      {
-        "HashCode": -1996845922,
-        "Kind": "Components.Component",
-        "Name": "minitwit.Pages.Index",
-        "AssemblyName": "minitwit",
-        "CaseSensitive": true,
-        "TagMatchingRules": [
-          {
-            "TagName": "Index"
-          }
-        ],
-        "Metadata": {
-          "Runtime.Name": "Components.IComponent",
-          "Common.TypeName": "minitwit.Pages.Index"
-        }
-      },
-      {
-        "HashCode": -343093315,
-        "Kind": "Components.Component",
-        "Name": "minitwit.Pages.Index",
-        "AssemblyName": "minitwit",
-        "CaseSensitive": true,
-        "TagMatchingRules": [
-          {
-            "TagName": "minitwit.Pages.Index"
-          }
-        ],
-        "Metadata": {
-          "Runtime.Name": "Components.IComponent",
-          "Common.TypeName": "minitwit.Pages.Index",
+          "Common.TypeName": "minitwit.Shared.NavMenu",
           "Components.NameMatch": "Components.FullyQualifiedNameMatch"
         }
       },

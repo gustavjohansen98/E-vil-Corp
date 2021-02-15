@@ -1,11 +1,19 @@
 using System;
+using System.Collections;
+using System.Collections.Generic;
 
 namespace minitwit 
 {
     public class MiniMain : IMiniMain
     {
         public string User { get; set; }
+        public IEnumerable<string> Messages { get; set; }
         private string URL = "";
+
+        public MiniMain()
+        {
+            Messages = new List<string>();
+        }
 
         public string Url_for(string name)
         {

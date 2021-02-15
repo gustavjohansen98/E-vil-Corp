@@ -8,8 +8,6 @@ namespace minitwit.Pages
 {
     #line hidden
     using System;
-    using System.Collections.Generic;
-    using System.Linq;
     using System.Threading.Tasks;
     using Microsoft.AspNetCore.Components;
 #nullable restore
@@ -78,6 +76,20 @@ using minitwit;
 #nullable restore
 #line 10 "/home/lvol/Desktop/E-vil-Corp/minitwit/_Imports.razor"
 using minitwit.Shared;
+
+#line default
+#line hidden
+#nullable disable
+#nullable restore
+#line 3 "/home/lvol/Desktop/E-vil-Corp/minitwit/Pages/Timeline.razor"
+using System.Collections.Generic;
+
+#line default
+#line hidden
+#nullable disable
+#nullable restore
+#line 4 "/home/lvol/Desktop/E-vil-Corp/minitwit/Pages/Timeline.razor"
+using System.Linq;
 
 #line default
 #line hidden
