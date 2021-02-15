@@ -1,17 +1,36 @@
 @inherits LayoutComponentBase
+@inject IMiniMain MiniMain
 
+<title>Welcome | MiniTwit</title>
 <div class="page">
-    <div class="sidebar">
-        <NavMenu />
-    </div>
-
-    <div class="main">
-        <div class="top-row px-4">
-            <a href="http://blazor.net" target="_blank" class="ml-md-auto">About</a>
-        </div>
-
-        <div class="content px-4">
-            @Body
-        </div>
-    </div>
+    <h1>MiniTwit</h1>
+  <div class=navigation>
+    @if ("" != null)
+    {
+      <a href=@MiniMain.Url_for("timeline")>my timeline |</a> 
+      <a href=@MiniMain.Url_for("public timeline")>public timeline |</a> 
+      <a href=@MiniMain.Url_for("logout")>sign out [@MiniMain.User]</a>
+    }
+    else 
+    {
+      <a href=@MiniMain.Url_for("public timeline")>public timeline |</a> 
+      <a href=@MiniMain.Url_for("register")>sign up |</a> 
+      <a href=@MiniMain.Url_for("login")>sign in</a>
+    }
+  </div>
+  @* {% with flashes = get_flashed_messages() %}
+    {% if flashes %}
+      <ul class=flashes>
+      {% for message in flashes %}
+        <li>{{ message }}
+      {% endfor %}
+      </ul>
+    {% endif %}
+  {% endwith %} *@
+  <div class=body>
+      @Body
+  </div>
+  <div class=footer>
+    MiniTwit &mdash; A Flask Application
+  </div>
 </div>
