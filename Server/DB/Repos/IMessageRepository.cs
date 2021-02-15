@@ -8,6 +8,6 @@ namespace Repos
     {
         void AddMessage(int author_id, string text, DateTime pub_date, int flagged);
 
-        IEnumerable<Message> GetAll();
+        IEnumerable<Message> GetAllMessageFromUser();
     }
 }
