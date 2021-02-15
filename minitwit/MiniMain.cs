@@ -8,10 +8,13 @@ namespace minitwit
     {
         public string User { get; set; }
         public IEnumerable<string> Messages { get; set; }
-        private string URL = "http://localhost:5000/";
+
+        public string URL { get; }
+
 
         public MiniMain()
         {
+            URL = "http://localhost:5000/";
             Messages = new List<string>();
         }
 

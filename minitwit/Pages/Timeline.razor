@@ -2,26 +2,25 @@
 @inject IMiniMain MiniMain
 @using System.Collections.Generic
 @using System.Linq
+@inject NavigationManager NavigationManager
 
-<body>
-     @if ("request endpoint" != null) @* public_timeline *@
+@if (NavigationManager.Uri == MiniMain.Url_for("public timeline")) @* public_timeline *@
      {
-         @* TODO make look proper *@
-        <p>Public Timeline</p>
+        <h2>Public Timeline</h2>
      }
-    else if ("request endpoint" == "user_timeline")
+    else if (NavigationManager.Uri == MiniMain.Url_for("user timeline")) @* user timeline *@
     {
-        @* {{ profile_user.username }}'s Timeline *@
+        <h2>{{ profile_user.username }}'s Timeline</h2>
     }
     else
     {
-        @* My Timeline *@
+        <h2>My Timeline</h2>
     }
     @* {% if g.user %} *@
     @if (MiniMain.User != null)
     {
         @* {% if request.endpoint == 'user_timeline' %} *@
-        @if ("request endpoint" == "user timeline")
+        @if ("request endpoint" == "user timeline") 
         {
             <div class=followstatus>
             @* {% if g.user.user_id == profile_user.user_id %} *@
@@ -69,4 +68,3 @@
             @* <small>&mdash; {{ message.pub_date|datetimeformat }}</small> *@
         }
     </ul>
-</body>

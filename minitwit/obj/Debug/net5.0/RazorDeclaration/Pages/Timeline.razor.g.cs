@@ -102,6 +102,7 @@ using System.Linq;
         {
         }
         #pragma warning restore 1998
+        [global::Microsoft.AspNetCore.Components.InjectAttribute] private NavigationManager NavigationManager { get; set; }
         [global::Microsoft.AspNetCore.Components.InjectAttribute] private IMiniMain MiniMain { get; set; }
     }
 }

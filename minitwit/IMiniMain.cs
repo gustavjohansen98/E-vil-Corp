@@ -7,6 +7,7 @@ namespace minitwit
     {
         string User { get; set; }
         IEnumerable<string> Messages { get; set; }
+        string URL { get; }
 
         string Url_for(string name);
     }
