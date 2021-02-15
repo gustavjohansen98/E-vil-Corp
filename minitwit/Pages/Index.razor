@@ -1,3 +1,13 @@
 ﻿@page "/"
+@inject NavigationManager NavigationManager
 @inject IMiniMain MiniMain
+@using System.ComponentModel;
 
+@code {
+  protected override async Task OnInitializedAsync()
+    {
+        NavigationManager.NavigateTo("/public");
+       
+        await base.OnInitializedAsync();
+    }
+}

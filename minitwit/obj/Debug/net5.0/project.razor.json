@@ -8,72 +8,6 @@
   "ProjectWorkspaceState": {
     "TagHelpers": [
       {
-        "HashCode": -1583337793,
-        "Kind": "Components.Component",
-        "Name": "minitwit.Pages.Timeline",
-        "AssemblyName": "minitwit",
-        "CaseSensitive": true,
-        "TagMatchingRules": [
-          {
-            "TagName": "Timeline"
-          }
-        ],
-        "Metadata": {
-          "Runtime.Name": "Components.IComponent",
-          "Common.TypeName": "minitwit.Pages.Timeline"
-        }
-      },
-      {
-        "HashCode": 1182389461,
-        "Kind": "Components.Component",
-        "Name": "minitwit.Pages.Timeline",
-        "AssemblyName": "minitwit",
-        "CaseSensitive": true,
-        "TagMatchingRules": [
-          {
-            "TagName": "minitwit.Pages.Timeline"
-          }
-        ],
-        "Metadata": {
-          "Runtime.Name": "Components.IComponent",
-          "Common.TypeName": "minitwit.Pages.Timeline",
-          "Components.NameMatch": "Components.FullyQualifiedNameMatch"
-        }
-      },
-      {
-        "HashCode": -1996845922,
-        "Kind": "Components.Component",
-        "Name": "minitwit.Pages.Index",
-        "AssemblyName": "minitwit",
-        "CaseSensitive": true,
-        "TagMatchingRules": [
-          {
-            "TagName": "Index"
-          }
-        ],
-        "Metadata": {
-          "Runtime.Name": "Components.IComponent",
-          "Common.TypeName": "minitwit.Pages.Index"
-        }
-      },
-      {
-        "HashCode": -343093315,
-        "Kind": "Components.Component",
-        "Name": "minitwit.Pages.Index",
-        "AssemblyName": "minitwit",
-        "CaseSensitive": true,
-        "TagMatchingRules": [
-          {
-            "TagName": "minitwit.Pages.Index"
-          }
-        ],
-        "Metadata": {
-          "Runtime.Name": "Components.IComponent",
-          "Common.TypeName": "minitwit.Pages.Index",
-          "Components.NameMatch": "Components.FullyQualifiedNameMatch"
-        }
-      },
-      {
         "HashCode": 2040593770,
         "Kind": "Components.Component",
         "Name": "minitwit.Shared.SurveyPrompt",
@@ -285,6 +219,72 @@
         "Metadata": {
           "Runtime.Name": "Components.IComponent",
           "Common.TypeName": "minitwit.App",
+          "Components.NameMatch": "Components.FullyQualifiedNameMatch"
+        }
+      },
+      {
+        "HashCode": -1583337793,
+        "Kind": "Components.Component",
+        "Name": "minitwit.Pages.Timeline",
+        "AssemblyName": "minitwit",
+        "CaseSensitive": true,
+        "TagMatchingRules": [
+          {
+            "TagName": "Timeline"
+          }
+        ],
+        "Metadata": {
+          "Runtime.Name": "Components.IComponent",
+          "Common.TypeName": "minitwit.Pages.Timeline"
+        }
+      },
+      {
+        "HashCode": 1182389461,
+        "Kind": "Components.Component",
+        "Name": "minitwit.Pages.Timeline",
+        "AssemblyName": "minitwit",
+        "CaseSensitive": true,
+        "TagMatchingRules": [
+          {
+            "TagName": "minitwit.Pages.Timeline"
+          }
+        ],
+        "Metadata": {
+          "Runtime.Name": "Components.IComponent",
+          "Common.TypeName": "minitwit.Pages.Timeline",
+          "Components.NameMatch": "Components.FullyQualifiedNameMatch"
+        }
+      },
+      {
+        "HashCode": -1996845922,
+        "Kind": "Components.Component",
+        "Name": "minitwit.Pages.Index",
+        "AssemblyName": "minitwit",
+        "CaseSensitive": true,
+        "TagMatchingRules": [
+          {
+            "TagName": "Index"
+          }
+        ],
+        "Metadata": {
+          "Runtime.Name": "Components.IComponent",
+          "Common.TypeName": "minitwit.Pages.Index"
+        }
+      },
+      {
+        "HashCode": -343093315,
+        "Kind": "Components.Component",
+        "Name": "minitwit.Pages.Index",
+        "AssemblyName": "minitwit",
+        "CaseSensitive": true,
+        "TagMatchingRules": [
+          {
+            "TagName": "minitwit.Pages.Index"
+          }
+        ],
+        "Metadata": {
+          "Runtime.Name": "Components.IComponent",
+          "Common.TypeName": "minitwit.Pages.Index",
           "Components.NameMatch": "Components.FullyQualifiedNameMatch"
         }
       },

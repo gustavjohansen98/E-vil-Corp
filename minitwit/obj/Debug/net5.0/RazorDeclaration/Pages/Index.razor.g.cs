@@ -82,6 +82,13 @@ using minitwit.Shared;
 #line default
 #line hidden
 #nullable disable
+#nullable restore
+#line 4 "/home/lvol/Desktop/E-vil-Corp/minitwit/Pages/Index.razor"
+using System.ComponentModel;
+
+#line default
+#line hidden
+#nullable disable
     [Microsoft.AspNetCore.Components.RouteAttribute("/")]
     public partial class Index : Microsoft.AspNetCore.Components.ComponentBase
     {
@@ -90,7 +97,21 @@ using minitwit.Shared;
         {
         }
         #pragma warning restore 1998
+#nullable restore
+#line 6 "/home/lvol/Desktop/E-vil-Corp/minitwit/Pages/Index.razor"
+       
+  protected override async Task OnInitializedAsync()
+    {
+        NavigationManager.NavigateTo("/public");
+       
+        await base.OnInitializedAsync();
+    }
+
+#line default
+#line hidden
+#nullable disable
         [global::Microsoft.AspNetCore.Components.InjectAttribute] private IMiniMain MiniMain { get; set; }
+        [global::Microsoft.AspNetCore.Components.InjectAttribute] private NavigationManager NavigationManager { get; set; }
     }
 }
 #pragma warning restore 1591
