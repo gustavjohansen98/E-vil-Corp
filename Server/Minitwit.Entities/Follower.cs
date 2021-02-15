@@ -1,5 +1,3 @@
-using System.ComponentModel.DataAnnotations;
-
 namespace Minitwit.Entities
 {
     public class Follower
