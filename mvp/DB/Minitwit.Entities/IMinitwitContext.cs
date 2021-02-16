@@ -5,9 +5,9 @@ namespace Minitwit.Entities
 
     public interface IMinitwitContext
     {
-        DbSet<User> Users { get; } 
-        DbSet<Follower> Followers { get; }
-        DbSet<Message> Messages { get; }
+        DbSet<User> User { get; } 
+        DbSet<Follower> Follower { get; }
+        DbSet<Message> Message { get; }
         int SaveChanges();
     }
 }

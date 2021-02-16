@@ -19,7 +19,7 @@ namespace Repos
 
         public HttpStatusCode AddUser(User user)
         {
-            _context.Users.Add(user);
+            _context.User.Add(user);
             _context.SaveChanges();
 
             return Created;
@@ -27,7 +27,7 @@ namespace Repos
 
         public User GetUserFromID(int userID)
         {
-            var user = _context.Users.Find(userID);
+            var user = _context.User.Find(userID);
             if (user == null) 
                 return null;
 
@@ -36,13 +36,13 @@ namespace Repos
 
         public int GetUserIDFromUsername(string username)
         {
-            var user = _context.Users
+            var user = _context.User
                             .Where(u => u.username == $"{username}")
                             .FirstOrDefault<User>();
             if (user == null)
                 return -1;
 
-            return user.ID;
+            return user.user_id;
         }
 
     }

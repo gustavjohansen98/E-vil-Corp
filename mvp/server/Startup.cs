@@ -14,6 +14,8 @@ using Microsoft.Data.Sqlite;
 using Minitwit.Entities;
 using Microsoft.EntityFrameworkCore;
 using Repos;
+using System.IO;
+using System.Reflection;
 
 namespace mvp
 {

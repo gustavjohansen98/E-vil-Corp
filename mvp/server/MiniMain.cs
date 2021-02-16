@@ -22,7 +22,7 @@ namespace mvp
 
             URL = "http://localhost:5000/";
 
-            User = new User{ ID = 1, username = "" };
+            User = new User{ user_id = 1, username = "" };
 
             // Messages = new List<Message>();
             Timeline();
@@ -58,7 +58,7 @@ namespace mvp
 
         public IEnumerable<Message> Timeline()
         {
-            Messages = _messageRepo.GetAllMessageFromUser(User.ID);
+            Messages = _messageRepo.GetAllMessageFromUser(User.user_id);
             return Messages;
         }
     }

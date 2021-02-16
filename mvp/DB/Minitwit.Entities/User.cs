@@ -4,7 +4,8 @@ namespace Minitwit.Entities
 {
     public class User
     {
-        public int ID { get; set; }
+        [Key]
+        public int user_id { get; set; }
 
         [Required]
         public string username { get; set; }

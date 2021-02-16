@@ -5,15 +5,16 @@ namespace Minitwit.Entities
 {
     public class Message
     {
-        public int ID { get; set; }
+        [Key]
+        public int message_id { get; set; }
 
         [Required]
-        public int author_ID { get; set; }
+        public int author_id { get; set; }
 
         [Required]
         public string text { get; set; } 
 
-        public DateTime pub_date { get; set; }
+        public string pub_date { get; set; }
 
         public int flagged { get; set; }
 

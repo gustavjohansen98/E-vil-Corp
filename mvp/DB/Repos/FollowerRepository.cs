@@ -31,11 +31,11 @@ namespace Repos
                 whom_id = userToFollowID
             };
 
-            var entityAlreadyExists = _context.Followers.Find(userInSessionID, userToFollowID);
+            var entityAlreadyExists = _context.Follower.Find(userInSessionID, userToFollowID);
             if (entityAlreadyExists != null)
                 return NotAcceptable;
 
-            _context.Followers.Add(follow);
+            _context.Follower.Add(follow);
             _context.SaveChanges();
 
             return NoContent;
@@ -49,22 +49,22 @@ namespace Repos
             if (userInSessionID < 0 || userToUnfollowID < 0)
                 return NotFound;
 
-            // var follower = _context.Followers.Where(x => x.who_id == userInSessionID && x.whom_id == userToUnfollowID)
+            // var follower = _context.Follower.Where(x => x.who_id == userInSessionID && x.whom_id == userToUnfollowID)
             //                                  .FirstOrDefault<Follower>();
 
-            var follower = _context.Followers.Find(userToUnfollowID, userInSessionID);
+            var follower = _context.Follower.Find(userToUnfollowID, userInSessionID);
 
             if (follower == null)
                 return NotAcceptable;
                                             
-            _context.Followers.Remove(follower);
+            _context.Follower.Remove(follower);
             _context.SaveChanges();
 
             return NoContent;
         }
 
 
-        // TODO : method for retriveing a collection of all the followers given a who_id and vice versa 
+        // TODO : method for retriveing a collection of all the follower given a who_id and vice versa 
     
     }
 }

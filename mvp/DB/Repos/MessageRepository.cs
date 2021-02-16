@@ -14,34 +14,34 @@ namespace Repos
             _context = context;
         }
 
-        public void AddMessage(int author_id, string text, DateTime pub_date, int flagged)
+        public void AddMessage(int author_id, string text, string pub_date, int flagged)
         {
             var message = new Message
             { 
-                author_ID = author_id,
+                author_id = author_id,
                 text = text,
                 pub_date = pub_date,
                 flagged = flagged
             };
 
-            _context.Messages.Add(message);
+            _context.Message.Add(message);
             _context.SaveChanges();
         }
 
         public void AddMessage(Message message)
         {
-            _context.Messages.Add(message);
+            _context.Message.Add(message);
             _context.SaveChanges();
         }
 
         public IEnumerable<Message> GetAllMessageFromUser(int user_id)
         {
-            return _context.Messages.Where(m => m.flagged == 0 && m.author_ID == user_id);
+            return _context.Message.Where(m => m.flagged == 0 && m.author_id == user_id);
         }
 
         public IEnumerable<Message> GetAllMessages()
         {
-            return _context.Messages;
+            return _context.Message;
         }
     }
 }
