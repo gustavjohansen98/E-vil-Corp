@@ -59,16 +59,16 @@ namespace DB.Tests
         public void Given_new_user_AddUser_returns_Created()
         {
             var newUser = new User {
-                ID = 5,
+                // ID = 5,
                 username = "mock",
                 email = "test@mail.com",
-                pw_hash = "some_hash"
+                pwd = "some_hash"
             };
 
             var statusCode = _userRepo.AddUser(newUser);
             var insertedUser = _userRepo.GetUserFromID(newUser.ID);
 
-            Assert.Equal(Created, statusCode);
+            Assert.Equal(NoContent, statusCode);
             Assert.Equal(newUser, insertedUser);
         }
 

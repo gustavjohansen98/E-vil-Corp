@@ -27,6 +27,7 @@ namespace Minitwit.Entities
         {
             if (!optionsBuilder.IsConfigured)
             {
+                // var _connection = new SqliteConnection("Filename=:memory");
                 var _connection = new SqliteConnection(@"Data Source=\tmp\minitwit.db");
                 _connection.Open();
                 optionsBuilder.UseSqlite(_connection);

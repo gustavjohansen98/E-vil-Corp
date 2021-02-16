@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Minitwit.Entities;
 using static System.Net.HttpStatusCode;
-
+using Microsoft.EntityFrameworkCore;
 
 namespace Repos
 {
@@ -17,12 +17,22 @@ namespace Repos
             _context = context;
         }
 
+        public IEnumerable<User> RawSQLQuery(string query)
+        {
+            return _context.Users.FromSqlRaw(query).ToList();
+        }
+
+        public IEnumerable<User> GetAllUsers()
+        {
+            return _context.Users.AsEnumerable();
+        }
+
         public HttpStatusCode AddUser(User user)
         {
             _context.Users.Add(user);
             _context.SaveChanges();
 
-            return Created;
+            return NoContent;
         }
 
         public User GetUserFromID(int userID)

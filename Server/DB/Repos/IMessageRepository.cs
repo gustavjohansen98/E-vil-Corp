@@ -6,6 +6,8 @@ namespace Repos
 {
     public interface IMessageRepository
     {
+        IEnumerable<Message> GetAllMessages();
+
         void AddMessage(int author_id, string text, DateTime pub_date, int flagged);
 
         void AddMessage(Message message);
