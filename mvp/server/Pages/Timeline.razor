@@ -22,7 +22,7 @@
     @if (MiniMain.User != null)
     {
         @* {% if request.endpoint == 'user_timeline' %} *@
-        @if ("request endpoint" == "user timeline") 
+        @if (NavigationManager.Uri == MiniMain.Url_for("user timeline")) 
         {
             <div class=followstatus>
             @* {% if g.user.user_id == profile_user.user_id %} *@
@@ -45,10 +45,10 @@
             </div>
         }
         @* {% elif request.endpoint == 'timeline' %} *@
-        else if ("request.endport" == "timeline")
+        else if (NavigationManager.Uri == MiniMain.Url_for("timeline"))
         {
             <div class=twitbox>
-                <h3>What's on your mind {{ g.user.username }}?</h3>
+                <h3>What's on your mind @MiniMain.User.username ?</h3>
                 <form action="{{ url_for('add_message') }}" method=post>
                 <input type=text name=text size=60>
                 <input type=submit value="Share">
@@ -62,10 +62,10 @@
             @foreach (var message in @MiniMain.Messages)
             {
                 <li><em>@message.text</em></li>
+                @* <li><img src="{{ message.email|gravatar(size=48) }}"> *@
+                <strong><a href=@MiniMain.Url_for("user timeline")> @MiniMain.User.username</a></strong> @* "{{ url_for('user_timeline', username=message.username)}}" *@
+                <small>&mdash; @message.pub_date |datetimeformat </small>
             }
-            @* <li><img src="{{ message.email|gravatar(size=48) }}"> *@
-            @* <strong><a href="{{ url_for('user_timeline', username=message.username)}}">{{ message.username }}</a></strong> *@
-            @* <small>&mdash; {{ message.pub_date|datetimeformat }}</small> *@
         }
     @* {% for message in messages %} *@
         else
