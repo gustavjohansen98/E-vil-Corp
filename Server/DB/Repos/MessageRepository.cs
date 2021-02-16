@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Minitwit.Entities;
+using Microsoft.EntityFrameworkCore;
 
 namespace Repos
 {
@@ -12,6 +13,11 @@ namespace Repos
         public MessageRepository(IMinitwitContext context)
         {
             _context = context;
+        }
+
+        public IEnumerable<Message> RawSQLQuery(string query)
+        {
+            return _context.Messages.FromSqlRaw(query).ToList();
         }
 
         public void AddMessage(int author_id, string text, DateTime pub_date, int flagged)

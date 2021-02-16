@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Minitwit.Entities;
 using static System.Net.HttpStatusCode;
-
+using Microsoft.EntityFrameworkCore;
 
 namespace Repos
 {
@@ -15,6 +15,11 @@ namespace Repos
         public UserRepository(IMinitwitContext context)
         {
             _context = context;
+        }
+
+        public IEnumerable<User> RawSQLQuery(string query)
+        {
+            return _context.Users.FromSqlRaw(query).ToList();
         }
 
         public IEnumerable<User> GetAllUsers()
