@@ -29,7 +29,7 @@ namespace Minitwit.Entities
         {
             if (!optionsBuilder.IsConfigured)
             {
-                var _connection = new SqliteConnection(@"URI=\tmp\minitwit.db");
+                var _connection = new SqliteConnection(@"Data Source=\tmp\minitwit.db");
                 _connection.Open();
                 optionsBuilder.UseSqlite(_connection);
                 Database.EnsureCreated();
