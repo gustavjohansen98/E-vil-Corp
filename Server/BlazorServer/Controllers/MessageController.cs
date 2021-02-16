@@ -51,7 +51,7 @@ namespace BlazorServer
 
             var user_id = _repoUser.GetUserIDFromUsername(username);
 
-            if (user_id != -1) return NotFound();
+            if (user_id == -1) return NotFound();
 
             var messages = (from m in _repoMessage.GetAllMessages()
                            where m.flagged == 0 &&

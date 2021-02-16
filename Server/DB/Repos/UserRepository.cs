@@ -32,7 +32,7 @@ namespace Repos
             _context.Users.Add(user);
             _context.SaveChanges();
 
-            return Created;
+            return NoContent;
         }
 
         public User GetUserFromID(int userID)
