@@ -13,6 +13,6 @@ content-type: application/json
 
 {
     "username": "test1",
-    "email": "test@mail.com",
+    "email": "test@ail.com",
     "pwd": "1234"
 }
