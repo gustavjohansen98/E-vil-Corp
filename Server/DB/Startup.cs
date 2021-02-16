@@ -13,6 +13,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
 using Minitwit.Entities;
+using Repos;
 
 namespace Server
 {
@@ -34,9 +35,11 @@ namespace Server
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Server", Version = "v1" });
             });
 
-            services.AddDbContext<MinitwitContext>(o => o.UseSqlite("Filename=minitwit.db"));
+            services.AddDbContext<IMinitwitContext, MinitwitContext>(o => o.UseSqlite("Filename=minitwit.db"));
             
-            
+            services.AddScoped<IUserRepository, UserRepository>();
+            services.AddScoped<IFollowerRepository, FollowerRepository>();
+
             services.AddControllers();
         }
 
