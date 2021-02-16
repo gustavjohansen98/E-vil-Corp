@@ -24,20 +24,9 @@ namespace DB.Tests
                 new Follower { who_id = 2, whom_id = 1 }
             );
 
-            // modelBuilder.Entity<Task>().HasData(
-            //     new Task { Id = 1, Title = "title1", Description = "description1", AssignedToId = null, State = New },
-            //     new Task { Id = 2, Title = "title2", Description = "description2", AssignedToId = 1, State = Active },
-            //     new Task { Id = 3, Title = "title3", Description = "description3", AssignedToId = 2, State = Resolved },
-            //     new Task { Id = 4, Title = "title4", Description = "description4", AssignedToId = 1, State = Closed },
-            //     new Task { Id = 5, Title = "title5", Description = "description5", AssignedToId = 2, State = Removed }
-            // );
-
-            // modelBuilder.Entity<TaskTag>().HasData(
-            //     new TaskTag { TaskId = 2, TagId = 1 },
-            //     new TaskTag { TaskId = 2, TagId = 2 },
-            //     new TaskTag { TaskId = 3, TagId = 1 },
-            //     new TaskTag { TaskId = 4, TagId = 2 }
-            // );
+            modelBuilder.Entity<Message>().HasData(
+                new Message { ID = 1, author_ID = 1, text = "" }
+            );
         }
     }
 }

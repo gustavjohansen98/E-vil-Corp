@@ -10,9 +10,7 @@ namespace Minitwit.Entities
     public class MinitwitContext : DbContext, IMinitwitContext
     {
         public DbSet<User> Users { get; set; }
-
         public DbSet<Follower> Followers  { get; set; }
-
         public DbSet<Message> Messages { get; set; }
 
         public MinitwitContext()
