@@ -15,9 +15,9 @@ namespace Repos
             _context = context;
         }
 
-        public IEnumerable<Message> RawSQLQuery(string query)
+        public IEnumerable<Message> GetAllMessages()
         {
-            return _context.Messages.FromSqlRaw(query).ToList();
+            return _context.Messages.AsEnumerable();
         }
 
         public void AddMessage(int author_id, string text, DateTime pub_date, int flagged)
