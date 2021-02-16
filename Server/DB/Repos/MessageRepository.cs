@@ -25,6 +25,13 @@ namespace Repos
             };
 
             _context.Messages.Add(message);
+            _context.SaveChanges();
+        }
+
+        public void AddMessage(Message message)
+        {
+            _context.Messages.Add(message);
+            _context.SaveChanges();
         }
 
         public IEnumerable<Message> GetAllMessageFromUser(int user_id)
