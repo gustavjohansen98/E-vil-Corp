@@ -8,6 +8,8 @@ namespace Repos
     {
         HttpStatusCode AddUser(User user);
 
+        IEnumerable<User> GetAllUsers();
+
         User GetUserFromID(int userID);
 
         int GetUserIDFromUsername(string username);

@@ -17,6 +17,11 @@ namespace Repos
             _context = context;
         }
 
+        public IEnumerable<User> GetAllUsers()
+        {
+            return _context.Users.AsEnumerable();
+        }
+
         public HttpStatusCode AddUser(User user)
         {
             _context.Users.Add(user);
