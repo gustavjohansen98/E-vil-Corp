@@ -38,5 +38,10 @@ namespace Repos
         {
             return _context.Messages.Where(m => m.flagged == 0 && m.author_ID == user_id);
         }
+
+        public IEnumerable<Message> GetAllMessages()
+        {
+            return _context.Messages;
+        }
     }
 }

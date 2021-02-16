@@ -36,7 +36,7 @@ namespace mvp
 
             services.AddDbContext<IMinitwitContext, MinitwitContext>(options => 
             {
-                options.UseSqlite("Data Source = minitwit.db");
+                options.UseSqlite("Data Source=minitwit.db");
             });
 
             services.AddScoped<IMessageRepository, MessageRepository>();

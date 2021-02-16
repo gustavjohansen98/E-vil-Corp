@@ -11,5 +11,7 @@ namespace Repos
         void AddMessage(Message message);
 
         IEnumerable<Message> GetAllMessageFromUser(int user_id);
+
+        IEnumerable<Message> GetAllMessages();
     }
 }

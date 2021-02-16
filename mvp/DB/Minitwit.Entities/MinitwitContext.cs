@@ -27,7 +27,7 @@ namespace Minitwit.Entities
         {
             if (!optionsBuilder.IsConfigured)
             {
-                var _connection = new SqliteConnection(@"Data Source=\tmp\minitwit.db");
+                var _connection = new SqliteConnection(@"Data Source=minitwit.db");
                 _connection.Open();
                 optionsBuilder.UseSqlite(_connection);
                 Database.EnsureCreated();
