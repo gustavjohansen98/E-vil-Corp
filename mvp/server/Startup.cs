@@ -10,6 +10,10 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using mvp.Data;
+using Microsoft.Data.Sqlite;
+using Minitwit.Entities;
+using Microsoft.EntityFrameworkCore;
+using Repos;
 
 namespace mvp
 {
@@ -29,6 +33,14 @@ namespace mvp
             services.AddRazorPages();
             services.AddServerSideBlazor();
             services.AddSingleton<WeatherForecastService>();
+
+            services.AddDbContext<IMinitwitContext, MinitwitContext>(options => 
+            {
+                options.UseSqlite("Data Source = minitwit.db");
+            });
+
+            services.AddScoped<IMessageRepository, MessageRepository>();
+            
             services.AddScoped<IMiniMain, MiniMain>();
         }
 

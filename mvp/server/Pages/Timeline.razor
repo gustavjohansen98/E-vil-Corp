@@ -2,7 +2,9 @@
 @inject IMiniMain MiniMain
 @using System.Collections.Generic
 @using System.Linq
+@using Repos;
 @inject NavigationManager NavigationManager
+@inject IMessageRepository MessageRepository
 
 @if (NavigationManager.Uri == MiniMain.Url_for("public timeline")) @* public_timeline *@
      {
@@ -10,7 +12,7 @@
      }
     else if (NavigationManager.Uri == MiniMain.Url_for("user timeline")) @* user timeline *@
     {
-        <h2>{{ profile_user.username }}'s Timeline</h2>
+        <h2>@MiniMain.User 's Timeline</h2>
     }
     else
     {
@@ -24,7 +26,7 @@
         {
             <div class=followstatus>
             @* {% if g.user.user_id == profile_user.user_id %} *@
-            @if (MiniMain.User == "profile_user.user_id")
+            @if (MiniMain.User == null)
             {
                 @* This is you! *@
             }
@@ -55,16 +57,27 @@
         }
     }
     <ul >
-        @if (MiniMain.Messages.ToList().Count == 0)
+        @if (MiniMain.Messages.ToList().Count > 0)
         {
-            <li><em>There's no messages so far</em></li>
+            @foreach (var message in @MiniMain.Messages)
+            {
+                <li><em>message.text</em></li>
+                
+            }
+            @* <li><img src="{{ message.email|gravatar(size=48) }}"> *@
+            @* <strong><a href="{{ url_for('user_timeline', username=message.username)}}">{{ message.username }}</a></strong> *@
+            @* <small>&mdash; {{ message.pub_date|datetimeformat }}</small> *@
         }
     @* {% for message in messages %} *@
         else
         {
-            @* <li><img src="{{ message.email|gravatar(size=48) }}"> *@
-            @* <strong><a href="{{ url_for('user_timeline', username=message.username)}}">{{ message.username }}</a></strong> *@
-            @* {{ message.text }} *@
-            @* <small>&mdash; {{ message.pub_date|datetimeformat }}</small> *@
+            <li><em>There's no messages so far</em></li>
         }
     </ul>
+
+@code {
+     protected override void OnInitialized()
+    {
+        MiniMain.Timeline();
+    }
+}
