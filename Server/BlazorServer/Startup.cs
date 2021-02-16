@@ -19,6 +19,8 @@ namespace BlazorServer
 {
     public class Startup
     {
+        // private readonly string _corsSecret = "_corsSecret";
+
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -30,9 +32,20 @@ namespace BlazorServer
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
-            // services.AddRazorPages();
-            // services.AddServerSideBlazor();
+            services.AddRazorPages();
+            services.AddServerSideBlazor();
             // services.AddSingleton<WeatherForecastService>();
+
+            // services.AddCors(options => 
+            // {
+            //     options.AddPolicy(name: _corsSecret,
+            //         builder => 
+            //         {
+            //             builder.WithOrigins("http://localhost:5010", "http://localhost:5000")
+            //             .AllowAnyMethod()
+            //             .AllowAnyHeader();
+            //         });
+            // });
 
             services.AddDbContext<IMinitwitContext, MinitwitContext>(options => 
             {
@@ -43,6 +56,8 @@ namespace BlazorServer
             
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IMessageRepository, MessageRepository>();
+
+            services.AddSignalR();
 
             services.AddControllers();
         }

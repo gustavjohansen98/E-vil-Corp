@@ -16,6 +16,6 @@ namespace Minitwit.Entities
         public string email { get; set; } 
 
         [Required]
-        public string pw_hash { get; set; }
+        public string pwd { get; set; }
     }
 }

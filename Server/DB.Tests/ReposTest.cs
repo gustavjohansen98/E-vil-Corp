@@ -59,10 +59,10 @@ namespace DB.Tests
         public void Given_new_user_AddUser_returns_Created()
         {
             var newUser = new User {
-                ID = 5,
+                // ID = 5,
                 username = "mock",
                 email = "test@mail.com",
-                pw_hash = "some_hash"
+                pwd = "some_hash"
             };
 
             var statusCode = _userRepo.AddUser(newUser);
