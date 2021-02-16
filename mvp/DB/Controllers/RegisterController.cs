@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using Minitwit.Entities;
 using System.Linq;
 
-namespace BlazorServer
+namespace Server.Controllers
 {
     [ApiController]
     [Route("/register")]
@@ -36,7 +36,7 @@ namespace BlazorServer
             if (user.email == null || !user.email.Contains("@")) 
                 return BadRequest("You have to enter a valid email address");
 
-            if (user.pw_hash == null)
+            if (user.pwd == null)
                 return BadRequest("You have to enter a password");
 
             

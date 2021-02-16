@@ -45,5 +45,10 @@ namespace Repos
             return user.user_id;
         }
 
+        public IEnumerable<User> GetAllUsers()
+        {
+            return _context.User.AsEnumerable();
+        }
+
     }
 }
