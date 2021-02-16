@@ -41,6 +41,10 @@ namespace Minitwit.Entities
                 .HasIndex(k => k.username)
                 .IsUnique();
 
+            // modelBuilder.Entity<User>()
+            //     .Property(p => p.pwd)
+            //     .HasColumnName("pwd");
+
             modelBuilder.Entity<Follower>()
                 .HasKey(c => new { c.who_id, c.whom_id});
 
