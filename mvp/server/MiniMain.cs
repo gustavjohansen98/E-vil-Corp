@@ -46,7 +46,7 @@ namespace mvp
                     break;
 
                 case "register":
-                    // TODO
+                    return URL + "register";
                     break;
                 
                 case "login":
