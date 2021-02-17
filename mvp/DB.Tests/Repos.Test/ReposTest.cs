@@ -92,7 +92,7 @@ namespace DB.Tests
 
             var statusCode = _followerRepo.FollowUser(usernameInSession, usernameToFollow);
 
-            Assert.Equal(NotFound, statusCode);
+            Assert.Equal(NotAcceptable, statusCode);
         }
 
         [Fact]

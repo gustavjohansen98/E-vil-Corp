@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using Minitwit.Entities;
 using System.Linq;
 
-namespace Server.Controllers
+namespace Controllers
 {
     [ApiController]
     [Route("/register")]
@@ -19,10 +19,9 @@ namespace Server.Controllers
         }
 
         [HttpPost]
-        public IActionResult CreateNewUser([FromBody]User user)
+        public IActionResult CreateNewUser([FromBody]User user, [FromQuery(Name = "latest")] int latest)
         {
-
-            Console.WriteLine("ok");
+            LatestController.UpdateLATEST(latest);
 
             if (user == null)
                 return BadRequest("no user object received");
