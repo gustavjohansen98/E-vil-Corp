@@ -12,6 +12,8 @@ namespace mvp
 
         string Url_for(string name);
 
+        public string GravatarUrl(string email, int size=80);
+
         public IEnumerable<UserMessageDTO> Timeline();
     }
 }

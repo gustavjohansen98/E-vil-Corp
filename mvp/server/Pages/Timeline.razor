@@ -56,16 +56,16 @@
             </div>
         }
     }
-    <ul >
+    <ul class=messages>
     @* {% for message in messages %} *@
         @if (MiniMain.UserMessageDTO.ToList().Count > 0)
         {
             @foreach (var message in @MiniMain.UserMessageDTO)
             {
-                <li><em>@message.text</em></li>
-                @* <li><img src="{{ message.email|gravatar(size=48) }}"> *@
+                <li><img src=@MiniMain.GravatarUrl(message.email, 48)>
                 <strong><a href=@MiniMain.Url_for("user timeline")> @message.username</a></strong> @* "{{ url_for('user_timeline', username=message.username)}}" *@
-                <small>&mdash; @message.pub_date |datetimeformat </small>
+                @message.text
+                <small>&mdash; @message.pub_date |datetimeformat </small></li> 
             }
         }
         else

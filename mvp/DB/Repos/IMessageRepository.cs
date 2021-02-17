@@ -10,8 +10,8 @@ namespace Repos
 
         void AddMessage(Message message);
 
-        IEnumerable<Message> GetAllMessageFromUser(int user_id);
+        IEnumerable<UserMessageDTO> GetAllMessageFromUser(int user_id);
 
-        IEnumerable<Message> GetAllMessages();
+        public IEnumerable<UserMessageDTO> GetAllMessages();
     }
 }
