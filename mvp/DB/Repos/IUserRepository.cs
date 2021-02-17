@@ -11,5 +11,6 @@ namespace Repos
         User GetUserFromID(int userID);
 
         int GetUserIDFromUsername(string username);
+        IEnumerable<User> GetAllUsers();
     }
 }

@@ -22,7 +22,7 @@ namespace Repos
             _context.User.Add(user);
             _context.SaveChanges();
 
-            return Created;
+            return NoContent;
         }
 
         public User GetUserFromID(int userID)
@@ -43,6 +43,11 @@ namespace Repos
                 return -1;
 
             return user.user_id;
+        }
+
+        public IEnumerable<User> GetAllUsers()
+        {
+            return _context.User.AsEnumerable();
         }
 
     }

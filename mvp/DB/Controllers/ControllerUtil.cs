@@ -1,7 +1,7 @@
 using System;
 using System.Net.Http;
 
-namespace BlazorServer
+namespace Server.Controllers
 {
     public class ControllerUtil
     {

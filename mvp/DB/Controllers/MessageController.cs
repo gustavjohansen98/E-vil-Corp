@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using Minitwit.Entities;
 using System.Linq;
 
-namespace BlazorServer
+namespace Server.Controllers
 {
     [Route("/msgs/")]
     [ApiController]
@@ -36,7 +36,7 @@ namespace BlazorServer
                            { 
                                content = m.text,
                                pub_date = m.pub_date,
-                               user = users.Where(u => u.ID == m.author_ID).Select(u => u.username)
+                               user = users.Where(u => u.user_id == m.author_id).Select(u => u.username)
                            }).Take(LIMIT);
             
             return Ok(messages);            
@@ -51,11 +51,11 @@ namespace BlazorServer
 
             var user_id = _repoUser.GetUserIDFromUsername(username);
 
-            if (user_id == -1) return NotFound();
+            if (user_id != -1) return NotFound();
 
             var messages = (from m in _repoMessage.GetAllMessages()
                            where m.flagged == 0 &&
-                                 m.author_ID == user_id // user_id?
+                                 m.author_id == user_id // user_id?
                            orderby m.pub_date
                            select new 
                            {
@@ -66,14 +66,6 @@ namespace BlazorServer
 
             return Ok(messages);
             throw new NotImplementedException();
-        }
-
-        [HttpPost("{username}")]
-        public IActionResult CreateMessage([FromBody] Message message)
-        {
-            _repoMessage.AddMessage(message);
-
-            return Ok();
         }
     }   
 }
