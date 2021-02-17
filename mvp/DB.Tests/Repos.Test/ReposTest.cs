@@ -66,7 +66,7 @@ namespace DB.Tests
             var statusCode = _userRepo.AddUser(newUser);
             var insertedUser = _userRepo.GetUserFromID(newUser.user_id);
 
-            Assert.Equal(NotAcceptable, statusCode);
+            Assert.Equal(NoContent, statusCode);
             Assert.Equal(newUser, insertedUser);
         }
 
@@ -92,7 +92,7 @@ namespace DB.Tests
 
             var statusCode = _followerRepo.FollowUser(usernameInSession, usernameToFollow);
 
-            Assert.Equal(NotFound, statusCode);
+            Assert.Equal(NotAcceptable, statusCode);
         }
 
         [Fact]
