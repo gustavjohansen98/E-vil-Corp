@@ -13,7 +13,7 @@ namespace Controllers
     {
         private IMessageRepository _repoMessage;
         private IUserRepository _repoUser;
-        private const int LIMIT = 100;
+        private const int LIMIT = 100; // (y) noice 
 
         public MessageController(IMessageRepository repoMessage, IUserRepository repoUser)
         {
@@ -22,8 +22,9 @@ namespace Controllers
         }
 
         [HttpGet]
-        public ActionResult<IEnumerable<Message>> GetAllMessages()
+        public ActionResult<IEnumerable<Message>> GetAllMessages([FromQuery(Name = "latest")] int latest)
         {
+            LatestController.UpdateLATEST(latest);
             // TODO: not_req-from_simulator
             
             var users = _repoUser.GetAllUsers();
@@ -43,9 +44,9 @@ namespace Controllers
         }
 
         [HttpGet("{username}")]
-        public ActionResult<IEnumerable<Message>> GetMessagesFromAGivenUser(string username)
+        public ActionResult<IEnumerable<Message>> GetMessagesFromAGivenUser(string username, [FromQuery(Name = "latest")] int latest)
         {
-            // TODO update latest
+            LatestController.UpdateLATEST(latest);
 
             // TODO: not re_from_reposonse
 
@@ -65,7 +66,6 @@ namespace Controllers
                            }).Take(LIMIT);
 
             return Ok(messages);
-            throw new NotImplementedException();
         }
     }   
 }

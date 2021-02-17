@@ -19,10 +19,9 @@ namespace Controllers
         }
 
         [HttpPost]
-        public IActionResult CreateNewUser([FromBody]User user)
+        public IActionResult CreateNewUser([FromBody]User user, [FromQuery(Name = "latest")] int latest)
         {
-
-            Console.WriteLine("ok");
+            LatestController.UpdateLATEST(latest);
 
             if (user == null)
                 return BadRequest("no user object received");

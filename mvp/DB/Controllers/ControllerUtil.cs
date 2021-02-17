@@ -1,9 +1,15 @@
+using Repos;
 using System;
-using System.Net.Http;
+using Microsoft.AspNetCore.Mvc;
+
+using static System.Net.HttpStatusCode;
+
+using System.Text.Json;
+using Newtonsoft.Json;
 
 namespace Controllers
 {
-    public class ControllerUtil
+    public class ControllerUtil : ControllerBase
     {
         public int LATEST { get; }
 

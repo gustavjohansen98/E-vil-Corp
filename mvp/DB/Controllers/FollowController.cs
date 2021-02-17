@@ -1,15 +1,11 @@
 using Repos;
 using System;
 using Microsoft.AspNetCore.Mvc;
-using System.Collections.Generic;
-using Minitwit.Entities;
-using System.Linq;
-using System.Net;
+
 using static System.Net.HttpStatusCode;
-using System.IO;
+
 using System.Text.Json;
 using Newtonsoft.Json;
-
 
 
 namespace Controllers
@@ -28,8 +24,10 @@ namespace Controllers
         }
 
         [HttpPost("{username}")]
-        public IActionResult Follow([FromRoute] string username, [FromBody] JsonElement body)
+        public IActionResult Follow([FromRoute] string username, [FromBody] JsonElement body, [FromQuery(Name = "latest")] int latest)
         {
+            LatestController.UpdateLATEST(latest);
+
             dynamic o = JsonConvert.DeserializeObject(body.ToString()); // deserialize to dynamic object, which we can add the relevant properties to
 
             string userToFollow = o.follow;   
