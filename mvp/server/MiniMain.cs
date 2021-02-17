@@ -72,7 +72,7 @@ namespace mvp
             }
 
             return "http://www.gravatar.com/avatar/" + 
-                    builder.ToString() +
+                    builder.ToString().ToLower() +
                     "?d=identicon&s=" +
                     size;
         }
