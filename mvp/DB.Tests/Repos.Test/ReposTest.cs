@@ -60,7 +60,7 @@ namespace DB.Tests
             var newUser = new User {
                 username = "mock",
                 email = "test@mail.com",
-                pwd = "some_hash"
+                pw_hash = "some_hash"
             };
 
             var statusCode = _userRepo.AddUser(newUser);

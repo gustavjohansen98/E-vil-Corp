@@ -4,6 +4,8 @@ using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using Minitwit.Entities;
 using System.Linq;
+using System.Text.Json;
+using Newtonsoft.Json;
 
 namespace Controllers
 {
@@ -19,25 +21,50 @@ namespace Controllers
         }
 
         [HttpPost]
-        public IActionResult CreateNewUser([FromBody]User user, [FromQuery(Name = "latest")] int latest)
+        public IActionResult CreateNewUser([FromBody]JsonElement body, [FromQuery(Name = "latest")] int latest)
         {
             LatestController.UpdateLATEST(latest);
 
-            if (user == null)
+            dynamic o = JsonConvert.DeserializeObject(body.ToString());
+
+            string username = null;
+            string email = null;
+            string pwd = null;
+
+            try {
+                username = (string) o.username;
+                email = (string) o.email;
+                pwd = (string) o.pwd;
+                Console.WriteLine(username);
+                Console.WriteLine(email);
+                Console.WriteLine(pwd);
+            } catch (Exception e)
+            {
+                Console.WriteLine(e.StackTrace);
+                return BadRequest("invalid");
+            }
+
+            if (o == null)
                 return BadRequest("no user object received");
 
-            if (user.username == null)
+            if (username == null)
                 return BadRequest("You have to enter a username");
             
-            if (_repo.GetUserIDFromUsername(user.username) != -1)
+            if (_repo.GetUserIDFromUsername(username) != -1)
                 return BadRequest("The username is already taken");
 
-            if (user.email == null || !user.email.Contains("@")) 
+
+            if (email == null || !email.Contains("@")) 
                 return BadRequest("You have to enter a valid email address");
 
-            if (user.pwd == null)
+            if (pwd == null)
                 return BadRequest("You have to enter a password");
 
+            var user = new User {
+                username = username,
+                email = email,
+                pw_hash = pwd
+            };
             
             var statusCode = _repo.AddUser(user);
 
