@@ -34,14 +34,26 @@ namespace Repos
             _context.SaveChanges();
         }
 
-        public IEnumerable<Message> GetAllMessageFromUser(int user_id)
+        public IEnumerable<UserMessageDTO> GetAllMessageFromUser(int user_id)
         {
-            return _context.Message.Where(m => m.flagged == 0 && m.author_id == user_id);
+            // return _context.Message.Where(m => m.flagged == 0 && m.author_id == user_id);
+            throw new NotImplementedException();
         }
 
-        public IEnumerable<Message> GetAllMessages()
+        public IEnumerable<UserMessageDTO> GetAllMessages()
         {
-            return _context.Message;
+            // var users = _context.User.ToList();
+            return from m in _context.Message.ToList()
+                   join u in _context.User.ToList() on m.author_id equals u.user_id
+                   where m.flagged == 0
+                   orderby m.pub_date
+                   select new UserMessageDTO
+                   {
+                        username = u.username,
+                        email = u.email,
+                        text = m.text,
+                        pub_date = m.pub_date
+                   };
         }
     }
 }
