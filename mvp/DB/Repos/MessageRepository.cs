@@ -43,7 +43,7 @@ namespace Repos
         public IEnumerable<UserMessageDTO> GetAllMessages()
         {
             // var users = _context.User.ToList();
-            return from m in _context.Message.ToList()
+            return (from m in _context.Message.ToList()
                    join u in _context.User.ToList() on m.author_id equals u.user_id
                    where m.flagged == 0
                    orderby m.pub_date
@@ -53,7 +53,7 @@ namespace Repos
                         email = u.email,
                         text = m.text,
                         pub_date = m.pub_date
-                   };
+                   }).Take(30);
         }
     }
 }
