@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
 using Minitwit.Entities;
@@ -11,7 +12,7 @@ namespace mvp
     public class MiniMain : IMiniMain
     {
         public User User { get; set; }
-        public IEnumerable<Message> Messages { get; set; }
+        public IEnumerable<UserMessageDTO> UserMessageDTO { get; set; }
         public string URL { get; }
 
         private readonly IMessageRepository _messageRepo;
@@ -20,11 +21,11 @@ namespace mvp
         {
             _messageRepo = messageRepo;
 
-            URL = "http://localhost:5000/";
+            URL = "https://localhost:5001/";
 
-            User = new User{ user_id = 1, username = "" };
+            // User = new User{ user_id = 1, username = "" };
 
-            // Messages = new List<Message>();
+            UserMessageDTO = new List<UserMessageDTO>();
             Timeline();
         }
 
@@ -56,10 +57,18 @@ namespace mvp
             return "";
         }
 
-        public IEnumerable<Message> Timeline()
+        public IEnumerable<UserMessageDTO> Timeline()
         {
-            Messages = _messageRepo.GetAllMessageFromUser(User.user_id);
-            return Messages;
+            if (User != null && User.user_id >= 0) 
+            {
+                // Messages = _messageRepo.GetAllMessageFromUser(User.user_id);
+            }
+            else
+            {
+                return UserMessageDTO = _messageRepo.GetAllMessages();
+            }
+
+            return UserMessageDTO;
         }
     }
 }

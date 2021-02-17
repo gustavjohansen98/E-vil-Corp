@@ -57,17 +57,17 @@
         }
     }
     <ul >
-        @if (MiniMain.Messages.ToList().Count > 0)
+    @* {% for message in messages %} *@
+        @if (MiniMain.UserMessageDTO.ToList().Count > 0)
         {
-            @foreach (var message in @MiniMain.Messages)
+            @foreach (var message in @MiniMain.UserMessageDTO)
             {
                 <li><em>@message.text</em></li>
                 @* <li><img src="{{ message.email|gravatar(size=48) }}"> *@
-                <strong><a href=@MiniMain.Url_for("user timeline")> @MiniMain.User.username</a></strong> @* "{{ url_for('user_timeline', username=message.username)}}" *@
+                <strong><a href=@MiniMain.Url_for("user timeline")> @message.username</a></strong> @* "{{ url_for('user_timeline', username=message.username)}}" *@
                 <small>&mdash; @message.pub_date |datetimeformat </small>
             }
         }
-    @* {% for message in messages %} *@
         else
         {
             <li><em>There's no messages so far</em></li>
