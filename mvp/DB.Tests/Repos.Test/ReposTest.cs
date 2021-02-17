@@ -66,7 +66,7 @@ namespace DB.Tests
             var statusCode = _userRepo.AddUser(newUser);
             var insertedUser = _userRepo.GetUserFromID(newUser.user_id);
 
-            Assert.Equal(NoContent, statusCode);
+            Assert.Equal(NotAcceptable, statusCode);
             Assert.Equal(newUser, insertedUser);
         }
 

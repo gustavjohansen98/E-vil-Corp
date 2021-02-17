@@ -1,7 +1,7 @@
 using System;
 using System.Net.Http;
 
-namespace Server.Controllers
+namespace Controllers
 {
     public class ControllerUtil
     {

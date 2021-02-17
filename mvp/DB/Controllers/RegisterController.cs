@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using Minitwit.Entities;
 using System.Linq;
 
-namespace Server.Controllers
+namespace Controllers
 {
     [ApiController]
     [Route("/register")]

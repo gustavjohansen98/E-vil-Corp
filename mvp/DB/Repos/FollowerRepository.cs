@@ -24,7 +24,7 @@ namespace Repos
             var userToFollowID = userRepo.GetUserIDFromUsername(usernameToFollow);
 
             if (userInSessionID < 0 || userToFollowID < 0)
-                return NotFound;
+                return NotAcceptable;
 
             var follow = new Follower {
                 who_id = userInSessionID,
@@ -47,7 +47,7 @@ namespace Repos
             var userToUnfollowID = userRepo.GetUserIDFromUsername(usernameToUnfollow);
 
             if (userInSessionID < 0 || userToUnfollowID < 0)
-                return NotFound;
+                return NotAcceptable;
 
             // var follower = _context.Follower.Where(x => x.who_id == userInSessionID && x.whom_id == userToUnfollowID)
             //                                  .FirstOrDefault<Follower>();
