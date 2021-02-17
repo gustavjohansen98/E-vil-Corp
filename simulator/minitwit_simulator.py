@@ -325,7 +325,7 @@ def main(host):
             ts_str = datetime.strftime(datetime.utcnow(), "%Y-%m-%d %H:%M:%S")
             print(
                 ",".join(
-                    [ts_str, host, str(action["latest"]), "ConnectionError"]
+                    [ts_str, host, str(action["latest"]), "ConnectionError", e.with_traceback]
                 )
             )
         except requests.exceptions.ReadTimeout as e:
