@@ -39,6 +39,7 @@ namespace Server
             
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IFollowerRepository, FollowerRepository>();
+            services.AddScoped<IMessageRepository, MessageRepository>();
 
             services.AddControllers();
         }

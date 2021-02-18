@@ -127,7 +127,7 @@ def main(host):
                     data=json.dumps(data),
                     params=params,
                     headers=HEADERS,
-                    timeout=0.3,
+                    timeout=3.3, ## this causes problems for timeouterror when registering, hence follow and unfollow commands will not succed, since the entities have not been commited to db
                 )
 
                 # error handling (204 success, 400 user exists)

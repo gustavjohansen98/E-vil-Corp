@@ -6,5 +6,9 @@ namespace Minitwit.Entities
         public string email { get; set; }
         public string text { get; set; }
         public string pub_date { get; set; }
+
+        public int flagged { get; set; }
+
+        public int author_id { get; set; }
     }
 }

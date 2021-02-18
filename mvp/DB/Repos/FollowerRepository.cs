@@ -23,7 +23,7 @@ namespace Repos
             var userInSessionID = userRepo.GetUserIDFromUsername(usernameInSession);
             var userToFollowID = userRepo.GetUserIDFromUsername(usernameToFollow);
 
-            Console.WriteLine(userInSessionID + " | " + userToFollowID);
+            // Console.WriteLine(userInSessionID + " | " + userToFollowID + "\n" + usernameInSession + " | " + usernameToFollow + "\n");
 
             if (userInSessionID < 0 || userToFollowID < 0)
             {
@@ -59,7 +59,7 @@ namespace Repos
             // var follower = _context.Follower.Where(x => x.who_id == userInSessionID && x.whom_id == userToUnfollowID)
             //                                  .FirstOrDefault<Follower>();
 
-            var follower = _context.Follower.Find(userInSessionID, userToUnfollowID);
+            Follower follower = _context.Follower.Find(userInSessionID, userToUnfollowID);
 
             if (follower == null)
                 return NotAcceptable;
@@ -69,7 +69,6 @@ namespace Repos
 
             return NoContent;
         }
-
 
         // TODO : method for retriveing a collection of all the follower given a who_id and vice versa 
     
