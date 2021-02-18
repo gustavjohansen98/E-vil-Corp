@@ -27,7 +27,7 @@ namespace mvp
 
             URL = "https://localhost:5001/";
 
-            User = new User{ user_id = -1 };
+            User = new User{ user_id = 10 };
 
             UserMessageDTO = new List<UserMessageDTO>();
             // Timeline();
