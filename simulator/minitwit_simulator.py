@@ -78,6 +78,8 @@ def get_actions():
                         "username": user,
                         "follow": user_to_follow,
                     }
+                    if user == "Guadalupe Rumps":
+                        print(user, user_to_follow)
                     yield item, delay
 
                 elif command == "unfollow":
@@ -127,7 +129,7 @@ def main(host):
                     data=json.dumps(data),
                     params=params,
                     headers=HEADERS,
-                    timeout=3.3, ## this causes problems for timeouterror when registering, hence follow and unfollow commands will not succed, since the entities have not been commited to db
+                    timeout=5.3, ## this causes problems for timeouterror when registering, hence follow and unfollow commands will not succed, since the entities have not been commited to db
                 )
 
                 # error handling (204 success, 400 user exists)

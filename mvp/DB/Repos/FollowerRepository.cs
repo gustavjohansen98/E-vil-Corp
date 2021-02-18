@@ -23,8 +23,6 @@ namespace Repos
             var userInSessionID = userRepo.GetUserIDFromUsername(usernameInSession);
             var userToFollowID = userRepo.GetUserIDFromUsername(usernameToFollow);
 
-            // Console.WriteLine(userInSessionID + " | " + userToFollowID + "\n" + usernameInSession + " | " + usernameToFollow + "\n");
-
             if (userInSessionID < 0 || userToFollowID < 0)
             {
                 return NotAcceptable;
@@ -38,7 +36,6 @@ namespace Repos
             var entityAlreadyExists = _context.Follower.Find(userInSessionID, userToFollowID);
             if (entityAlreadyExists != null)
             {
-                Console.WriteLine("follow realtionsip already exists");
                 return NotAcceptable;
             }
 
@@ -54,18 +51,37 @@ namespace Repos
             var userToUnfollowID = userRepo.GetUserIDFromUsername(usernameToUnfollow);
 
             if (userInSessionID < 0 || userToUnfollowID < 0)
+            {
                 return NotAcceptable;
+            }
 
             // var follower = _context.Follower.Where(x => x.who_id == userInSessionID && x.whom_id == userToUnfollowID)
             //                                  .FirstOrDefault<Follower>();
 
-            Follower follower = _context.Follower.Find(userInSessionID, userToUnfollowID);
+            var follower = _context.Follower.Find(userInSessionID, userToUnfollowID);
 
             if (follower == null)
+            {
+                // System.Console.WriteLine("follower is null");
                 return NotAcceptable;
-                                            
+            }
+
             _context.Follower.Remove(follower);
             _context.SaveChanges();
+
+            return NoContent;
+        }
+
+        public HttpStatusCode GetFollowRelation(string who, string whom)
+        {
+            var _who = userRepo.GetUserIDFromUsername(who);
+            var _whom = userRepo.GetUserIDFromUsername(whom);
+            var follow = _context.Follower.Find(_who, _whom);
+
+            if (follow == null)
+            {
+                return NotFound;
+            }
 
             return NoContent;
         }
