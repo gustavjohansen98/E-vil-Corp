@@ -1,0 +1,80 @@
+@page "/{username}"
+@inject IMiniMain MiniMain
+@using System.Collections.Generic
+@using System.Linq
+@using Minitwit.Entities
+@using Repos;
+@inject NavigationManager NavigationManager
+@inject IMessageRepository MessageRepository
+@inject IFollowerRepository FollowerRepository
+@inject IUserRepository UserRepository
+
+@if (NavigationManager.Uri == MiniMain.Url_for("public timeline")) @* public_timeline *@
+     {
+        <h2>Public Timeline</h2>
+     }
+    else if (NavigationManager.Uri == MiniMain.Url_for("user timeline")) @* user timeline *@
+    {
+        <h2>@MiniMain.User 's Timeline</h2>
+    }
+    else
+    {
+        <h2>My Timeline</h2>
+    }
+    @* {% if g.user %} *@
+@* {% if request.endpoint == 'user_timeline' %} *@
+<div class=followstatus>
+    @* {% if g.user.user_id == profile_user.user_id %} *@
+    @if (@MiniMain.User.username == username)
+    {
+        <p>This is you!</p>
+    }
+    @* {% elif followed %} *@
+    else if (IsFollowed)
+    {
+        <p>You are currently following this user.</p>
+        <a class=unfollow href=@MiniMain.UrlForUnfollow(username)>Unfollow user</a>
+    }
+    @* {% else %} *@
+    else
+    {
+        @* You are not yet following this user. *@
+        <a class=follow href=@MiniMain.UrlForFollow(username)>Follow user</a>
+    }
+</div>
+     
+<ul class=messages>
+@* {% for message in messages %} *@
+    @if (MiniMain.UserMessageDTO.ToList().Count > 0)
+    {
+        @foreach (var message in @MiniMain.UserMessageDTO)
+        {
+            <li><img src=@MiniMain.GravatarUrl(message.email, 48)>
+            <strong><a href=@MiniMain.Url_for("user timeline")> @message.username</a></strong> @* "{{ url_for('user_timeline', username=message.username)}}" *@
+            @message.text
+            <small>&mdash; @message.pub_date |datetimeformat </small></li> 
+        }
+    }
+    else
+    {
+        <li><em>There's no messages so far</em></li>
+    }
+</ul>
+
+@code {
+    [Parameter]
+    public string username { get; set; }
+    private int userOnPage_id = -1;
+    private bool IsFollowed = false;
+
+     protected override void OnInitialized()
+    {
+        userOnPage_id = UserRepository.GetUserIDFromUsername(username);
+
+        IsFollowed = FollowerRepository.DoesUserFollow(MiniMain.User.user_id, userOnPage_id);
+
+        MiniMain.UserMessageDTO = new List<UserMessageDTO>();
+        
+        MiniMain.UserTimeline();
+    }
+}

@@ -54,6 +54,16 @@ namespace mvp
             return "";
         }
 
+        public string UrlForUnfollow(string username)
+        {
+            return URL + username + "/unfollow";
+        }
+
+        public string UrlForFollow(string username)
+        {
+            return URL + username + "/unfollow";
+        }
+
         public string GravatarUrl(string email, int size=80)
         {
             // http://www.gravatar.com/avatar/%s?d=identicon&s=%d' % \
@@ -74,18 +84,17 @@ namespace mvp
                     size;
         }
 
-        public IEnumerable<UserMessageDTO> Timeline() // TODO
+        public IEnumerable<UserMessageDTO> Timeline()
         {
             if (User != null && User.user_id >= 0) 
             {
-                // Messages = _messageRepo.GetAllMessageFromUser(User.user_id);
+                UserMessageDTO = _messageRepo.GetOwnAndFollowedMessages(User.user_id);
+                return UserMessageDTO;
             }
             else
             {
-                return UserMessageDTO = _messageRepo.GetAllMessages();
+                return new List<UserMessageDTO>();
             }
-
-            return UserMessageDTO;
         }
 
         public IEnumerable<UserMessageDTO> PublicTimeline()
