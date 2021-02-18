@@ -23,7 +23,7 @@ namespace Repos
             var userInSessionID = userRepo.GetUserIDFromUsername(usernameInSession);
             var userToFollowID = userRepo.GetUserIDFromUsername(usernameToFollow);
 
-            // Console.WriteLine(userInSessionID + " | " + userToFollowID);
+            Console.WriteLine(userInSessionID + " | " + userToFollowID);
 
             if (userInSessionID < 0 || userToFollowID < 0)
             {
@@ -38,7 +38,7 @@ namespace Repos
             var entityAlreadyExists = _context.Follower.Find(userInSessionID, userToFollowID);
             if (entityAlreadyExists != null)
             {
-                Console.WriteLine("already exists");
+                Console.WriteLine("follow realtionsip already exists");
                 return NotAcceptable;
             }
 
