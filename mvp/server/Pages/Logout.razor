@@ -1,0 +1,15 @@
+@page "/logout"
+@using Minitwit.Entities
+@inject NavigationManager NavigationManager
+@inject IMiniMain MiniMain
+
+@code {
+    protected override async Task OnInitializedAsync()
+    {
+        MiniMain.User = new User{ user_id = -1 };
+        
+        NavigationManager.NavigateTo("/public");
+       
+        await base.OnInitializedAsync();
+    }
+}

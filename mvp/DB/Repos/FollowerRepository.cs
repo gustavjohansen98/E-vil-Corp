@@ -84,6 +84,17 @@ namespace Repos
 
             return NoContent;
         }
+        
+        public bool DoesUserFollow(int user_id, int isFollowed_id)
+        {
+            if ((from f in _context.Follower
+                 where f.who_id == user_id &&
+                 f.whom_id == isFollowed_id
+                 select f.who_id).ToList().Count > 0) return true;
+
+            else return false;
+
+        }
 
         // TODO : method for retriveing a collection of all the follower given a who_id and vice versa 
     

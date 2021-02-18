@@ -12,6 +12,8 @@ namespace Repos
 
         IEnumerable<UserMessageDTO> GetAllMessageFromUser(int user_id);
 
-        public IEnumerable<UserMessageDTO> GetAllMessages();
+        IEnumerable<UserMessageDTO> GetAllMessages();
+
+        IEnumerable<UserMessageDTO> GetOwnAndFollowedMessages(int user_id);
     }
 }

@@ -42,6 +42,8 @@ namespace mvp
             });
 
             services.AddScoped<IMessageRepository, MessageRepository>();
+            services.AddScoped<IFollowerRepository, FollowerRepository>();
+            services.AddScoped<IUserRepository, UserRepository>();
             
             services.AddScoped<IMiniMain, MiniMain>();
         }

@@ -5,11 +5,11 @@
 <div class="page">
     <h1>MiniTwit</h1>
     <div class=navigation>
-      @if (MiniMain.User != null)
+      @if (MiniMain.User.user_id != -1)
       {
         <a href=@MiniMain.Url_for("timeline")>my timeline |</a> 
         <a href=@MiniMain.Url_for("public timeline")>public timeline |</a> 
-        <a href=@MiniMain.Url_for("logout")>sign out [@MiniMain.User]</a>
+        <a href=@MiniMain.Url_for("logout")>sign out [ @MiniMain.User.username ]</a>
       }
       else 
       {
