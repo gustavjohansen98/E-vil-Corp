@@ -62,7 +62,6 @@ namespace Repos
 
             if (follower == null)
             {
-                // System.Console.WriteLine("follower is null");
                 return NotAcceptable;
             }
 
