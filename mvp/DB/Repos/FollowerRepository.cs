@@ -23,8 +23,12 @@ namespace Repos
             var userInSessionID = userRepo.GetUserIDFromUsername(usernameInSession);
             var userToFollowID = userRepo.GetUserIDFromUsername(usernameToFollow);
 
+            // Console.WriteLine(userInSessionID + " | " + userToFollowID);
+
             if (userInSessionID < 0 || userToFollowID < 0)
+            {
                 return NotAcceptable;
+            }
 
             var follow = new Follower {
                 who_id = userInSessionID,
@@ -33,7 +37,10 @@ namespace Repos
 
             var entityAlreadyExists = _context.Follower.Find(userInSessionID, userToFollowID);
             if (entityAlreadyExists != null)
+            {
+                Console.WriteLine("already exists");
                 return NotAcceptable;
+            }
 
             _context.Follower.Add(follow);
             _context.SaveChanges();
@@ -52,7 +59,7 @@ namespace Repos
             // var follower = _context.Follower.Where(x => x.who_id == userInSessionID && x.whom_id == userToUnfollowID)
             //                                  .FirstOrDefault<Follower>();
 
-            var follower = _context.Follower.Find(userToUnfollowID, userInSessionID);
+            var follower = _context.Follower.Find(userInSessionID, userToUnfollowID);
 
             if (follower == null)
                 return NotAcceptable;

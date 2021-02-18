@@ -35,9 +35,6 @@ namespace Controllers
                 username = (string) o.username;
                 email = (string) o.email;
                 pwd = (string) o.pwd;
-                Console.WriteLine(username);
-                Console.WriteLine(email);
-                Console.WriteLine(pwd);
             } catch (Exception e)
             {
                 Console.WriteLine(e.StackTrace);

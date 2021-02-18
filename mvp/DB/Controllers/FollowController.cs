@@ -37,7 +37,10 @@ namespace Controllers
             {
                 var status = _repo.FollowUser(username, userToFollow);
                 if (status == NotAcceptable)
+                {
+                    // Console.WriteLine($"could not follow user\nfollower : {userToFollow} \nusername {username}");
                     return BadRequest("could not follow user");
+                }
 
                 return new NoContentResult();
             }
@@ -46,11 +49,15 @@ namespace Controllers
             {
                 var status = _repo.UnfollowUser(username, userToUnfollow);
                 if (status == NotAcceptable)
+                {
+                    // Console.WriteLine("could not unfollow user");
                     return BadRequest("could not unfollow user");
+                }
 
                 return new NoContentResult();
             }
 
+            // Console.WriteLine("could not exexute");
             return BadRequest("could not execute");            
         }
 
