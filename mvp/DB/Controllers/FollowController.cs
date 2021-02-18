@@ -31,24 +31,40 @@ namespace Controllers
             dynamic o = JsonConvert.DeserializeObject(body.ToString()); // deserialize to dynamic object, which we can add the relevant properties to
 
             string userToFollow = o.follow;   
-            string userToUnfollow = o.unfollow;
+            string userToUnfollow_unrefined = o.unfollow;
+            string userToUnfollow = null;
 
             if (userToFollow != null)
             {
-                var status = _repo.FollowUser(username, userToFollow);
+                var status = _repo.FollowUser(userToFollow, username);
                 if (status == NotAcceptable)
+                {
                     return BadRequest("could not follow user");
+                }
 
-                return new NoContentResult();
+                return Ok(null);
+            }
+
+            // this is rather annoying : 
+            //      - the unfollow content starts with an <'> everytime
+            //      - perhaps due to json formatting error, but it needs to be trimmed to read properly from db
+            //      - this i not a solution, since users should be able to have special chars in username 
+            //              - or should they ?
+            if (userToUnfollow_unrefined != null) 
+            {
+                userToUnfollow = userToUnfollow_unrefined.Replace("'", "");  
+                System.Console.WriteLine(userToUnfollow);
             }
 
             if (userToUnfollow != null)
             {
                 var status = _repo.UnfollowUser(username, userToUnfollow);
                 if (status == NotAcceptable)
+                {
                     return BadRequest("could not unfollow user");
+                }
 
-                return new NoContentResult();
+                return Ok(null);
             }
 
             return BadRequest("could not execute");            

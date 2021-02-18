@@ -117,6 +117,69 @@ namespace DB.Tests
             Assert.Equal(NoContent, statusCode);
         }
 
+        [Fact]
+        public void Given_usernames_to_unfollowUser_returns_NotAcceptable()
+        {
+            var usernameInSession = "user2";
+            var usernameToUnfollow = "user1";
+
+            var statusCode = _followerRepo.UnfollowUser(usernameInSession, usernameToUnfollow);
+
+            Assert.Equal(NoContent, statusCode);
+
+            var usernameInSession1 = "user2";
+            var usernameToUnfollow1 = "user1";
+
+            var statusCode1 = _followerRepo.UnfollowUser(usernameInSession1, usernameToUnfollow1);
+
+            Assert.Equal(NotAcceptable, statusCode1);
+
+            var statusCode2 = _followerRepo.UnfollowUser(usernameToUnfollow, usernameInSession);
+
+            Assert.Equal(NoContent, statusCode2);
+            
+        }
+
+        [Fact]
+        public void Given_new_follower_and_delete_follower_relationship()
+        {
+            var newUser = new User {
+                username = "mock1234",
+                email = "test@mail.com",
+                pw_hash = "some_hash"
+            };
+
+            var statusCode = _userRepo.AddUser(newUser);
+            var insertedUser = _userRepo.GetUserFromID(newUser.user_id);
+            Assert.Equal(NoContent, statusCode);
+            Assert.Equal(newUser, insertedUser);
+
+            var newUser1 = new User {
+                username = "mock4321",
+                email = "test@mail.com",
+                pw_hash = "some_hash"
+            };
+
+            var statusCode1 = _userRepo.AddUser(newUser1);
+            var insertedUser1 = _userRepo.GetUserFromID(newUser1.user_id);
+            Assert.Equal(NoContent, statusCode1);
+            Assert.Equal(newUser1, insertedUser1);
+
+
+            var followStatusCode = _followerRepo.FollowUser(newUser.username, newUser1.username);
+            Assert.Equal(NoContent, followStatusCode);
+
+            var followerExists = _followerRepo.GetFollowRelation(newUser.username, newUser1.username);
+            Assert.Equal(NoContent, followerExists);
+
+            var unfollowStatusCode = _followerRepo.UnfollowUser(newUser.username, newUser1.username);
+            Assert.Equal(NoContent, unfollowStatusCode);
+
+            var notFollowerExists = _followerRepo.GetFollowRelation(newUser.username, newUser1.username);
+            Assert.Equal(NotFound, notFollowerExists);
+
+        }
+
 
 
         public void Dispose()

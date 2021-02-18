@@ -24,7 +24,9 @@ namespace Repos
             var userToFollowID = userRepo.GetUserIDFromUsername(usernameToFollow);
 
             if (userInSessionID < 0 || userToFollowID < 0)
+            {
                 return NotAcceptable;
+            }
 
             var follow = new Follower {
                 who_id = userInSessionID,
@@ -33,7 +35,9 @@ namespace Repos
 
             var entityAlreadyExists = _context.Follower.Find(userInSessionID, userToFollowID);
             if (entityAlreadyExists != null)
+            {
                 return NotAcceptable;
+            }
 
             _context.Follower.Add(follow);
             _context.SaveChanges();
@@ -47,22 +51,40 @@ namespace Repos
             var userToUnfollowID = userRepo.GetUserIDFromUsername(usernameToUnfollow);
 
             if (userInSessionID < 0 || userToUnfollowID < 0)
+            {
                 return NotAcceptable;
+            }
 
             // var follower = _context.Follower.Where(x => x.who_id == userInSessionID && x.whom_id == userToUnfollowID)
             //                                  .FirstOrDefault<Follower>();
 
-            var follower = _context.Follower.Find(userToUnfollowID, userInSessionID);
+            var follower = _context.Follower.Find(userInSessionID, userToUnfollowID);
 
             if (follower == null)
+            {
                 return NotAcceptable;
-                                            
+            }
+
             _context.Follower.Remove(follower);
             _context.SaveChanges();
 
             return NoContent;
         }
 
+        public HttpStatusCode GetFollowRelation(string who, string whom)
+        {
+            var _who = userRepo.GetUserIDFromUsername(who);
+            var _whom = userRepo.GetUserIDFromUsername(whom);
+            var follow = _context.Follower.Find(_who, _whom);
+
+            if (follow == null)
+            {
+                return NotFound;
+            }
+
+            return NoContent;
+        }
+        
         public bool DoesUserFollow(int user_id, int isFollowed_id)
         {
             if ((from f in _context.Follower
@@ -71,6 +93,7 @@ namespace Repos
                  select f.who_id).ToList().Count > 0) return true;
 
             else return false;
+
         }
 
         // TODO : method for retriveing a collection of all the follower given a who_id and vice versa 
