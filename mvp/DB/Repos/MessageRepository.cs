@@ -37,8 +37,19 @@ namespace Repos
 
         public IEnumerable<UserMessageDTO> GetAllMessageFromUser(int user_id)
         {
-            // return _context.Message.Where(m => m.flagged == 0 && m.author_id == user_id);
-            throw new NotImplementedException();
+            return (from m in _context.Message
+                    from u in _context.User
+                    where m.flagged == 0 &&
+                    m.author_id == u.user_id &&
+                    u.user_id == user_id
+                    orderby m.pub_date
+                    select new UserMessageDTO
+                    {
+                        username = u.username,
+                        email = u.email,
+                        text = m.text,
+                        pub_date = m.pub_date
+                    }).Take(LIMIT);
         }
 
         public IEnumerable<UserMessageDTO> GetAllMessages()
@@ -50,10 +61,10 @@ namespace Repos
                     orderby m.pub_date
                     select new UserMessageDTO
                     {
-                            username = u.username,
-                            email = u.email,
-                            text = m.text,
-                            pub_date = m.pub_date
+                        username = u.username,
+                        email = u.email,
+                        text = m.text,
+                        pub_date = m.pub_date
                     }).Take(LIMIT);
         }
 
