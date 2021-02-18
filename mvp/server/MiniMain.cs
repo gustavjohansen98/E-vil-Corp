@@ -18,10 +18,12 @@ namespace mvp
 
         private readonly System.Security.Cryptography.MD5 _md5 = System.Security.Cryptography.MD5.Create();
         private readonly IMessageRepository _messageRepo;
+        private readonly IUserRepository _userRepo;
 
-        public MiniMain(IMessageRepository messageRepo)
+        public MiniMain(IMessageRepository messageRepo, IUserRepository userRepo)
         {
             _messageRepo = messageRepo;
+            _userRepo = userRepo;
 
             URL = "https://localhost:5001/";
 
@@ -29,6 +31,20 @@ namespace mvp
 
             UserMessageDTO = new List<UserMessageDTO>();
             // Timeline();
+        }
+
+        private string MD5Hasher(string toBeHashed)
+        {
+            byte[] emailBytes = Encoding.UTF8.GetBytes(toBeHashed.Trim().ToLower());
+            byte[] hashedEmail = _md5.ComputeHash(emailBytes);
+
+            StringBuilder builder = new StringBuilder();
+            for (int i = 0; i < hashedEmail.Length; i++)
+            {
+                builder.Append(hashedEmail[i].ToString("X2"));
+            }
+
+            return builder.ToString().Trim().ToLower();
         }
 
         public string Url_for(string name)
@@ -66,20 +82,8 @@ namespace mvp
 
         public string GravatarUrl(string email, int size=80)
         {
-            // http://www.gravatar.com/avatar/%s?d=identicon&s=%d' % \
-            // (md5(email.strip().lower().encode('utf-8')).hexdigest(), size)
-
-            byte[] emailBytes = Encoding.UTF8.GetBytes(email.Trim().ToLower());
-            byte[] hashedEmail = _md5.ComputeHash(emailBytes);
-
-            StringBuilder builder = new StringBuilder();
-            for (int i = 0; i < hashedEmail.Length; i++)
-            {
-                builder.Append(hashedEmail[i].ToString("X2"));
-            }
-
             return "http://www.gravatar.com/avatar/" + 
-                    builder.ToString().ToLower() +
+                    MD5Hasher(email) +
                     "?d=identicon&s=" +
                     size;
         }
@@ -107,6 +111,18 @@ namespace mvp
         {
             UserMessageDTO = _messageRepo.GetAllMessageFromUser(User.user_id);
             return UserMessageDTO;
+        }
+
+        public void AddUserToDB(string username, string email, string password)
+        {
+            var userToDB = new User
+            {
+                username = username,
+                email = email,
+                pw_hash = MD5Hasher(password)    
+            };
+
+            User = userToDB;
         }
     }
 }
