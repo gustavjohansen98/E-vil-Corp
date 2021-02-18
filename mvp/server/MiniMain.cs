@@ -54,6 +54,16 @@ namespace mvp
             return "";
         }
 
+        public string UrlForUnfollow(string username)
+        {
+            return URL + username + "/unfollow";
+        }
+
+        public string UrlForFollow(string username)
+        {
+            return URL + username + "/unfollow";
+        }
+
         public string GravatarUrl(string email, int size=80)
         {
             // http://www.gravatar.com/avatar/%s?d=identicon&s=%d' % \

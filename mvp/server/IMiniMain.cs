@@ -12,6 +12,10 @@ namespace mvp
 
         string Url_for(string name);
 
+        string UrlForUnfollow(string username);
+
+        string UrlForFollow(string username);
+
         public string GravatarUrl(string email, int size=80);
 
         public IEnumerable<UserMessageDTO> Timeline();
