@@ -10,6 +10,6 @@ namespace Repos
 
         HttpStatusCode UnfollowUser(string usernameInSession, string usernameToUnfollow);
 
-        public bool DoesUserFollow(int user_id, int isFollowed_id)
+        public bool DoesUserFollow(int user_id, int isFollowed_id);
     }
 }
