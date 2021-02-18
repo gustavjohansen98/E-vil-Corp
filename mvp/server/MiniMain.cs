@@ -25,10 +25,10 @@ namespace mvp
 
             URL = "https://localhost:5001/";
 
-            // User = new User{ user_id = 1, username = "" };
+            User = new User{ user_id = -1 };
 
             UserMessageDTO = new List<UserMessageDTO>();
-            Timeline();
+            // Timeline();
         }
 
         public string Url_for(string name)
@@ -42,16 +42,13 @@ namespace mvp
                     return URL + "public";
 
                 case "logout":
-                    // TODO
-                    break;
+                    return URL + "logout";
 
                 case "register":
                     return URL + "register";
-                    break;
                 
                 case "login":
-                    // TODO
-                    break;
+                    return URL + "login";
             }
 
             return "";
@@ -77,7 +74,7 @@ namespace mvp
                     size;
         }
 
-        public IEnumerable<UserMessageDTO> Timeline()
+        public IEnumerable<UserMessageDTO> Timeline() // TODO
         {
             if (User != null && User.user_id >= 0) 
             {
@@ -88,6 +85,18 @@ namespace mvp
                 return UserMessageDTO = _messageRepo.GetAllMessages();
             }
 
+            return UserMessageDTO;
+        }
+
+        public IEnumerable<UserMessageDTO> PublicTimeline()
+        {
+            UserMessageDTO = _messageRepo.GetAllMessages();
+            return UserMessageDTO;
+        }
+
+        public IEnumerable<UserMessageDTO> UserTimeline()
+        {
+            UserMessageDTO = _messageRepo.GetAllMessageFromUser(User.user_id);
             return UserMessageDTO;
         }
     }
