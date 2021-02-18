@@ -38,7 +38,7 @@
 @code {
      protected override void OnInitialized()
     {
-        @* if (MiniMain.User.user_id <= -1) NavigationManager.NavigateTo("public"); *@
+        if (MiniMain.User.user_id <= -1) NavigationManager.NavigateTo("public");
 
         MiniMain.UserMessageDTO = new List<UserMessageDTO>();
 
