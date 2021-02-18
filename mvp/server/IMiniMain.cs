@@ -23,5 +23,7 @@ namespace mvp
         public IEnumerable<UserMessageDTO> PublicTimeline();
 
         public IEnumerable<UserMessageDTO> UserTimeline();
+
+        public void AddUserToDB(string username, string email, string password);
     }
 }
