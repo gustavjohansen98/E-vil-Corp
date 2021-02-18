@@ -1,96 +1,38 @@
-@page "/"
+@* @page "/" *@
 @page "/public"
 @inject IMiniMain MiniMain
 @using System.Collections.Generic
 @using System.Linq
 @using Repos;
+@using Minitwit.Entities
 @inject NavigationManager NavigationManager
 @inject IMessageRepository MessageRepository
 
-@if (NavigationManager.Uri == MiniMain.Url_for("public timeline")) @* public_timeline *@
-     {
-        <h2>Public Timeline</h2>
-     }
-    else if (NavigationManager.Uri == MiniMain.Url_for("user timeline")) @* user timeline *@
+<h2>Public Timeline</h2>
+
+<ul class=messages>
+@* {% for message in messages %} *@
+    @if (MiniMain.UserMessageDTO.ToList().Count > 0)
     {
-        <h2>@MiniMain.User 's Timeline</h2>
+        @foreach (var message in @MiniMain.UserMessageDTO)
+        {
+            <li><img src=@MiniMain.GravatarUrl(message.email, 48)>
+            <strong><a href=@MiniMain.Url_for("user timeline")> @message.username</a></strong> @* "{{ url_for('user_timeline', username=message.username)}}" *@
+            @message.text
+            <small>&mdash; @message.pub_date |datetimeformat </small></li> 
+        }
     }
     else
     {
-        <h2>My Timeline</h2>
+        <li><em>There's no messages so far</em></li>
     }
-    @* {% if g.user %} *@
-    @if (MiniMain.User.user_id != -1)
-    {
-        @* {% if request.endpoint == 'user_timeline' %} *@
-        @if (NavigationManager.Uri == MiniMain.Url_for("user timeline")) 
-        {
-            <div class=followstatus>
-            @* {% if g.user.user_id == profile_user.user_id %} *@
-            @if (MiniMain.User.user_id == -1)
-            {
-                @* This is you! *@
-            }
-            @* {% elif followed %} *@
-            @if (false)
-            {
-                @* You are currently following this user. *@
-                <a class=unfollow href="{{ url_for('unfollow_user', username=profile_user.username)}}">Unfollow user</a>
-            }
-            @* {% else %} *@
-            else
-            {
-                @* You are not yet following this user. *@
-                <a class=follow href="{{ url_for('follow_user', username=profile_user.username)}}">Follow user</a>
-            }
-            </div>
-        }
-        @* {% elif request.endpoint == 'timeline' %} *@
-        else if (NavigationManager.Uri == MiniMain.Url_for("timeline"))
-        {
-            <div class=twitbox>
-                <h3>What's on your mind @MiniMain.User.username ?</h3>
-                <form action="{{ url_for('add_message') }}" method=post>
-                <input type=text name=text size=60>
-                <input type=submit value="Share">
-                </form>
-            </div>
-        }
-    }
-    <ul class=messages>
-    @* {% for message in messages %} *@
-        @if (MiniMain.UserMessageDTO.ToList().Count > 0)
-        {
-            @foreach (var message in @MiniMain.UserMessageDTO)
-            {
-                <li><img src=@MiniMain.GravatarUrl(message.email, 48)>
-                <strong><a href=@MiniMain.Url_for("user timeline")> @message.username</a></strong> @* "{{ url_for('user_timeline', username=message.username)}}" *@
-                @message.text
-                <small>&mdash; @message.pub_date |datetimeformat </small></li> 
-            }
-        }
-        else
-        {
-            <li><em>There's no messages so far</em></li>
-        }
-    </ul>
+</ul>
 
 @code {
      protected override void OnInitialized()
     {
-        MiniMain.UserMessageDTO.ToList().Clear();
-
-        if (NavigationManager.Uri == MiniMain.Url_for("public timeline"))
-        {
-            MiniMain.PublicTimeline(); // TODO: MiniMain.Timeline();
-        }
-        else if (NavigationManager.Uri == MiniMain.Url_for("user timeline"))
-        {
-            MiniMain.UserTimeline();
-        }
-        else
-        {
-            MiniMain.Timeline();
-        }
+        MiniMain.UserMessageDTO = new List<UserMessageDTO>();
+        
+        MiniMain.PublicTimeline(); // TODO: MiniMain.Timeline();
     }
 }
