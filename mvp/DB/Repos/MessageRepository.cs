@@ -8,6 +8,7 @@ namespace Repos
     public class MessageRepository : IMessageRepository
     {
         private IMinitwitContext _context;
+        private int LIMIT = 30;
 
         public MessageRepository(IMinitwitContext context)
         {
@@ -42,10 +43,32 @@ namespace Repos
 
         public IEnumerable<UserMessageDTO> GetAllMessages()
         {
-            // var users = _context.User.ToList();
-            return from m in _context.Message.ToList()
-                   join u in _context.User.ToList() on m.author_id equals u.user_id
-                   where m.flagged == 0
+            return (from m in _context.Message
+                    from u in _context.User
+                    where m.flagged == 0 &&
+                    m.author_id == u.user_id
+                    orderby m.pub_date
+                    select new UserMessageDTO
+                    {
+                            username = u.username,
+                            email = u.email,
+                            text = m.text,
+                            pub_date = m.pub_date
+                    }).Take(LIMIT);
+        }
+
+        public IEnumerable<UserMessageDTO> GetOwnAndFollowedMessages(int user_id)
+        {
+            return (from m in _context.Message
+                   from u in _context.User
+                   where m.flagged == 0 &&
+                   m.author_id == u.user_id &&
+                   (
+                       u.user_id == user_id ||
+                       (from f in _context.Follower
+                        where f.who_id == user_id
+                        select f.whom_id).Contains(u.user_id)
+                   )
                    orderby m.pub_date
                    select new UserMessageDTO
                    {
@@ -53,7 +76,7 @@ namespace Repos
                         email = u.email,
                         text = m.text,
                         pub_date = m.pub_date
-                   };
+                   }).Take(LIMIT);
         }
     }
 }

@@ -1,0 +1,44 @@
+@page "/register"
+@using Minitwit.Entities
+@using System.ComponentModel.DataAnnotations
+@inject IMiniMain MiniMain
+
+<h2>Sign Up</h2>
+<EditForm Model=@MiniMain.User OnValidSubmit=@HandleValidSubmit>
+     <DataAnnotationsValidator />
+    <dl>
+        <dt>Username:</dt>
+        <dd><InputText @bind-Value="submittedUser.Username" /></dd>
+        <dt>E-Mail:</dt>
+        <dd><InputText @bind-Value="submittedUser.Email" /></dd>
+        <dt>Password:</dt>
+        <dd><InputText @bind-Value="submittedUser.Password" /></dd>
+        <dt>Password <small>(repeat)</small>:</dt>
+        <dd><InputText @bind-Value="submittedUser.PasswordValidation" /></dd>
+    </dl>
+    <div class=actions><input type=submit value="Sign Up" /></div>
+</EditForm>
+
+@code {
+    public class SubmittedUser
+    {
+        [Required]
+        public string Username { get; set; }
+
+        [Required]
+        public string Email { get; set; }
+
+        [Required]
+        public string Password { get; set; }
+
+        [Required]
+        [Compare(nameof(Password), ErrorMessage = "Password didn't match, try again")]
+        public string PasswordValidation { get; set; }
+    }
+
+    private SubmittedUser submittedUser = new SubmittedUser();
+
+    private void HandleValidSubmit() {
+        Console.WriteLine("Done");
+    }
+}

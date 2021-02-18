@@ -1,3 +1,4 @@
+@page "/"
 @page "/public"
 @inject IMiniMain MiniMain
 @using System.Collections.Generic
@@ -19,14 +20,14 @@
         <h2>My Timeline</h2>
     }
     @* {% if g.user %} *@
-    @if (MiniMain.User != null)
+    @if (MiniMain.User.user_id != -1)
     {
         @* {% if request.endpoint == 'user_timeline' %} *@
         @if (NavigationManager.Uri == MiniMain.Url_for("user timeline")) 
         {
             <div class=followstatus>
             @* {% if g.user.user_id == profile_user.user_id %} *@
-            @if (MiniMain.User == null)
+            @if (MiniMain.User.user_id == -1)
             {
                 @* This is you! *@
             }
@@ -77,6 +78,19 @@
 @code {
      protected override void OnInitialized()
     {
-        MiniMain.Timeline();
+        MiniMain.UserMessageDTO.ToList().Clear();
+
+        if (NavigationManager.Uri == MiniMain.Url_for("public timeline"))
+        {
+            MiniMain.PublicTimeline(); // TODO: MiniMain.Timeline();
+        }
+        else if (NavigationManager.Uri == MiniMain.Url_for("user timeline"))
+        {
+            MiniMain.UserTimeline();
+        }
+        else
+        {
+            MiniMain.Timeline();
+        }
     }
 }
