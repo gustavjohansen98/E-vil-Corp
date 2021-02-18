@@ -12,6 +12,8 @@ namespace mvp
 
         string Url_for(string name);
 
+        public string UrlForUser(string username);
+
         string UrlForUnfollow(string username);
 
         string UrlForFollow(string username);
@@ -22,7 +24,7 @@ namespace mvp
 
         public IEnumerable<UserMessageDTO> PublicTimeline();
 
-        public IEnumerable<UserMessageDTO> UserTimeline();
+        public IEnumerable<UserMessageDTO> UserTimeline(int u_id);
 
         public void AddUserToDB(string username, string email, string password);
     }
