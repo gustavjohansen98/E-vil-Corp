@@ -70,6 +70,11 @@ namespace mvp
             return "";
         }
 
+        public string UrlForUser(string username)
+        {
+            return URL + username;
+        }
+
         public string UrlForUnfollow(string username)
         {
             return URL + username + "/unfollow";
@@ -107,9 +112,9 @@ namespace mvp
             return UserMessageDTO;
         }
 
-        public IEnumerable<UserMessageDTO> UserTimeline()
+        public IEnumerable<UserMessageDTO> UserTimeline(int user_id)
         {
-            UserMessageDTO = _messageRepo.GetAllMessageFromUser(User.user_id);
+            UserMessageDTO = _messageRepo.GetAllMessageFromUser(user_id);
             return UserMessageDTO;
         }
 
