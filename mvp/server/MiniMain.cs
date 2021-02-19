@@ -28,7 +28,7 @@ namespace mvp
 
             URL = "https://localhost:5001/";
 
-            User = new User{ user_id = -1 };
+            User = new User{ user_id = 10 };
 
             UserMessageDTO = new List<UserMessageDTO>();
             // Timeline();
@@ -127,6 +127,11 @@ namespace mvp
                 email = email,
                 pw_hash = MD5Hasher(password)    
             };
+        }
+
+        public void AddMessageToDB(string text)
+        {
+            _messageRepo.AddMessage(User.user_id, text, DateTime.Now.ToString(), 0);
         }
     }
 }
