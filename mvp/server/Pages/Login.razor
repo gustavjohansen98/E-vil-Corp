@@ -1,1 +1,44 @@
 @page "/login"
+@using Minitwit.Entities
+@using System.ComponentModel.DataAnnotations
+@inject IMiniMain MiniMain
+@inject User User;
+@inject Repos.UserRepository UserRepository;
+
+<h2>Sign In</h2>
+<EditForm Model=@MiniMain.User OnValidSubmit=@HandleValidSubmit>
+     <DataAnnotationsValidator />
+    <dl>
+      <dt>Username:</dt>
+      <dd><InputText @bind-Value="loginUser.Username" /></dd>
+      <dt>Password:</dt>
+      <dd><InputText @bind-Value="loginUser.Password" /></dd>
+    </dl>
+    <div class=actions><input type=get value="Sign In" /></div>
+</EditForm>
+
+@code {
+    public class LoginUser
+    {
+        [Required]
+        public string Username { get; set; }
+
+        [Required]
+        public string Password { get; set; }
+
+    }
+
+    private LoginUser loginUser = new LoginUser();
+
+    private void GetUserFromServer()
+    {
+        int userID = UserRepository.GetUserIDFromUsername(loginUser.Username);
+        MiniMain.User.user_id = userID;
+        MiniMain.User.username = loginUser.Username;
+    }
+
+    private void HandleValidSubmit() 
+    {
+        Console.WriteLine("Done");
+    }
+}
