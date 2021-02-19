@@ -118,7 +118,7 @@ namespace DB.Tests
         }
 
         [Fact]
-        public void Given_usernames_to_unfollowUser_returns_NotAcceptable()
+        public void Given_usernames_to_unfollowUser_returns_NoContent()
         {
             var usernameInSession = "user2";
             var usernameToUnfollow = "user1";
@@ -132,7 +132,7 @@ namespace DB.Tests
 
             var statusCode1 = _followerRepo.UnfollowUser(usernameInSession1, usernameToUnfollow1);
 
-            Assert.Equal(NotAcceptable, statusCode1);
+            Assert.Equal(NoContent, statusCode1);
 
             var statusCode2 = _followerRepo.UnfollowUser(usernameToUnfollow, usernameInSession);
 
