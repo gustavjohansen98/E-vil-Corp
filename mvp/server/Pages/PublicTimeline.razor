@@ -1,0 +1,37 @@
+@page "/public"
+@inject IMiniMain MiniMain
+@using System.Collections.Generic
+@using System.Linq
+@using Repos;
+@using Minitwit.Entities
+@inject NavigationManager NavigationManager
+@inject IMessageRepository MessageRepository
+
+<h2>Public Timeline</h2>
+
+<ul class=messages>
+@* {% for message in messages %} *@
+    @if (MiniMain.UserMessageDTO.ToList().Count > 0)
+    {
+        @foreach (var message in @MiniMain.UserMessageDTO)
+        {
+            <li><img src=@MiniMain.GravatarUrl(message.email, 48)>
+            <strong><a href=@MiniMain.UrlForUser(message.username)>@message.username</a></strong>
+            @message.text
+            <small>&mdash; @message.pub_date |datetimeformat </small></li> 
+        }
+    }
+    else
+    {
+        <li><em>There's no messages so far</em></li>
+    }
+</ul>
+
+@code {
+     protected override void OnInitialized()
+    {
+        MiniMain.UserMessageDTO = new List<UserMessageDTO>();
+        
+        MiniMain.PublicTimeline(); 
+    }
+}
