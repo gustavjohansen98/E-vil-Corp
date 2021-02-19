@@ -39,6 +39,7 @@
         public string Username { get; set; }
 
         [Required]
+        [EmailAddress]
         public string Email { get; set; }
 
         [Required]
@@ -55,6 +56,6 @@
     {
         MiniMain.AddUserToDB(submittedUser.Username, submittedUser.Email, submittedUser.Password);
 
-        NavigationManager.NavigateTo("timeline");
+        NavigationManager.NavigateTo("login");
     }
 }
