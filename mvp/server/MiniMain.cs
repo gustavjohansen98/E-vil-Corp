@@ -127,6 +127,13 @@ namespace mvp
                 email = email,
                 pw_hash = MD5Hasher(password)    
             };
+
+            _userRepo.AddUser(userToDB);
+        }
+
+        public void AddMessageToDB(string text)
+        {
+            _messageRepo.AddMessage(User.user_id, text, DateTime.Now.ToString(), 0);
         }
     }
 }
