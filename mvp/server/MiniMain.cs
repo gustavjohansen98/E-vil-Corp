@@ -28,7 +28,7 @@ namespace mvp
 
             URL = "https://localhost:5001/";
 
-            User = new User{ user_id = 10 };
+            User = new User{ user_id = -1 };
 
             UserMessageDTO = new List<UserMessageDTO>();
             // Timeline();
@@ -127,8 +127,6 @@ namespace mvp
                 email = email,
                 pw_hash = MD5Hasher(password)    
             };
-
-            User = userToDB;
         }
     }
 }
