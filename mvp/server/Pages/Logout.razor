@@ -6,9 +6,9 @@
 @code {
     protected override async Task OnInitializedAsync()
     {
-        @* MiniMain.User = new User();
+        MiniMain.User = new User{ user_id = -1 };
         
-        NavigationManager.NavigateTo("/public"); *@
+        NavigationManager.NavigateTo("/public");
        
         await base.OnInitializedAsync();
     }

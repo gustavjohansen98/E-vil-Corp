@@ -1,0 +1,23 @@
+@page "/{username}/follow"
+@using Repos;
+@inject IMiniMain MiniMain
+@inject IFollowerRepository FollowerRepository
+@inject NavigationManager NavigationManager
+
+@code {
+    [Parameter]
+    public string username { get; set; }
+    protected override void OnInitialized()
+    {
+        if (MiniMain.User.user_id <= -1) NavigationManager.NavigateTo("timeline");
+
+        FollowerRepository.FollowUser(MiniMain.User.username, username);
+
+        MiniMain.FlashedMessages = new [] 
+        { 
+            "You are now following " + username 
+        };
+
+        NavigationManager.NavigateTo(MiniMain.UrlForUser(username));
+    }
+}

@@ -32,6 +32,7 @@ namespace Minitwit.Entities
                 optionsBuilder.UseSqlite(_connection);
                 Database.EnsureCreated();
             }
+
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

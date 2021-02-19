@@ -13,15 +13,18 @@ namespace mvp
     public class MiniMain : IMiniMain
     {
         public User User { get; set; }
+        public IEnumerable<string> FlashedMessages { get; set; }
         public IEnumerable<UserMessageDTO> UserMessageDTO { get; set; }
         public string URL { get; }
 
         private readonly System.Security.Cryptography.MD5 _md5 = System.Security.Cryptography.MD5.Create();
         private readonly IMessageRepository _messageRepo;
+        private readonly IUserRepository _userRepo;
 
-        public MiniMain(IMessageRepository messageRepo)
+        public MiniMain(IMessageRepository messageRepo, IUserRepository userRepo)
         {
             _messageRepo = messageRepo;
+            _userRepo = userRepo;
 
             URL = "https://localhost:5001/";
 
@@ -29,6 +32,20 @@ namespace mvp
 
             UserMessageDTO = new List<UserMessageDTO>();
             // Timeline();
+        }
+
+        private string MD5Hasher(string toBeHashed)
+        {
+            byte[] emailBytes = Encoding.UTF8.GetBytes(toBeHashed.Trim().ToLower());
+            byte[] hashedEmail = _md5.ComputeHash(emailBytes);
+
+            StringBuilder builder = new StringBuilder();
+            for (int i = 0; i < hashedEmail.Length; i++)
+            {
+                builder.Append(hashedEmail[i].ToString("X2"));
+            }
+
+            return builder.ToString().Trim().ToLower();
         }
 
         public string Url_for(string name)
@@ -54,6 +71,11 @@ namespace mvp
             return "";
         }
 
+        public string UrlForUser(string username)
+        {
+            return URL + username;
+        }
+
         public string UrlForUnfollow(string username)
         {
             return URL + username + "/unfollow";
@@ -61,25 +83,13 @@ namespace mvp
 
         public string UrlForFollow(string username)
         {
-            return URL + username + "/unfollow";
+            return URL + username + "/follow";
         }
 
         public string GravatarUrl(string email, int size=80)
         {
-            // http://www.gravatar.com/avatar/%s?d=identicon&s=%d' % \
-            // (md5(email.strip().lower().encode('utf-8')).hexdigest(), size)
-
-            byte[] emailBytes = Encoding.UTF8.GetBytes(email.Trim().ToLower());
-            byte[] hashedEmail = _md5.ComputeHash(emailBytes);
-
-            StringBuilder builder = new StringBuilder();
-            for (int i = 0; i < hashedEmail.Length; i++)
-            {
-                builder.Append(hashedEmail[i].ToString("X2"));
-            }
-
             return "http://www.gravatar.com/avatar/" + 
-                    builder.ToString().ToLower() +
+                    MD5Hasher(email) +
                     "?d=identicon&s=" +
                     size;
         }
@@ -103,10 +113,27 @@ namespace mvp
             return UserMessageDTO;
         }
 
-        public IEnumerable<UserMessageDTO> UserTimeline()
+        public IEnumerable<UserMessageDTO> UserTimeline(int user_id)
         {
-            UserMessageDTO = _messageRepo.GetAllMessageFromUser(User.user_id);
+            UserMessageDTO = _messageRepo.GetAllMessageFromUser(user_id);
             return UserMessageDTO;
+        }
+
+        public void AddUserToDB(string username, string email, string password)
+        {
+            var userToDB = new User
+            {
+                username = username,
+                email = email,
+                pw_hash = MD5Hasher(password)    
+            };
+
+            _userRepo.AddUser(userToDB);
+        }
+
+        public void AddMessageToDB(string text)
+        {
+            _messageRepo.AddMessage(User.user_id, text, DateTime.Now.ToString(), 0);
         }
     }
 }

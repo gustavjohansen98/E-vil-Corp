@@ -1,17 +1,16 @@
 @inherits LayoutComponentBase
+@using System.Linq;
 @inject IMiniMain MiniMain
 
 <title>Welcome | MiniTwit</title>
 <div class="page">
     <h1>MiniTwit</h1>
     <div class=navigation>
-      @if (MiniMain.User != null)
+      @if (MiniMain.User.user_id != -1)
       {
         <a href=@MiniMain.Url_for("timeline")>my timeline |</a> 
         <a href=@MiniMain.Url_for("public timeline")>public timeline |</a> 
-        <a href=@MiniMain.Url_for("logout")>sign out [@MiniMain.User]</a>
-        <a href=@MiniMain.Url_for("login")>|sign in|</a>
-        <a href=@MiniMain.Url_for("register")>sign up </a> 
+        <a href=@MiniMain.Url_for("logout")>sign out [ @MiniMain.User.username ]</a>
       }
       else 
       {
@@ -20,15 +19,15 @@
         <a href=@MiniMain.Url_for("login")>sign in</a>
       }
     </div>
-    @* {% with flashes = get_flashed_messages() %}
-      {% if flashes %}
-        <ul class=flashes>
-        {% for message in flashes %}
-          <li>{{ message }}
-        {% endfor %}
-        </ul>
-      {% endif %}
-    {% endwith %} *@
+    @if (@MiniMain.FlashedMessages != null)
+    {
+      <ul class=flashes>
+        @foreach (var message in MiniMain.FlashedMessages)
+        {
+         <li>@message</li>   
+        }
+      </ul>
+    }
     <div class=body>
         @Body
     </div>
@@ -36,3 +35,11 @@
     MiniTwit &mdash; A ASP.NET Application
   </div>
 </div>
+
+@code {
+    protected override void OnInitialized()
+    {
+        // TODO: Doesn't work
+        MiniMain.FlashedMessages = null;
+    }
+}

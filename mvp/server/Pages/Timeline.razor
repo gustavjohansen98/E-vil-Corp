@@ -10,11 +10,14 @@
 <h2>@MiniMain.User.username 's Timeline</h2>//
 
 <div class=twitbox>
-        <h3>What's on your mind @MiniMain.User.username ?</h3>
-        <form action="{{ url_for('add_message') }}" method=post>
-        <input type=text name=text size=60>
-        <input type=submit value="Share">
-    </form>
+    <h3>What's on your mind @MiniMain.User.username ?</h3>
+    <EditForm Model="messageText" OnValidSubmit="OnValidSubmit">
+        <DataAnnotationsValidator />
+        <InputText @bind-Value="messageText.text" />
+        <ValidationMessage For="@(() => messageText.text)" />
+        <input type=submit value="Share" />
+        @* <form action="{{ url_for('add_message') }}" method=post> *@
+    </EditForm>
 </div>
 
 <ul class=messages>
@@ -24,7 +27,7 @@
         @foreach (var message in @MiniMain.UserMessageDTO)
         {
             <li><img src=@MiniMain.GravatarUrl(message.email, 48)>
-            <strong><a href=@MiniMain.Url_for("user timeline")> @message.username</a></strong> @* "{{ url_for('user_timeline', username=message.username)}}" *@
+            <strong><a href=@MiniMain.UrlForUser(message.username)>@message.username</a></strong>
             @message.text
             <small>&mdash; @message.pub_date |datetimeformat </small></li> 
         }
@@ -36,9 +39,24 @@
 </ul>
 
 @code {
-     protected override void OnInitialized()
+    public class MessageText
     {
-        @* if (MiniMain.User.user_id <= -1) NavigationManager.NavigateTo("public"); *@
+        public string text { get; set; }
+    }
+
+    private MessageText messageText = new MessageText();
+
+    private void OnValidSubmit()
+    {
+        // API post method
+        MiniMain.AddMessageToDB(messageText.text);
+
+        Console.WriteLine("Working");
+    }
+
+    protected override void OnInitialized()
+    {
+        if (MiniMain.User.user_id <= -1) NavigationManager.NavigateTo("public");
 
         MiniMain.UserMessageDTO = new List<UserMessageDTO>();
 

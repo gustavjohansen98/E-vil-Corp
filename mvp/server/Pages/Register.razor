@@ -2,19 +2,32 @@
 @using Minitwit.Entities
 @using System.ComponentModel.DataAnnotations
 @inject IMiniMain MiniMain
+@inject NavigationManager NavigationManager
 
 <h2>Sign Up</h2>
-<EditForm Model=@MiniMain.User OnValidSubmit=@HandleValidSubmit>
+<EditForm Model="submittedUser" OnValidSubmit=OnValidSubmit>
      <DataAnnotationsValidator />
     <dl>
         <dt>Username:</dt>
-        <dd><InputText @bind-Value="submittedUser.Username" /></dd>
+        <dd>
+            <InputText @bind-Value="submittedUser.Username" />
+            <ValidationMessage For="@(() => submittedUser.Username)" />
+        </dd>
         <dt>E-Mail:</dt>
-        <dd><InputText @bind-Value="submittedUser.Email" /></dd>
+        <dd>
+            <InputText @bind-Value="submittedUser.Email" />
+            <ValidationMessage For="@(() => submittedUser.Email)" />
+        </dd>
         <dt>Password:</dt>
-        <dd><InputText @bind-Value="submittedUser.Password" /></dd>
+        <dd>
+            <InputText type="password" @bind-Value="submittedUser.Password" />
+            <ValidationMessage For="@(() => submittedUser.Password)" />
+        </dd>
         <dt>Password <small>(repeat)</small>:</dt>
-        <dd><InputText @bind-Value="submittedUser.PasswordValidation" /></dd>
+        <dd>
+            <InputText type="password" @bind-Value="submittedUser.PasswordValidation" />
+            <ValidationMessage For="@(() => submittedUser.PasswordValidation)" />
+        </dd>
     </dl>
     <div class=actions><input type=submit value="Sign Up" /></div>
 </EditForm>
@@ -26,6 +39,7 @@
         public string Username { get; set; }
 
         [Required]
+        [EmailAddress]
         public string Email { get; set; }
 
         [Required]
@@ -38,7 +52,10 @@
 
     private SubmittedUser submittedUser = new SubmittedUser();
 
-    private void HandleValidSubmit() {
-        Console.WriteLine("Done");
+    private void OnValidSubmit() 
+    {
+        MiniMain.AddUserToDB(submittedUser.Username, submittedUser.Email, submittedUser.Password);
+
+        NavigationManager.NavigateTo("login");
     }
 }

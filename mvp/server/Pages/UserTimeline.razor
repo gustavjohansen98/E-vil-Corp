@@ -38,7 +38,7 @@
     @* {% else %} *@
     else
     {
-        @* You are not yet following this user. *@
+        <p>You are not yet following this user.</p>
         <a class=follow href=@MiniMain.UrlForFollow(username)>Follow user</a>
     }
 </div>
@@ -50,7 +50,7 @@
         @foreach (var message in @MiniMain.UserMessageDTO)
         {
             <li><img src=@MiniMain.GravatarUrl(message.email, 48)>
-            <strong><a href=@MiniMain.Url_for("user timeline")> @message.username</a></strong> @* "{{ url_for('user_timeline', username=message.username)}}" *@
+            <strong><a href=@MiniMain.UrlForUser(message.username)>@message.username</a></strong>
             @message.text
             <small>&mdash; @message.pub_date |datetimeformat </small></li> 
         }
@@ -67,14 +67,16 @@
     private int userOnPage_id = -1;
     private bool IsFollowed = false;
 
-     protected override void OnInitialized()
+    protected override void OnInitialized()
     {
+        MiniMain.FlashedMessages = null;
+
         userOnPage_id = UserRepository.GetUserIDFromUsername(username);
 
         IsFollowed = FollowerRepository.DoesUserFollow(MiniMain.User.user_id, userOnPage_id);
 
         MiniMain.UserMessageDTO = new List<UserMessageDTO>();
         
-        MiniMain.UserTimeline();
+        MiniMain.UserTimeline(userOnPage_id);
     }
 }
