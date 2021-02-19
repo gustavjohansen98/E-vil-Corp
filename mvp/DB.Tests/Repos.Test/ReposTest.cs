@@ -132,7 +132,7 @@ namespace DB.Tests
 
             var statusCode1 = _followerRepo.UnfollowUser(usernameInSession1, usernameToUnfollow1);
 
-            Assert.Equal(NotAcceptable, statusCode1);
+            Assert.Equal(NoContent, statusCode1);
 
             var statusCode2 = _followerRepo.UnfollowUser(usernameToUnfollow, usernameInSession);
 
