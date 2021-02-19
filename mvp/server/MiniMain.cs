@@ -83,7 +83,7 @@ namespace mvp
 
         public string UrlForFollow(string username)
         {
-            return URL + username + "/unfollow";
+            return URL + username + "/follow";
         }
 
         public string GravatarUrl(string email, int size=80)
