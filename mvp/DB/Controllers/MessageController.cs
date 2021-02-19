@@ -75,12 +75,11 @@ namespace Controllers
         {
             LatestController.UpdateLATEST(latest);
 
-            dynamic o = JsonConvert.DeserializeObject(body.ToString());
 
+            dynamic o = JsonConvert.DeserializeObject(body.ToString());
             string message = (string) o.content;
 
             var user_id = _repoUser.GetUserIDFromUsername(username);
-
             string pub_date = DateTime.Now.ToString();
 
             _repoMessage.AddMessage(user_id, message, pub_date, 0);

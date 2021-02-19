@@ -62,7 +62,7 @@ namespace Repos
 
             if (follower == null)
             {
-                return NotAcceptable;
+                return NoContent;
             }
 
             _context.Follower.Remove(follower);
