@@ -11,6 +11,8 @@ namespace mvp
         IEnumerable<UserMessageDTO> UserMessageDTO { get; set; }
         string URL { get; }
 
+        string MD5Hasher(string toBeHashed);
+
         string Url_for(string name);
 
         string UrlForUser(string username);

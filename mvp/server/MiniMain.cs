@@ -34,7 +34,7 @@ namespace mvp
             // Timeline();
         }
 
-        private string MD5Hasher(string toBeHashed)
+        public string MD5Hasher(string toBeHashed)
         {
             byte[] emailBytes = Encoding.UTF8.GetBytes(toBeHashed.Trim().ToLower());
             byte[] hashedEmail = _md5.ComputeHash(emailBytes);
