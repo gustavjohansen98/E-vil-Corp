@@ -7,6 +7,7 @@ namespace mvp
     public interface IMiniMain
     {
         User User { get; set; }
+        IEnumerable<string> FlashedMessages { get; set; }
         IEnumerable<UserMessageDTO> UserMessageDTO { get; set; }
         string URL { get; }
 

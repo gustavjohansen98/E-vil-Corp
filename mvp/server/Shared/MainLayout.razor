@@ -1,4 +1,5 @@
 @inherits LayoutComponentBase
+@using System.Linq;
 @inject IMiniMain MiniMain
 
 <title>Welcome | MiniTwit</title>
@@ -18,15 +19,15 @@
         <a href=@MiniMain.Url_for("login")>sign in</a>
       }
     </div>
-    @* {% with flashes = get_flashed_messages() %}
-      {% if flashes %}
-        <ul class=flashes>
-        {% for message in flashes %}
-          <li>{{ message }}
-        {% endfor %}
-        </ul>
-      {% endif %}
-    {% endwith %} *@
+    @if (@MiniMain.FlashedMessages != null)
+    {
+      <ul class=flashes>
+        @foreach (var message in MiniMain.FlashedMessages)
+        {
+         <li>@message</li>   
+        }
+      </ul>
+    }
     <div class=body>
         @Body
     </div>
@@ -34,3 +35,11 @@
     MiniTwit &mdash; A ASP.NET Application
   </div>
 </div>
+
+@code {
+    protected override void OnInitialized()
+    {
+        // TODO: Doesn't work
+        MiniMain.FlashedMessages = null;
+    }
+}

@@ -13,6 +13,7 @@ namespace mvp
     public class MiniMain : IMiniMain
     {
         public User User { get; set; }
+        public IEnumerable<string> FlashedMessages { get; set; }
         public IEnumerable<UserMessageDTO> UserMessageDTO { get; set; }
         public string URL { get; }
 

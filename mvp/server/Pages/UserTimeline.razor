@@ -67,8 +67,10 @@
     private int userOnPage_id = -1;
     private bool IsFollowed = false;
 
-     protected override void OnInitialized()
+    protected override void OnInitialized()
     {
+        MiniMain.FlashedMessages = null;
+
         userOnPage_id = UserRepository.GetUserIDFromUsername(username);
 
         IsFollowed = FollowerRepository.DoesUserFollow(MiniMain.User.user_id, userOnPage_id);
