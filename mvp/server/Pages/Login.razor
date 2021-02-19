@@ -32,29 +32,9 @@
 
     private void GetUserFromServer()
     {
-        /*int userID = UserRepository.GetUserIDFromUsername(loginUser.Username);
-        if (userID == -1) 
-        {
-            //throw error - "User does not exist"; 
-            Console.WriteLine("User does not exist"); 
-            return;
-        }
-        User userFromServer = UserRepository.GetUserFromID(userID);
-        if (userFromServer == null) 
-        {
-            //throw error - "User does not exist / something went wrong"; 
-            Console.WriteLine("User does not exist / something went wrong");
-            return;
-        }
-        if (userFromServer.pw_hash == loginUser.Password) 
-        {
-            MiniMain.User = userFromServer;
-        } else 
-        {
-            //throw error - "Incorrect password";
-            Console.WriteLine("Incorrect password"); 
-            return;
-        }*/
+        int userID = UserRepository.GetUserIDFromUsername(loginUser.Username);
+        MiniMain.User.user_id = userID;
+        MiniMain.User.username = loginUser.Username;
     }
 
     private void HandleValidSubmit() 
