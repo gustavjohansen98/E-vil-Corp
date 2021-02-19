@@ -15,7 +15,7 @@
         <DataAnnotationsValidator />
         <InputText @bind-Value="messageText.text" />
         <ValidationMessage For="@(() => messageText.text)" />
-        <input type=submit value="Share">
+        <input type=submit value="Share" />
         @* <form action="{{ url_for('add_message') }}" method=post> *@
     </EditForm>
 </div>
