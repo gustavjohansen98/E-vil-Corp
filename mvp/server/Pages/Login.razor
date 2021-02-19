@@ -2,19 +2,19 @@
 @using Minitwit.Entities
 @using System.ComponentModel.DataAnnotations
 @inject IMiniMain MiniMain
-@inject User User;
-@inject Repos.UserRepository UserRepository;
+@inject NavigationManager NavigationManager;
+@inject Repos.IUserRepository UserRepository;
 
 <h2>Sign In</h2>
-<EditForm Model=@MiniMain.User OnValidSubmit=@HandleValidSubmit>
+<EditForm Model=@loginUser OnValidSubmit=@HandleValidSubmit>
      <DataAnnotationsValidator />
     <dl>
       <dt>Username:</dt>
       <dd><InputText @bind-Value="loginUser.Username" /></dd>
       <dt>Password:</dt>
-      <dd><InputText @bind-Value="loginUser.Password" /></dd>
+      <dd><InputText type="password" @bind-Value="loginUser.Password" /></dd>
     </dl>
-    <div class=actions><input type=get value="Sign In" /></div>
+    <div class=actions><input type=submit value="Sign In" /></div>
 </EditForm>
 
 @code {
@@ -30,15 +30,25 @@
 
     private LoginUser loginUser = new LoginUser();
 
-    private void GetUserFromServer()
-    {
-        int userID = UserRepository.GetUserIDFromUsername(loginUser.Username);
-        MiniMain.User.user_id = userID;
-        MiniMain.User.username = loginUser.Username;
-    }
-
     private void HandleValidSubmit() 
     {
-        Console.WriteLine("Done");
+        int userID = UserRepository.GetUserIDFromUsername(loginUser.Username);
+        if (userID == -1) 
+        {
+            MiniMain.FlashedMessages = new string[]{"Usernane does not exist"};
+            NavigationManager.NavigateTo("login");
+        } else if(MiniMain.MD5Hasher(loginUser.Password) == UserRepository.GetUserFromID(userID).pw_hash)
+        {
+            MiniMain.User.user_id = userID;
+            MiniMain.User.username = loginUser.Username;
+            MiniMain.FlashedMessages = new string[]{"You were logged in"};
+            NavigationManager.NavigateTo("timeline");
+        } else
+        {
+            MiniMain.FlashedMessages = new string[]{"Incorrect password"};
+            NavigationManager.NavigateTo("login");
+        }
+
+        
     }
 }
