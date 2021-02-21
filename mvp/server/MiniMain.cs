@@ -133,7 +133,7 @@ namespace mvp
 
         public void AddMessageToDB(string text)
         {
-            _messageRepo.AddMessage(User.user_id, text, DateTime.Now.ToString(), 0);
+            _messageRepo.AddMessage(User.user_id, text, DateTime.Now, 0);
         }
     }
 }

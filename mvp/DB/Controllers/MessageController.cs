@@ -81,7 +81,7 @@ namespace Controllers
 
             var user_id = _repoUser.GetUserIDFromUsername(username);
 
-            string pub_date = DateTime.Now.ToString();
+            DateTime pub_date = DateTime.Now;
 
             _repoMessage.AddMessage(user_id, message, pub_date, 0);
 
