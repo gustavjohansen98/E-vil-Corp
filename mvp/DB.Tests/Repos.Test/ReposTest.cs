@@ -118,7 +118,7 @@ namespace DB.Tests
         }
 
         [Fact]
-        public void Given_usernames_to_unfollowUser_returns_NotAcceptable()
+        public void Given_usernames_to_unfollowUser_returns_NoContent()
         {
             var usernameInSession = "user2";
             var usernameToUnfollow = "user1";

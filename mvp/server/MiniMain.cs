@@ -34,7 +34,7 @@ namespace mvp
             // Timeline();
         }
 
-        private string MD5Hasher(string toBeHashed)
+        public string MD5Hasher(string toBeHashed)
         {
             byte[] emailBytes = Encoding.UTF8.GetBytes(toBeHashed.Trim().ToLower());
             byte[] hashedEmail = _md5.ComputeHash(emailBytes);
@@ -127,6 +127,13 @@ namespace mvp
                 email = email,
                 pw_hash = MD5Hasher(password)    
             };
+
+            _userRepo.AddUser(userToDB);
+        }
+
+        public void AddMessageToDB(string text)
+        {
+            _messageRepo.AddMessage(User.user_id, text, DateTime.Now, 0);
         }
     }
 }

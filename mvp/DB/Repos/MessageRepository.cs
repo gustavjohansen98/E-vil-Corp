@@ -15,7 +15,7 @@ namespace Repos
             _context = context;
         }
 
-        public void AddMessage(int author_id, string text, string pub_date, int flagged)
+        public void AddMessage(int author_id, string text, DateTime pub_date, int flagged)
         {
             var message = new Message
             { 

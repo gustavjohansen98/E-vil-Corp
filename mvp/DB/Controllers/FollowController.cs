@@ -42,7 +42,7 @@ namespace Controllers
                     return BadRequest("could not follow user");
                 }
 
-                return Ok(null);
+                return Ok(null);    // 204
             }
 
             // this is rather annoying : 

@@ -8,7 +8,7 @@ namespace DB.Tests
         [Fact]
         public void Test1()
         {
-
+            
         }
     }
 }

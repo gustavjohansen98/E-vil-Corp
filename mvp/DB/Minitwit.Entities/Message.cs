@@ -14,7 +14,7 @@ namespace Minitwit.Entities
         [Required]
         public string text { get; set; } 
 
-        public string pub_date { get; set; }
+        public DateTime pub_date { get; set; }
 
         public int flagged { get; set; }
 
