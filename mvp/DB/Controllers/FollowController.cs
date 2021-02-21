@@ -53,7 +53,6 @@ namespace Controllers
             if (userToUnfollow_unrefined != null) 
             {
                 userToUnfollow = userToUnfollow_unrefined.Replace("'", "");  
-                System.Console.WriteLine(userToUnfollow);
             }
 
             if (userToUnfollow != null)

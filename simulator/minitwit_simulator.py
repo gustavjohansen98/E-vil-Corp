@@ -78,8 +78,6 @@ def get_actions():
                         "username": user,
                         "follow": user_to_follow,
                     }
-                    if user == "Guadalupe Rumps":
-                        print(user, user_to_follow)
                     yield item, delay
 
                 elif command == "unfollow":

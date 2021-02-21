@@ -75,8 +75,8 @@ namespace Controllers
         {
             LatestController.UpdateLATEST(latest);
 
-            dynamic o = JsonConvert.DeserializeObject(body.ToString());
 
+            dynamic o = JsonConvert.DeserializeObject(body.ToString());
             string message = (string) o.content;
 
             var user_id = _repoUser.GetUserIDFromUsername(username);
