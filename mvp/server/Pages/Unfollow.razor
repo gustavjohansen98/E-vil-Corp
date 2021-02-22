@@ -1,7 +1,6 @@
 @page "/{username}/unfollow"
 @using Repos;
 @inject IMiniMain MiniMain
-@inject IFollowerRepository FollowerRepository
 @inject NavigationManager NavigationManager
 
 @code {
@@ -12,7 +11,9 @@
     {
         if (MiniMain.User.user_id <= -1) NavigationManager.NavigateTo("timeline");
 
-        FollowerRepository.UnfollowUser(MiniMain.User.username, username);
+        MiniMain.UnfollowUser(MiniMain.User.username, username);
+
+        @* FollowerRepository.UnfollowUser(MiniMain.User.username, username); *@
 
         MiniMain.FlashedMessages = new [] 
         { 

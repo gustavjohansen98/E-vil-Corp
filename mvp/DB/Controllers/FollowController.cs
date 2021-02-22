@@ -14,12 +14,12 @@ namespace Controllers
     [Route("/fllws")]
     public class FollowerController : ControllerBase
     {
-        private IFollowerRepository _repo;
+        private IFollowerRepository _repoFollower;
         private IUserRepository _userRepo;
 
-        public FollowerController(IFollowerRepository repo, IUserRepository userRepo)
+        public FollowerController(IFollowerRepository repoFollower, IUserRepository userRepo)
         {
-            _repo = repo;
+            _repoFollower = repoFollower;
             _userRepo = userRepo;
         }
 
@@ -36,7 +36,7 @@ namespace Controllers
 
             if (userToFollow != null)
             {
-                var status = _repo.FollowUser(userToFollow, username);
+                var status = _repoFollower.FollowUser(userToFollow, username);
                 if (status == NotAcceptable)
                 {
                     return BadRequest("could not follow user");
@@ -57,7 +57,7 @@ namespace Controllers
 
             if (userToUnfollow != null)
             {
-                var status = _repo.UnfollowUser(username, userToUnfollow);
+                var status = _repoFollower.UnfollowUser(username, userToUnfollow);
                 if (status == NotAcceptable)
                 {
                     return BadRequest("could not unfollow user");
@@ -69,11 +69,40 @@ namespace Controllers
             return BadRequest("could not execute");            
         }
 
-
         [HttpGet]
         public IActionResult GetFollowers(string username)
         {
             throw new NotImplementedException();
+        }
+
+        [Route("{username1}/{username2}")]
+        [HttpGet]
+        public ActionResult<bool> DoesUser1FollowUser2(string username1, string username2)
+        {
+            var userID1 = _userRepo.GetUserIDFromUsername(username1);
+            var userID2 = _userRepo.GetUserIDFromUsername(username2);
+
+            var result = _repoFollower.DoesUserFollow(userID1, userID2);
+
+            return Ok(result);
+        }
+
+        [Route("{username1}/{username2}")]
+        [HttpPost]
+        public IActionResult FollowUser(string username1, string username2)
+        {
+            _repoFollower.FollowUser(username1, username2);
+
+            return Ok();
+        }
+
+        [Route("{username1}/{username2}")]
+        [HttpDelete]
+        public IActionResult UnfollowUser(string username1, string username2)
+        {
+            _repoFollower.UnfollowUser(username1, username2);
+
+            return Ok();
         }
     }
 }

@@ -29,10 +29,20 @@ namespace mvp
 
         Task<IEnumerable<UserMessageDTO>> PublicTimeline();
 
-        Task<IEnumerable<UserMessageDTO>> UserTimeline(int u_id);
+        Task<IEnumerable<UserMessageDTO>> UserTimeline(string username);
 
-        void AddUserToDB(string username, string email, string password);
+        Task AddUserToDB(string username, string email, string password);
 
         Task AddMessageToDB(string text);
+
+        Task Login(string username);
+
+        Task<User> GetUserFromUsername(string username);
+
+        Task<bool> IsFollowed(string username1, string username2);
+
+        Task FollowUser(string user, string userToUnfollow);
+
+        Task UnfollowUser(string user, string userToFollow);
     }
 }

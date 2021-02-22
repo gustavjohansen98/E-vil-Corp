@@ -60,8 +60,10 @@ namespace Controllers
             var user = new User {
                 username = username,
                 email = email,
-                pw_hash = pwd
+                pwd = pwd
             };
+
+            Console.WriteLine("User added to DB");
             
             var statusCode = _repo.AddUser(user);
 

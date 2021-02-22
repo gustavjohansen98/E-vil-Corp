@@ -38,14 +38,14 @@ namespace mvp
             services.AddSingleton<WeatherForecastService>();
             services.AddScoped<HttpClient, HttpClient>();
 
-            services.AddDbContext<IMinitwitContext, MinitwitContext>(options => 
-            {
-                options.UseSqlite("Data Source=minitwit.db");
-            });
+            // services.AddDbContext<IMinitwitContext, MinitwitContext>(options => 
+            // {
+            //     options.UseSqlite("Data Source=minitwit.db");
+            // });
 
-            services.AddScoped<IMessageRepository, MessageRepository>();
-            services.AddScoped<IFollowerRepository, FollowerRepository>();
-            services.AddScoped<IUserRepository, UserRepository>();
+            // services.AddScoped<IMessageRepository, MessageRepository>();
+            // services.AddScoped<IFollowerRepository, FollowerRepository>();
+            // services.AddScoped<IUserRepository, UserRepository>();
             
             services.AddScoped<IMiniMain, MiniMain>();
         }

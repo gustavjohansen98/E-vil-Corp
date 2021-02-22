@@ -35,28 +35,15 @@ namespace Controllers
         }
 
         [HttpGet("{username}")]
-        public ActionResult<IEnumerable<Message>> GetMessagesFromAGivenUser(string username, [FromQuery(Name = "latest")] int latest)
+        public ActionResult<IEnumerable<UserMessageDTO>> GetMessagesFromAGivenUser(string username, [FromQuery(Name = "latest")] int latest)
         {
             LatestController.UpdateLATEST(latest);
 
             // TODO: not re_from_reposonse
 
             var user_id = _repoUser.GetUserIDFromUsername(username);
-
-            if (user_id != -1) return NotFound();
-
-            var messages = (from m in _repoMessage.GetAllMessages()
-                           where m.flagged == 0 &&
-                                 m.author_id == user_id 
-                           orderby m.pub_date
-                           select new 
-                           {
-                               content = m.text,
-                               pub_date = m.pub_date,
-                               user = username
-                           }).Take(LIMIT);
-
-            return Ok(messages);
+            
+            return Ok(_repoMessage.GetAllMessageFromUser(user_id));
         }
 
         [HttpPost("{username}")]

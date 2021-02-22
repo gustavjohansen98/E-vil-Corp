@@ -23,14 +23,10 @@ namespace mvp
         public string APIURL { get; }
 
         private readonly System.Security.Cryptography.MD5 _md5 = System.Security.Cryptography.MD5.Create();
-        private readonly IMessageRepository _messageRepo;
-        private readonly IUserRepository _userRepo;
         private readonly HttpClient _httpClient;
 
-        public MiniMain(IMessageRepository messageRepo, IUserRepository userRepo, HttpClient httpClient)
+        public MiniMain(HttpClient httpClient)
         {
-            _messageRepo = messageRepo;
-            _userRepo = userRepo;
             _httpClient = httpClient;
 
             URL = "http://localhost:5000/";
@@ -91,7 +87,7 @@ namespace mvp
 
         public string UrlForFollow(string username)
         {
-            return URL + username + "/follow";
+            return URL +  username + "/follow";
         }
 
         public string GravatarUrl(string email, int size=80)
@@ -141,9 +137,9 @@ namespace mvp
             return UserMessageDTO;
         }
 
-        public async Task<IEnumerable<UserMessageDTO>> UserTimeline(int user_id)
+        public async Task<IEnumerable<UserMessageDTO>> UserTimeline(string username)
         {
-            var response = await _httpClient.GetAsync(APIURL + "msgs/" + User.username);
+            var response = await _httpClient.GetAsync(APIURL + "msgs/" + username);
             var content = await response.Content.ReadAsStringAsync();
 
             UserMessageDTO = System.Text.Json.JsonSerializer.Deserialize<IEnumerable<UserMessageDTO>>
@@ -155,16 +151,19 @@ namespace mvp
             return UserMessageDTO;
         }
 
-        public void AddUserToDB(string username, string email, string password)
+        public async Task AddUserToDB(string username, string email, string password)
         {
             var userToDB = new User
             {
                 username = username,
                 email = email,
-                pw_hash = MD5Hasher(password)    
+                pwd = MD5Hasher(password)    
             };
+            
+            var json = JsonConvert.SerializeObject(userToDB);
+            var data = new StringContent(json, Encoding.UTF8, "application/json");
 
-            _userRepo.AddUser(userToDB);
+            await _httpClient.PostAsync(APIURL + "register/", data);
         }
 
         public async Task AddMessageToDB(string text)
@@ -178,8 +177,65 @@ namespace mvp
             var data = new StringContent(json, Encoding.UTF8, "application/json");
 
             await _httpClient.PostAsync(APIURL + "msgs/" + User.username, data);
+        }
 
-            _messageRepo.AddMessage(User.user_id, text, DateTime.Now, 0);
+        public async Task Login(string username)
+        {
+            var response = await _httpClient.GetAsync(APIURL + "user/" + username);
+            var content = await response.Content.ReadAsStringAsync();
+
+            var user = System.Text.Json.JsonSerializer.Deserialize<User>
+            (
+                content,
+                new JsonSerializerOptions { PropertyNameCaseInsensitive = true }
+            );
+
+            User = user;
+        }
+
+        public async Task<User> GetUserFromUsername(string username)
+        {
+            var response = await _httpClient.GetAsync(APIURL + "user/" + username);
+            var content = await response.Content.ReadAsStringAsync();
+
+            var user = System.Text.Json.JsonSerializer.Deserialize<User>
+            (
+                content,
+                new JsonSerializerOptions { PropertyNameCaseInsensitive = true }
+            );
+
+            return user;
+        }
+
+        public async Task<bool> IsFollowed(string username1, string username2)
+        {
+            var response = await _httpClient.GetAsync(APIURL + "fllws/" + username1 + "/" + username2);
+            var content = await response.Content.ReadAsStringAsync();
+
+            var IsUserFollowing = System.Text.Json.JsonSerializer.Deserialize<bool>
+            (
+                content,
+                new JsonSerializerOptions { PropertyNameCaseInsensitive = true }
+            );
+
+            return IsUserFollowing;
+        }
+
+        public async Task FollowUser(string user, string userToUnfollow)
+        {
+            var json = JsonConvert.SerializeObject(user);
+            var data = new StringContent(json, Encoding.UTF8, "application/json");
+
+            await _httpClient.PostAsync(APIURL + "fllws/" + user + "/" + userToUnfollow, data);
+        }
+
+        public async Task UnfollowUser(string user, string userToFollow)
+        {
+            Console.WriteLine(APIURL + "fllws/" + user + "/" + userToFollow);
+            
+            var response = await _httpClient.DeleteAsync(APIURL + "fllws/" + user + "/" + userToFollow);
+
+            Console.WriteLine(response);
         }
     }
 }
