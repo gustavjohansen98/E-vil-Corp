@@ -33,6 +33,6 @@ namespace mvp
 
         void AddUserToDB(string username, string email, string password);
 
-        void AddMessageToDB(string text);
+        Task AddMessageToDB(string text);
     }
 }

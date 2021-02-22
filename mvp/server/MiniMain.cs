@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
 using Minitwit.Entities;
+using Newtonsoft.Json;
 using Repos;
 
 namespace mvp
@@ -112,7 +113,7 @@ namespace mvp
 
                 var content = await response.Content.ReadAsStringAsync();
 
-                UserMessageDTO = JsonSerializer.Deserialize<IEnumerable<UserMessageDTO>>
+                UserMessageDTO = System.Text.Json.JsonSerializer.Deserialize<IEnumerable<UserMessageDTO>>
                 (
                     content,
                     new JsonSerializerOptions { PropertyNameCaseInsensitive = true }
@@ -131,7 +132,7 @@ namespace mvp
             var response = await _httpClient.GetAsync(APIURL + "msgs/");
             var content = await response.Content.ReadAsStringAsync();
 
-            UserMessageDTO = JsonSerializer.Deserialize<IEnumerable<UserMessageDTO>>
+            UserMessageDTO = System.Text.Json.JsonSerializer.Deserialize<IEnumerable<UserMessageDTO>>
             (
                 content,
                 new JsonSerializerOptions { PropertyNameCaseInsensitive = true }
@@ -145,7 +146,7 @@ namespace mvp
             var response = await _httpClient.GetAsync(APIURL + "msgs/" + User.username);
             var content = await response.Content.ReadAsStringAsync();
 
-            UserMessageDTO = JsonSerializer.Deserialize<IEnumerable<UserMessageDTO>>
+            UserMessageDTO = System.Text.Json.JsonSerializer.Deserialize<IEnumerable<UserMessageDTO>>
             (
                 content,
                 new JsonSerializerOptions { PropertyNameCaseInsensitive = true }
@@ -166,9 +167,17 @@ namespace mvp
             _userRepo.AddUser(userToDB);
         }
 
-        public void AddMessageToDB(string text)
+        public async Task AddMessageToDB(string text)
         {
-            
+            var messageObj = new
+            {
+                content = text
+            };
+
+            var json = JsonConvert.SerializeObject(messageObj);
+            var data = new StringContent(json, Encoding.UTF8, "application/json");
+
+            await _httpClient.PostAsync(APIURL + "msgs/" + User.username, data);
 
             _messageRepo.AddMessage(User.user_id, text, DateTime.Now, 0);
         }

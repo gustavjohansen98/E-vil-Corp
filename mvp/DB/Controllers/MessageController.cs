@@ -64,7 +64,6 @@ namespace Controllers
         {
             LatestController.UpdateLATEST(latest);
 
-
             dynamic o = JsonConvert.DeserializeObject(body.ToString());
             string message = (string) o.content;
 
