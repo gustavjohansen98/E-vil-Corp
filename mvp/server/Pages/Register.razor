@@ -52,9 +52,9 @@
 
     private SubmittedUser submittedUser = new SubmittedUser();
 
-    private void OnValidSubmit() 
+    private async Task OnValidSubmit() 
     {
-        MiniMain.AddUserToDB(submittedUser.Username, submittedUser.Email, submittedUser.Password);
+        await MiniMain.AddUserToDB(submittedUser.Username, submittedUser.Email, submittedUser.Password);
 
         NavigationManager.NavigateTo("login");
     }

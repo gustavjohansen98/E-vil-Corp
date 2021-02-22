@@ -5,9 +5,6 @@
 @using Minitwit.Entities
 @using Repos;
 @inject NavigationManager NavigationManager
-@inject IMessageRepository MessageRepository
-@inject IFollowerRepository FollowerRepository
-@inject IUserRepository UserRepository
 
 @if (NavigationManager.Uri == MiniMain.Url_for("public timeline")) @* public_timeline *@
      {
@@ -30,13 +27,13 @@
         <p>This is you!</p>
     }
     @* {% elif followed %} *@
-    else if (IsFollowed)
+    else if (IsFollowed && MiniMain.User.user_id != -1)
     {
         <p>You are currently following this user.</p>
         <a class=unfollow href=@MiniMain.UrlForUnfollow(username)>Unfollow user</a>
     }
     @* {% else %} *@
-    else
+    else if (MiniMain.User.user_id != -1)
     {
         <p>You are not yet following this user.</p>
         <a class=follow href=@MiniMain.UrlForFollow(username)>Follow user</a>
@@ -64,19 +61,19 @@
 @code {
     [Parameter]
     public string username { get; set; }
-    private int userOnPage_id = -1;
     private bool IsFollowed = false;
 
-    protected override void OnInitialized()
+    protected override async Task OnInitializedAsync()
     {
         MiniMain.FlashedMessages = null;
-
-        userOnPage_id = UserRepository.GetUserIDFromUsername(username);
-
-        IsFollowed = FollowerRepository.DoesUserFollow(MiniMain.User.user_id, userOnPage_id);
-
-        MiniMain.UserMessageDTO = new List<UserMessageDTO>();
         
-        MiniMain.UserTimeline(userOnPage_id);
+        MiniMain.UserMessageDTO = new List<UserMessageDTO>();
+
+        if (MiniMain.User.username != username && MiniMain.User.username != null)
+        {
+            IsFollowed = await MiniMain.IsFollowed(MiniMain.User.username, username);
+        }
+
+        await MiniMain.UserTimeline(username);
     }
 }

@@ -5,7 +5,6 @@
 @using Repos;
 @using Minitwit.Entities;
 @inject NavigationManager NavigationManager
-@inject IMessageRepository MessageRepository
 
 <h2>@MiniMain.User.username 's Timeline</h2>//
 
@@ -54,12 +53,12 @@
         Console.WriteLine("Working");
     }
 
-    protected override void OnInitialized()
+    protected override async Task OnInitializedAsync()
     {
         if (MiniMain.User.user_id <= -1) NavigationManager.NavigateTo("public");
 
         MiniMain.UserMessageDTO = new List<UserMessageDTO>();
 
-        MiniMain.Timeline();
+        await MiniMain.Timeline();
     }
 }

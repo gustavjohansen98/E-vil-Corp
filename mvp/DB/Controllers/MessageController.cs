@@ -24,57 +24,32 @@ namespace Controllers
         }
 
         [HttpGet]
-        public ActionResult<IEnumerable<Message>> GetAllMessages([FromQuery(Name = "latest")] int latest)
+        public ActionResult<IEnumerable<UserMessageDTO>> GetAllMessages([FromQuery(Name = "latest")] int latest)
         {
             LatestController.UpdateLATEST(latest);
             // TODO: not_req-from_simulator
             
-            var users = _repoUser.GetAllUsers();
-            
-            var messages = (from m in _repoMessage.GetAllMessages().ToList()
-                           where m.flagged == 0
-                           orderby m.pub_date
-                           // Filtered messages
-                           select new 
-                           { 
-                               content = m.text,
-                               pub_date = m.pub_date,
-                               user = users.Where(u => u.user_id == m.author_id).Select(u => u.username)
-                           }).Take(LIMIT);
-            
+            var messages = _repoMessage.GetAllMessages();
+
             return Ok(messages);            
         }
 
         [HttpGet("{username}")]
-        public ActionResult<IEnumerable<Message>> GetMessagesFromAGivenUser(string username, [FromQuery(Name = "latest")] int latest)
+        public ActionResult<IEnumerable<UserMessageDTO>> GetMessagesFromAGivenUser(string username, [FromQuery(Name = "latest")] int latest)
         {
             LatestController.UpdateLATEST(latest);
 
             // TODO: not re_from_reposonse
 
             var user_id = _repoUser.GetUserIDFromUsername(username);
-
-            if (user_id != -1) return NotFound();
-
-            var messages = (from m in _repoMessage.GetAllMessages()
-                           where m.flagged == 0 &&
-                                 m.author_id == user_id 
-                           orderby m.pub_date
-                           select new 
-                           {
-                               content = m.text,
-                               pub_date = m.pub_date,
-                               user = username
-                           }).Take(LIMIT);
-
-            return Ok(messages);
+            
+            return Ok(_repoMessage.GetAllMessageFromUser(user_id));
         }
 
         [HttpPost("{username}")]
         public IActionResult Tweet(string username, [FromBody] JsonElement body, [FromQuery(Name = "latest")] int latest)
         {
             LatestController.UpdateLATEST(latest);
-
 
             dynamic o = JsonConvert.DeserializeObject(body.ToString());
             string message = (string) o.content;
@@ -86,6 +61,19 @@ namespace Controllers
             _repoMessage.AddMessage(user_id, message, pub_date, 0);
 
             return Ok(null);    // with null as the argument, the action will result in a 204 status code rather than 200 ... 
+        }
+
+        [Route("{username}/follows")]
+        [HttpGet]
+        public ActionResult<IEnumerable<UserMessageDTO>> GetOwnAndFollowedMessages(string username, [FromQuery(Name = "latest")] int latest)
+        {
+            LatestController.UpdateLATEST(latest);
+
+            var user_id = _repoUser.GetUserIDFromUsername(username);
+
+            var messages = _repoMessage.GetOwnAndFollowedMessages(user_id);
+
+            return Ok(messages);
         }
     }   
 }
