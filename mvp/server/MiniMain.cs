@@ -26,7 +26,7 @@ namespace mvp
             _messageRepo = messageRepo;
             _userRepo = userRepo;
 
-            URL = "https://localhost:5001/";
+            URL = "http://localhost:5000/";
 
             User = new User{ user_id = -1 };
 
