@@ -2,7 +2,10 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
 using System.Text;
+using System.Text.Json;
+using System.Threading.Tasks;
 using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
 using Minitwit.Entities;
@@ -16,17 +19,21 @@ namespace mvp
         public IEnumerable<string> FlashedMessages { get; set; }
         public IEnumerable<UserMessageDTO> UserMessageDTO { get; set; }
         public string URL { get; }
+        public string APIURL { get; }
 
         private readonly System.Security.Cryptography.MD5 _md5 = System.Security.Cryptography.MD5.Create();
         private readonly IMessageRepository _messageRepo;
         private readonly IUserRepository _userRepo;
+        private readonly HttpClient _httpClient;
 
-        public MiniMain(IMessageRepository messageRepo, IUserRepository userRepo)
+        public MiniMain(IMessageRepository messageRepo, IUserRepository userRepo, HttpClient httpClient)
         {
             _messageRepo = messageRepo;
             _userRepo = userRepo;
+            _httpClient = httpClient;
 
             URL = "http://localhost:5000/";
+            APIURL = "http://localhost:5010/";
 
             User = new User{ user_id = -1 };
 
@@ -94,11 +101,23 @@ namespace mvp
                     size;
         }
 
-        public IEnumerable<UserMessageDTO> Timeline()
+        public async Task<IEnumerable<UserMessageDTO>> Timeline()
         {
             if (User != null && User.user_id >= 0) 
             {
-                UserMessageDTO = _messageRepo.GetOwnAndFollowedMessages(User.user_id);
+                var response = await _httpClient.GetAsync
+                (
+                    APIURL + "msgs/" + User.username + "/follows"
+                );
+
+                var content = await response.Content.ReadAsStringAsync();
+
+                UserMessageDTO = JsonSerializer.Deserialize<IEnumerable<UserMessageDTO>>
+                (
+                    content,
+                    new JsonSerializerOptions { PropertyNameCaseInsensitive = true }
+                );
+
                 return UserMessageDTO;
             }
             else
@@ -107,15 +126,31 @@ namespace mvp
             }
         }
 
-        public IEnumerable<UserMessageDTO> PublicTimeline()
+        public async Task<IEnumerable<UserMessageDTO>> PublicTimeline()
         {
-            UserMessageDTO = _messageRepo.GetAllMessages();
+            var response = await _httpClient.GetAsync(APIURL + "msgs/");
+            var content = await response.Content.ReadAsStringAsync();
+
+            UserMessageDTO = JsonSerializer.Deserialize<IEnumerable<UserMessageDTO>>
+            (
+                content,
+                new JsonSerializerOptions { PropertyNameCaseInsensitive = true }
+            );
+
             return UserMessageDTO;
         }
 
-        public IEnumerable<UserMessageDTO> UserTimeline(int user_id)
+        public async Task<IEnumerable<UserMessageDTO>> UserTimeline(int user_id)
         {
-            UserMessageDTO = _messageRepo.GetAllMessageFromUser(user_id);
+            var response = await _httpClient.GetAsync(APIURL + "msgs/" + User.username);
+            var content = await response.Content.ReadAsStringAsync();
+
+            UserMessageDTO = JsonSerializer.Deserialize<IEnumerable<UserMessageDTO>>
+            (
+                content,
+                new JsonSerializerOptions { PropertyNameCaseInsensitive = true }
+            );
+
             return UserMessageDTO;
         }
 
@@ -133,6 +168,8 @@ namespace mvp
 
         public void AddMessageToDB(string text)
         {
+            
+
             _messageRepo.AddMessage(User.user_id, text, DateTime.Now, 0);
         }
     }

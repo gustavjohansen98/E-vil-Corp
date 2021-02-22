@@ -28,10 +28,10 @@
 </ul>
 
 @code {
-     protected override void OnInitialized()
+     protected override async Task OnInitializedAsync()
     {
         MiniMain.UserMessageDTO = new List<UserMessageDTO>();
         
-        MiniMain.PublicTimeline(); 
+        await MiniMain.PublicTimeline(); 
     }
 }

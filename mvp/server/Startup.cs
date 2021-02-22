@@ -16,6 +16,7 @@ using Microsoft.EntityFrameworkCore;
 using Repos;
 using System.IO;
 using System.Reflection;
+using System.Net.Http;
 
 namespace mvp
 {
@@ -35,6 +36,7 @@ namespace mvp
             services.AddRazorPages();
             services.AddServerSideBlazor();
             services.AddSingleton<WeatherForecastService>();
+            services.AddScoped<HttpClient, HttpClient>();
 
             services.AddDbContext<IMinitwitContext, MinitwitContext>(options => 
             {

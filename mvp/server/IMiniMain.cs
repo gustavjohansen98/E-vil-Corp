@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Minitwit.Entities;
 
 namespace mvp
@@ -10,6 +11,7 @@ namespace mvp
         IEnumerable<string> FlashedMessages { get; set; }
         IEnumerable<UserMessageDTO> UserMessageDTO { get; set; }
         string URL { get; }
+        string APIURL { get; }
 
         string MD5Hasher(string toBeHashed);
 
@@ -23,11 +25,11 @@ namespace mvp
 
         string GravatarUrl(string email, int size=80);
 
-        IEnumerable<UserMessageDTO> Timeline();
+        Task<IEnumerable<UserMessageDTO>> Timeline();
 
-        IEnumerable<UserMessageDTO> PublicTimeline();
+        Task<IEnumerable<UserMessageDTO>> PublicTimeline();
 
-        IEnumerable<UserMessageDTO> UserTimeline(int u_id);
+        Task<IEnumerable<UserMessageDTO>> UserTimeline(int u_id);
 
         void AddUserToDB(string username, string email, string password);
 
