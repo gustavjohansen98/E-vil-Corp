@@ -29,8 +29,8 @@ namespace mvp
         {
             _httpClient = httpClient;
 
-            URL = "http://localhost:5000/";
-            APIURL = "http://localhost:5010/";
+            URL = "http://0.0.0.0:5000/";
+            APIURL = "http://159.89.213.38:5010/";
 
             User = new User{ user_id = -1 };
 
