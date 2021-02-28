@@ -6,6 +6,7 @@ using System.Net.Http;
 using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Components;
 using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
 using Minitwit.Entities;
@@ -24,12 +25,14 @@ namespace mvp
 
         private readonly System.Security.Cryptography.MD5 _md5 = System.Security.Cryptography.MD5.Create();
         private readonly HttpClient _httpClient;
+        private readonly NavigationManager _navigationManager;
 
-        public MiniMain(HttpClient httpClient)
+        public MiniMain(HttpClient httpClient, NavigationManager navigationManager)
         {
             _httpClient = httpClient;
+            _navigationManager = navigationManager;
 
-            URL = "http://0.0.0.0:5000/";
+            URL = _navigationManager.BaseUri;
             APIURL = "http://159.89.213.38:5010/";
 
             User = new User{ user_id = -1 };
