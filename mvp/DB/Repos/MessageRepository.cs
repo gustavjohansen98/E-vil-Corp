@@ -42,7 +42,7 @@ namespace Repos
                     where m.flagged == 0 &&
                     m.author_id == u.user_id &&
                     u.user_id == user_id
-                    orderby m.pub_date
+                    orderby m.pub_date descending
                     select new UserMessageDTO
                     {
                         username = u.username,
@@ -58,7 +58,7 @@ namespace Repos
                     from u in _context.User
                     where m.flagged == 0 &&
                     m.author_id == u.user_id
-                    orderby m.pub_date
+                    orderby m.pub_date descending
                     select new UserMessageDTO
                     {
                         username = u.username,
@@ -80,7 +80,7 @@ namespace Repos
                         where f.who_id == user_id
                         select f.whom_id).Contains(u.user_id)
                    )
-                   orderby m.pub_date
+                   orderby m.pub_date descending
                    select new UserMessageDTO
                    {
                         username = u.username,

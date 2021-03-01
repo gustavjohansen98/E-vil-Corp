@@ -44,7 +44,7 @@
 @* {% for message in messages %} *@
     @if (MiniMain.UserMessageDTO.ToList().Count > 0)
     {
-        @foreach (var message in @MiniMain.UserMessageDTO)
+        @foreach (var message in @MiniMain.UserMessageDTO.OrderByDescending(m => Convert.ToDateTime(m.pub_date)))
         {
             <li><img src=@MiniMain.GravatarUrl(message.email, 48)>
             <strong><a href=@MiniMain.UrlForUser(message.username)>@message.username</a></strong>
