@@ -16,9 +16,7 @@ namespace mvp.ViewModels
         public TimelineCallAPI(IUserState userState, IUtilViewModel utils, HttpClient httpClient)
         {
             _userState = userState;
-
             _utils = utils;
-
             _httpClient = httpClient;
         }
 

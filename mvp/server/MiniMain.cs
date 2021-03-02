@@ -255,6 +255,9 @@ namespace mvp
             return user;
         }
 
+        /// <summary>
+        /// DEPRECATED (see IUtilViewModel)
+        /// </summary>
         public async Task<bool> IsFollowed(string username1, string username2)
         {
             var response = await _httpClient.GetAsync(APIURL + "fllws/" + username1 + "/" + username2);
@@ -268,7 +271,10 @@ namespace mvp
 
             return IsUserFollowing;
         }
-
+        
+        /// <summary>
+        /// DEPRECATED (see IUtilViewModel)
+        /// </summary>
         public async Task FollowUser(string user, string userToUnfollow)
         {
             var json = JsonConvert.SerializeObject(user);
@@ -277,6 +283,9 @@ namespace mvp
             await _httpClient.PostAsync(APIURL + "fllws/" + user + "/" + userToUnfollow, data);
         }
 
+        /// <summary>
+        /// DEPRECATED (see IUtilViewModel)
+        /// </summary>
         public async Task UnfollowUser(string user, string userToFollow)
         {
             Console.WriteLine(APIURL + "fllws/" + user + "/" + userToFollow);

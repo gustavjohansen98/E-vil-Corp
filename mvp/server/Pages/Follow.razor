@@ -1,8 +1,8 @@
 @page "/{username}/follow"
 @using Repos;
-@inject IMiniMain MiniMain
 @inject IUserState UserState
-@inject IUserState UserState
+@inject IUtilViewModel UtilViewModel
+@inject IFollowCallAPI FollowCallAPI
 @inject NavigationManager NavigationManager
 
 @code {
@@ -12,15 +12,15 @@
     {
         if (UserState.User.user_id <= -1) NavigationManager.NavigateTo("timeline");
 
-        await MiniMain.FollowUser(UserState.User.username, username);
+        await FollowCallAPI.FollowUser(UserState.User.username, username);
 
         @* FollowerRepository.FollowUser(MiniMain.User.username, username); *@
 
-        MiniMain.FlashedMessages = new [] 
+        UtilViewModel.FlashedMessages = new [] 
         { 
             "You are now following " + username 
         };
 
-        NavigationManager.NavigateTo(MiniMain.UrlForUser(username));
+        NavigationManager.NavigateTo(UtilViewModel.UrlForUser(username));
     }
 }
