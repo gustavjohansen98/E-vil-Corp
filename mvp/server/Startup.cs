@@ -36,21 +36,13 @@ namespace mvp
         {
             services.AddRazorPages();
             services.AddServerSideBlazor();
-            services.AddSingleton<WeatherForecastService>();
+            // services.AddSingleton<WeatherForecastService>();
             services.AddScoped<HttpClient, HttpClient>();
-
-            // services.AddDbContext<IMinitwitContext, MinitwitContext>(options => 
-            // {
-            //     options.UseSqlite("Data Source=minitwit.db");
-            // });
-
-            // services.AddScoped<IMessageRepository, MessageRepository>();
-            // services.AddScoped<IFollowerRepository, FollowerRepository>();
-            // services.AddScoped<IUserRepository, UserRepository>();
             
             services.AddScoped<IUserState, UserState>();
             services.AddScoped<IUtilViewModel, UtilViewModel>();
             services.AddScoped<ITimelineCallAPI, TimelineCallAPI>();
+            services.AddScoped<IFollowCallAPI, FollowCallAPI>();
             services.AddScoped<IMiniMain, MiniMain>();
         }
 

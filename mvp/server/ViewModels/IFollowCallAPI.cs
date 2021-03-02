@@ -1,4 +1,6 @@
-namespace EvilApp.ViewModels
+using System.Threading.Tasks;
+
+namespace mvp.ViewModels
 {
     public interface IFollowCallAPI
     {

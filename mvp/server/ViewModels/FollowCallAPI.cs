@@ -1,6 +1,12 @@
-using mvp.Extensions
+using System.Text;
+using mvp.Extensions;
+using System.Net.Http;
+using Newtonsoft.Json;
+using System.Text.Json;
+using System.Threading.Tasks;
 
-namespace EvilApp.ViewModels
+
+namespace mvp.ViewModels
 {
     class FollowCallAPI : IFollowCallAPI
     {
@@ -39,11 +45,7 @@ namespace EvilApp.ViewModels
 
         public async Task UnfollowUser(string user, string userToFollow)
         {
-            Console.WriteLine(_utils.APIURL + "fllws/" + user + "/" + userToFollow);
-            
             var response = await _httpClient.DeleteAsync(_utils.APIURL + "fllws/" + user + "/" + userToFollow);
-
-            Console.WriteLine(response);
         }
     }
 }
