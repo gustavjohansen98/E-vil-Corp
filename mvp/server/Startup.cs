@@ -49,6 +49,8 @@ namespace mvp
             // services.AddScoped<IUserRepository, UserRepository>();
             
             services.AddScoped<IUserState, UserState>();
+            services.AddScoped<IUtilViewModel, UtilViewModel>();
+            services.AddScoped<ITimelineCallAPI, TimelineCallAPI>();
             services.AddScoped<IMiniMain, MiniMain>();
         }
 

@@ -1,6 +1,8 @@
 @page "/{username}/follow"
 @using Repos;
 @inject IMiniMain MiniMain
+@inject IUserState UserState
+@inject IUserState UserState
 @inject NavigationManager NavigationManager
 
 @code {
@@ -8,9 +10,9 @@
     public string username { get; set; }
     protected override async Task OnInitializedAsync()
     {
-        if (MiniMain.User.user_id <= -1) NavigationManager.NavigateTo("timeline");
+        if (UserState.User.user_id <= -1) NavigationManager.NavigateTo("timeline");
 
-        await MiniMain.FollowUser(MiniMain.User.username, username);
+        await MiniMain.FollowUser(UserState.User.username, username);
 
         @* FollowerRepository.FollowUser(MiniMain.User.username, username); *@
 

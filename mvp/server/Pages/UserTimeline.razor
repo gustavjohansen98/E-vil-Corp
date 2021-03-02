@@ -1,18 +1,21 @@
 @page "/{username}"
 @inject IMiniMain MiniMain
+@inject IUserState UserState
+@inject IUtilViewModel UtilViewModel
+@inject ITimelineCallAPI TimelineCallAPI
 @using System.Collections.Generic
 @using System.Linq
 @using Minitwit.Entities
 @using Repos;
 @inject NavigationManager NavigationManager
 
-@if (NavigationManager.Uri == MiniMain.Url_for("public timeline")) @* public_timeline *@
+@if (NavigationManager.Uri == UtilViewModel.Url_for("public timeline")) @* public_timeline *@
      {
         <h2>Public Timeline</h2>
      }
-    else if (NavigationManager.Uri == MiniMain.Url_for("user timeline")) @* user timeline *@
+    else if (NavigationManager.Uri == UtilViewModel.Url_for("user timeline")) @* user timeline *@
     {
-        <h2>@MiniMain.User 's Timeline</h2>
+        <h2>@UserState.User.username 's Timeline</h2>
     }
     else
     {
@@ -22,32 +25,32 @@
 @* {% if request.endpoint == 'user_timeline' %} *@
 <div class=followstatus>
     @* {% if g.user.user_id == profile_user.user_id %} *@
-    @if (@MiniMain.User.username == username)
+    @if (@UserState.User.username == username)
     {
         <p>This is you!</p>
     }
     @* {% elif followed %} *@
-    else if (IsFollowed && MiniMain.User.user_id != -1)
+    else if (IsFollowed && UserState.User.user_id != -1)
     {
         <p>You are currently following this user.</p>
-        <a class=unfollow href=@MiniMain.UrlForUnfollow(username)>Unfollow user</a>
+        <a class=unfollow href=@UtilViewModel.UrlForUnfollow(username)>Unfollow user</a>
     }
     @* {% else %} *@
-    else if (MiniMain.User.user_id != -1)
+    else if (UserState.User.user_id != -1)
     {
         <p>You are not yet following this user.</p>
-        <a class=follow href=@MiniMain.UrlForFollow(username)>Follow user</a>
+        <a class=follow href=@UtilViewModel.UrlForFollow(username)>Follow user</a>
     }
 </div>
      
 <ul class=messages>
 @* {% for message in messages %} *@
-    @if (MiniMain.UserMessageDTO.ToList().Count > 0)
+    @if (UtilViewModel.UserMessageDTO.ToList().Count > 0)
     {
-        @foreach (var message in @MiniMain.UserMessageDTO.OrderByDescending(m => Convert.ToDateTime(m.pub_date)))
+        @foreach (var message in @UtilViewModel.UserMessageDTO.OrderByDescending(m => Convert.ToDateTime(m.pub_date)))
         {
-            <li><img src=@MiniMain.GravatarUrl(message.email, 48)>
-            <strong><a href=@MiniMain.UrlForUser(message.username)>@message.username</a></strong>
+            <li><img src=@UtilViewModel.GravatarUrl(message.email, 48)>
+            <strong><a href=@UtilViewModel.UrlForUser(message.username)>@message.username</a></strong>
             @message.text
             <small>&mdash; @message.pub_date </small></li> 
         }
@@ -65,15 +68,15 @@
 
     protected override async Task OnInitializedAsync()
     {
-        MiniMain.FlashedMessages = null;
+        UtilViewModel.FlashedMessages = null;
         
-        MiniMain.UserMessageDTO = new List<UserMessageDTO>();
+        UtilViewModel.UserMessageDTO = new List<UserMessageDTO>();
 
-        if (MiniMain.User.username != username && MiniMain.User.username != null)
+        if (UserState.User.username != username && UserState.User.username != null)
         {
-            IsFollowed = await MiniMain.IsFollowed(MiniMain.User.username, username);
+            IsFollowed = await MiniMain.IsFollowed(UserState.User.username, username);
         }
 
-        await MiniMain.UserTimeline(username);
+        await TimelineCallAPI.UserTimeline(username);
     }
 }

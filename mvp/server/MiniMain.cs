@@ -18,10 +18,25 @@ namespace mvp
 {
     public class MiniMain : IMiniMain
     {
+        /// <summary>
+        /// DEPRECATED (see IUserState)
+        /// </summary>
         public User User { get; set; }
+        /// <summary>
+        /// DEPRECATED (see IUtilViewModel)
+        /// </summary>
         public IEnumerable<string> FlashedMessages { get; set; }
+        /// <summary>
+        /// DEPRECATED (see IUtilViewModel)
+        /// </summary>
         public IEnumerable<UserMessageDTO> UserMessageDTO { get; set; }
+        /// <summary>
+        /// DEPRECATED (see IUtilViewModel)
+        /// </summary>
         public string URL { get; }
+        /// <summary>
+        /// DEPRECATED (see IUtilViewModel)
+        /// </summary>
         public string APIURL { get; }
 
         private readonly System.Security.Cryptography.MD5 _md5 = System.Security.Cryptography.MD5.Create();
@@ -43,6 +58,10 @@ namespace mvp
             UserMessageDTO = new List<UserMessageDTO>();
         }
 
+        /// <summary>
+        /// DEPRECATED (see IUtilViewModel)
+        /// </summary>
+        
         public string MD5Hasher(string toBeHashed)
         {
             byte[] emailBytes = Encoding.UTF8.GetBytes(toBeHashed.Trim().ToLower());
@@ -56,7 +75,10 @@ namespace mvp
 
             return builder.ToString().Trim().ToLower();
         }
-
+        
+        /// <summary>
+        /// DEPRECATED (see IUtilViewModel)
+        /// </summary>
         public string Url_for(string name)
         {
             switch (name)
@@ -80,21 +102,33 @@ namespace mvp
             return "";
         }
 
+        //// <summary>
+        /// DEPRECATED (see IUtilViewModel)
+        /// </summary>
         public string UrlForUser(string username)
         {
             return URL + username;
         }
 
+        /// <summary>
+        /// DEPRECATED (see IUtilViewModel)
+        /// </summary>
         public string UrlForUnfollow(string username)
         {
             return URL + username + "/unfollow";
         }
 
+        /// <summary>
+        /// DEPRECATED (see IUtilViewModel)
+        /// </summary>
         public string UrlForFollow(string username)
         {
             return URL +  username + "/follow";
         }
 
+        /// <summary>
+        /// DEPRECATED (see IUtilViewModel)
+        /// </summary>
         public string GravatarUrl(string email, int size=80)
         {
             return "http://www.gravatar.com/avatar/" + 
@@ -103,6 +137,9 @@ namespace mvp
                     size;
         }
 
+        /// <summary>
+        /// DEPRECATED (see ITimelineCallAPI)
+        /// </summary>
         public async Task<IEnumerable<UserMessageDTO>> Timeline()
         {
             if (User != null && User.user_id >= 0) 
@@ -128,6 +165,9 @@ namespace mvp
             }
         }
 
+        /// <summary>
+        /// DEPRECATED (see ITimelineCallAPI)
+        /// </summary>
         public async Task<IEnumerable<UserMessageDTO>> PublicTimeline()
         {
             var response = await _httpClient.GetAsync(APIURL + "msgs/");
@@ -142,6 +182,9 @@ namespace mvp
             return UserMessageDTO;
         }
 
+        /// <summary>
+        /// DEPRECATED (see ITimelineCallAPI)
+        /// </summary>
         public async Task<IEnumerable<UserMessageDTO>> UserTimeline(string username)
         {
             var response = await _httpClient.GetAsync(APIURL + "msgs/" + username);
@@ -195,7 +238,7 @@ namespace mvp
                 new JsonSerializerOptions { PropertyNameCaseInsensitive = true }
             );
 
-            User = user;
+            _userState.User = user;
         }
 
         public async Task<User> GetUserFromUsername(string username)
