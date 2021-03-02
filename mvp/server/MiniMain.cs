@@ -41,7 +41,6 @@ namespace mvp
             User = _userState.User;
 
             UserMessageDTO = new List<UserMessageDTO>();
-            // Timeline();
         }
 
         public string MD5Hasher(string toBeHashed)
