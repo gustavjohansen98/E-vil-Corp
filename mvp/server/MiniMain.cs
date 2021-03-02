@@ -12,6 +12,7 @@ using Microsoft.EntityFrameworkCore;
 using Minitwit.Entities;
 using Newtonsoft.Json;
 using Repos;
+using mvp.ViewModels;
 
 namespace mvp
 {
@@ -26,16 +27,18 @@ namespace mvp
         private readonly System.Security.Cryptography.MD5 _md5 = System.Security.Cryptography.MD5.Create();
         private readonly HttpClient _httpClient;
         private readonly NavigationManager _navigationManager;
+        private readonly IUserState _userState;
 
-        public MiniMain(HttpClient httpClient, NavigationManager navigationManager)
+        public MiniMain(HttpClient httpClient, NavigationManager navigationManager, IUserState userState)
         {
             _httpClient = httpClient;
             _navigationManager = navigationManager;
+            _userState = userState;
 
             URL = _navigationManager.BaseUri;
             APIURL = "http://159.89.213.38:5010/";
 
-            User = new User{ user_id = -1 };
+            User = _userState.User;
 
             UserMessageDTO = new List<UserMessageDTO>();
             // Timeline();
