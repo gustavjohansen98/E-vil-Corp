@@ -17,6 +17,7 @@ using Repos;
 using System.IO;
 using System.Reflection;
 using System.Net.Http;
+using mvp.ViewModels;
 
 namespace mvp
 {
@@ -47,6 +48,9 @@ namespace mvp
             // services.AddScoped<IFollowerRepository, FollowerRepository>();
             // services.AddScoped<IUserRepository, UserRepository>();
             
+            services.AddScoped<IUserState, UserState>();
+            services.AddScoped<IUtilViewModel, UtilViewModel>();
+            services.AddScoped<ITimelineCallAPI, TimelineCallAPI>();
             services.AddScoped<IMiniMain, MiniMain>();
         }
 

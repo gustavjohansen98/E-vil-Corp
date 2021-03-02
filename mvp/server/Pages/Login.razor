@@ -2,6 +2,7 @@
 @using Minitwit.Entities
 @using System.ComponentModel.DataAnnotations
 @inject IMiniMain MiniMain
+@inject IUserState UserState
 @inject NavigationManager NavigationManager;
 
 <h2>Sign In</h2>
@@ -32,16 +33,16 @@
     private async Task HandleValidSubmit() 
     {
         await MiniMain.Login(loginUser.Username);
-        int userID = MiniMain.User.user_id;
+        int userID = UserState.User.user_id;
 
         if (userID == -1) 
         {
             MiniMain.FlashedMessages = new string[]{"Usernane does not exist"};
             NavigationManager.NavigateTo("login");
-        } else if(MiniMain.MD5Hasher(loginUser.Password) == MiniMain.User.pwd)
+        } else if(MiniMain.MD5Hasher(loginUser.Password) == UserState.User.pwd)
         {
-            MiniMain.User.user_id = userID;
-            MiniMain.User.username = loginUser.Username;
+            UserState.User.user_id = userID;
+            UserState.User.username = loginUser.Username;
             MiniMain.FlashedMessages = new string[]{"You were logged in"};
             NavigationManager.NavigateTo("");
         } 

@@ -6,38 +6,62 @@ using System.Net.Http;
 using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Components;
 using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
 using Minitwit.Entities;
 using Newtonsoft.Json;
 using Repos;
+using mvp.ViewModels;
 
 namespace mvp
 {
     public class MiniMain : IMiniMain
     {
+        /// <summary>
+        /// DEPRECATED (see IUserState)
+        /// </summary>
         public User User { get; set; }
+        /// <summary>
+        /// DEPRECATED (see IUtilViewModel)
+        /// </summary>
         public IEnumerable<string> FlashedMessages { get; set; }
+        /// <summary>
+        /// DEPRECATED (see IUtilViewModel)
+        /// </summary>
         public IEnumerable<UserMessageDTO> UserMessageDTO { get; set; }
+        /// <summary>
+        /// DEPRECATED (see IUtilViewModel)
+        /// </summary>
         public string URL { get; }
+        /// <summary>
+        /// DEPRECATED (see IUtilViewModel)
+        /// </summary>
         public string APIURL { get; }
 
         private readonly System.Security.Cryptography.MD5 _md5 = System.Security.Cryptography.MD5.Create();
         private readonly HttpClient _httpClient;
+        private readonly NavigationManager _navigationManager;
+        private readonly IUserState _userState;
 
-        public MiniMain(HttpClient httpClient)
+        public MiniMain(HttpClient httpClient, NavigationManager navigationManager, IUserState userState)
         {
             _httpClient = httpClient;
+            _navigationManager = navigationManager;
+            _userState = userState;
 
-            URL = "http://localhost:5000/";
-            APIURL = "http://localhost:5010/";
+            URL = _navigationManager.BaseUri;
+            APIURL = "http://159.89.213.38:5010/";
 
-            User = new User{ user_id = -1 };
+            User = _userState.User;
 
             UserMessageDTO = new List<UserMessageDTO>();
-            // Timeline();
         }
 
+        /// <summary>
+        /// DEPRECATED (see IUtilViewModel)
+        /// </summary>
+        
         public string MD5Hasher(string toBeHashed)
         {
             byte[] emailBytes = Encoding.UTF8.GetBytes(toBeHashed.Trim().ToLower());
@@ -51,7 +75,10 @@ namespace mvp
 
             return builder.ToString().Trim().ToLower();
         }
-
+        
+        /// <summary>
+        /// DEPRECATED (see IUtilViewModel)
+        /// </summary>
         public string Url_for(string name)
         {
             switch (name)
@@ -75,21 +102,33 @@ namespace mvp
             return "";
         }
 
+        //// <summary>
+        /// DEPRECATED (see IUtilViewModel)
+        /// </summary>
         public string UrlForUser(string username)
         {
             return URL + username;
         }
 
+        /// <summary>
+        /// DEPRECATED (see IUtilViewModel)
+        /// </summary>
         public string UrlForUnfollow(string username)
         {
             return URL + username + "/unfollow";
         }
 
+        /// <summary>
+        /// DEPRECATED (see IUtilViewModel)
+        /// </summary>
         public string UrlForFollow(string username)
         {
             return URL +  username + "/follow";
         }
 
+        /// <summary>
+        /// DEPRECATED (see IUtilViewModel)
+        /// </summary>
         public string GravatarUrl(string email, int size=80)
         {
             return "http://www.gravatar.com/avatar/" + 
@@ -98,6 +137,9 @@ namespace mvp
                     size;
         }
 
+        /// <summary>
+        /// DEPRECATED (see ITimelineCallAPI)
+        /// </summary>
         public async Task<IEnumerable<UserMessageDTO>> Timeline()
         {
             if (User != null && User.user_id >= 0) 
@@ -123,6 +165,9 @@ namespace mvp
             }
         }
 
+        /// <summary>
+        /// DEPRECATED (see ITimelineCallAPI)
+        /// </summary>
         public async Task<IEnumerable<UserMessageDTO>> PublicTimeline()
         {
             var response = await _httpClient.GetAsync(APIURL + "msgs/");
@@ -137,6 +182,9 @@ namespace mvp
             return UserMessageDTO;
         }
 
+        /// <summary>
+        /// DEPRECATED (see ITimelineCallAPI)
+        /// </summary>
         public async Task<IEnumerable<UserMessageDTO>> UserTimeline(string username)
         {
             var response = await _httpClient.GetAsync(APIURL + "msgs/" + username);
@@ -190,7 +238,7 @@ namespace mvp
                 new JsonSerializerOptions { PropertyNameCaseInsensitive = true }
             );
 
-            User = user;
+            _userState.User = user;
         }
 
         public async Task<User> GetUserFromUsername(string username)

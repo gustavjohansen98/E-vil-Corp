@@ -2,11 +2,12 @@
 @using Minitwit.Entities
 @inject NavigationManager NavigationManager
 @inject IMiniMain MiniMain
+@inject IUserState UserState
 
 @code {
     protected override async Task OnInitializedAsync()
     {
-        MiniMain.User = new User{ user_id = -1 };
+        UserState.User = new User{ user_id = -1 };
         
         NavigationManager.NavigateTo("/public");
        
