@@ -16,17 +16,20 @@ namespace Controllers
     {
         private IFollowerRepository _repoFollower;
         private IUserRepository _userRepo;
+        private static latest_global latest_;
 
-        public FollowerController(IFollowerRepository repoFollower, IUserRepository userRepo)
+        public FollowerController(IFollowerRepository repoFollower, IUserRepository userRepo, latest_global LATEST)
         {
             _repoFollower = repoFollower;
             _userRepo = userRepo;
+            latest_ = LATEST;
         }
 
         [HttpPost("{username}")]
         public IActionResult Follow([FromRoute] string username, [FromBody] JsonElement body, [FromQuery(Name = "latest")] int latest)
         {
-            LatestController.UpdateLATEST(latest);
+            // LatestController.UpdateLATEST(latest);
+            latest_.LATEST = latest;
 
             dynamic o = JsonConvert.DeserializeObject(body.ToString()); // deserialize to dynamic object, which we can add the relevant properties to
 

@@ -16,17 +16,19 @@ namespace Controllers
         private IMessageRepository _repoMessage;
         private IUserRepository _repoUser;
         private const int LIMIT = 100; // (y) noice 
+        private static latest_global latest_;
 
-        public MessageController(IMessageRepository repoMessage, IUserRepository repoUser)
+        public MessageController(IMessageRepository repoMessage, IUserRepository repoUser, latest_global LATEST)
         {
             _repoMessage = repoMessage;
             _repoUser = repoUser;
+            latest_ = LATEST;
         }
 
         [HttpGet]
         public ActionResult<IEnumerable<UserMessageDTO>> GetAllMessages([FromQuery(Name = "latest")] int latest)
         {
-            LatestController.UpdateLATEST(latest);
+            latest_.LATEST = latest;
             // TODO: not_req-from_simulator
             
             var messages = _repoMessage.GetAllMessages();
@@ -37,7 +39,7 @@ namespace Controllers
         [HttpGet("{username}")]
         public ActionResult<IEnumerable<UserMessageDTO>> GetMessagesFromAGivenUser(string username, [FromQuery(Name = "latest")] int latest)
         {
-            LatestController.UpdateLATEST(latest);
+            latest_.LATEST = latest;
 
             // TODO: not re_from_reposonse
 
@@ -49,7 +51,7 @@ namespace Controllers
         [HttpPost("{username}")]
         public IActionResult Tweet(string username, [FromBody] JsonElement body, [FromQuery(Name = "latest")] int latest)
         {
-            LatestController.UpdateLATEST(latest);
+            latest_.LATEST = latest;
 
             dynamic o = JsonConvert.DeserializeObject(body.ToString());
             string message = (string) o.content;
@@ -67,7 +69,7 @@ namespace Controllers
         [HttpGet]
         public ActionResult<IEnumerable<UserMessageDTO>> GetOwnAndFollowedMessages(string username, [FromQuery(Name = "latest")] int latest)
         {
-            LatestController.UpdateLATEST(latest);
+            latest_.LATEST = latest;
 
             var user_id = _repoUser.GetUserIDFromUsername(username);
 
