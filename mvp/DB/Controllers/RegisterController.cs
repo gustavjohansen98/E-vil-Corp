@@ -14,16 +14,18 @@ namespace Controllers
     public class RegisterController : ControllerBase
     {
         private IUserRepository _repo;
+        private static latest_global latest_;
 
-        public RegisterController(IUserRepository repo)
+        public RegisterController(IUserRepository repo, latest_global LATEST)
         {
             _repo = repo;
+            latest_ = LATEST;
         }
 
         [HttpPost]
         public IActionResult CreateNewUser([FromBody]JsonElement body, [FromQuery(Name = "latest")] int latest)
         {
-            LatestController.UpdateLATEST(latest);
+            latest_.LATEST = latest;           ;
 
             dynamic o = JsonConvert.DeserializeObject(body.ToString());
 
@@ -62,8 +64,6 @@ namespace Controllers
                 email = email,
                 pwd = pwd
             };
-
-            Console.WriteLine("User added to DB");
             
             var statusCode = _repo.AddUser(user);
 

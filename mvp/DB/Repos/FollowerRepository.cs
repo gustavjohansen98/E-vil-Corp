@@ -52,7 +52,7 @@ namespace Repos
 
             if (userInSessionID < 0 || userToUnfollowID < 0)
             {
-                Console.WriteLine("1");
+                // Console.WriteLine("1");
                 return NotAcceptable;
             }
 
@@ -63,11 +63,11 @@ namespace Repos
 
             if (follower == null)
             {
-                Console.WriteLine("2");
+                // Console.WriteLine("2");
                 return NoContent;
             }
 
-            Console.WriteLine("3");
+            // Console.WriteLine("3");
             _context.Follower.Remove(follower);
             _context.SaveChanges();
 

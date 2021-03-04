@@ -14,16 +14,17 @@ namespace Controllers
     public class LatestController : ControllerBase
     {
         public static int LATEST { get; set ; }
+        private static latest_global latest_;
 
-        public LatestController()
+        public LatestController(latest_global latest)
         {
-            LATEST = 0;
+            latest_ = latest;
         }
 
         [HttpGet]
         public IActionResult getLatest()
         {
-            var latest = new { latest = LATEST };
+            var latest = new { latest = latest_.LATEST };
             string output = JsonConvert.SerializeObject(latest);
 
             return Ok(output);

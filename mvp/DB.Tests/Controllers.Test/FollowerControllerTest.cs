@@ -18,8 +18,9 @@ namespace DB.Tests
         {
             var followRepo = new Mock<IFollowerRepository>();
             var userRepo = new Mock<IUserRepository>();
+            var latest = new Mock<latest_global>();
 
-            var controller = new FollowerController(followRepo.Object, userRepo.Object);
+            var controller = new FollowerController(followRepo.Object, userRepo.Object, latest.Object);
 
             // var actual = controller.Follow("user1");
 

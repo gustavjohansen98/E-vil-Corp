@@ -11,6 +11,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using Microsoft.OpenApi.Models;
 using Minitwit.Entities;
 using Repos;
@@ -29,6 +30,16 @@ namespace Server
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            Action<latest_global> latest_options = (opt => 
+            {
+                opt.LATEST = 0;
+            });
+
+            services.Configure(latest_options);
+            services.AddSingleton(resolver =>
+            {
+                return resolver.GetRequiredService<IOptions<latest_global>>().Value;
+            });
 
             services.AddSwaggerGen(c =>
             {
