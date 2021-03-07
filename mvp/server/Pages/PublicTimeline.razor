@@ -1,5 +1,7 @@
 @page "/public"
 @inject IMiniMain MiniMain
+@inject IUtilViewModel UtilViewModel
+@inject ITimelineCallAPI TimelineCallAPI
 @using System.Collections.Generic
 @using System.Linq
 @using Repos;
@@ -10,12 +12,12 @@
 
 <ul class=messages>
 @* {% for message in messages %} *@
-    @if (MiniMain.UserMessageDTO.ToList().Count > 0)
+    @if (UtilViewModel.UserMessageDTO.ToList().Count > 0)
     {
-        @foreach (var message in @MiniMain.UserMessageDTO.OrderByDescending(m => Convert.ToDateTime(m.pub_date)))
+        @foreach (var message in @UtilViewModel.UserMessageDTO.OrderByDescending(m => Convert.ToDateTime(m.pub_date)))
         {
-            <li><img src=@MiniMain.GravatarUrl(message.email, 48)>
-            <strong><a href=@MiniMain.UrlForUser(message.username)>@message.username</a></strong>
+            <li><img src=@UtilViewModel.GravatarUrl(message.email, 48)>
+            <strong><a href=@UtilViewModel.UrlForUser(message.username)>@message.username</a></strong>
             @message.text
             <small>&mdash; @message.pub_date </small></li> 
         }
@@ -29,8 +31,8 @@
 @code {
      protected override async Task OnInitializedAsync()
     {
-        MiniMain.UserMessageDTO = new List<UserMessageDTO>();
+        UtilViewModel.UserMessageDTO = new List<UserMessageDTO>();
         
-        await MiniMain.PublicTimeline(); 
+        await TimelineCallAPI.PublicTimeline(); 
     }
 }

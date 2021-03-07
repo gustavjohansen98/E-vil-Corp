@@ -1,15 +1,18 @@
 @page "/"
 @inject IMiniMain MiniMain
+@inject IUserState UserState
+@inject IUtilViewModel UtilViewModel
+@inject ITimelineCallAPI TimelineCallAPI
 @using System.Collections.Generic
 @using System.Linq
 @using Repos;
 @using Minitwit.Entities;
 @inject NavigationManager NavigationManager
 
-<h2>@MiniMain.User.username 's Timeline</h2>//
+<h2>@UserState.User.username 's Timeline</h2>//
 
 <div class=twitbox>
-    <h3>What's on your mind @MiniMain.User.username ?</h3>
+    <h3>What's on your mind @UserState.User.username ?</h3>
     <EditForm Model="messageText" OnValidSubmit="OnValidSubmit">
         <DataAnnotationsValidator />
         <InputText @bind-Value="messageText.text" />
@@ -21,12 +24,12 @@
 
 <ul class=messages>
     @* {% for message in messages %} *@
-    @if (MiniMain.UserMessageDTO.ToList().Count > 0)
+    @if (UtilViewModel.UserMessageDTO.ToList().Count > 0)
     {
-        @foreach (var message in @MiniMain.UserMessageDTO.OrderByDescending(m => Convert.ToDateTime(m.pub_date)))
+        @foreach (var message in @UtilViewModel.UserMessageDTO.OrderByDescending(m => Convert.ToDateTime(m.pub_date)))
         {
-            <li><img src=@MiniMain.GravatarUrl(message.email, 48)>
-            <strong><a href=@MiniMain.UrlForUser(message.username)>@message.username</a></strong>
+            <li><img src=@UtilViewModel.GravatarUrl(message.email, 48)>
+            <strong><a href=@UtilViewModel.UrlForUser(message.username)>@message.username</a></strong>
             @message.text
             <small>&mdash; @message.pub_date </small></li> 
         }
@@ -47,18 +50,15 @@
 
     private void OnValidSubmit()
     {
-        // API post method
         MiniMain.AddMessageToDB(messageText.text);
-
-        Console.WriteLine("Working");
     }
 
     protected override async Task OnInitializedAsync()
     {
-        if (MiniMain.User.user_id <= -1) NavigationManager.NavigateTo("public");
+        if (UserState.User.user_id <= -1) NavigationManager.NavigateTo("public");
 
-        MiniMain.UserMessageDTO = new List<UserMessageDTO>();
+            UtilViewModel.UserMessageDTO = new List<UserMessageDTO>();
 
-        await MiniMain.Timeline();
+        await TimelineCallAPI.Timeline();
     }
 }

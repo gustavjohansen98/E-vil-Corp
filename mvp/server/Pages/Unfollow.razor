@@ -1,6 +1,8 @@
 @page "/{username}/unfollow"
 @using Repos;
-@inject IMiniMain MiniMain
+@inject IUserState UserState
+@inject IUtilViewModel UtilViewModel
+@inject IFollowCallAPI FollowCallAPI
 @inject NavigationManager NavigationManager
 
 @code {
@@ -9,17 +11,17 @@
 
     protected override void OnInitialized()
     {
-        if (MiniMain.User.user_id <= -1) NavigationManager.NavigateTo("timeline");
+        if (UserState.User.user_id <= -1) NavigationManager.NavigateTo("timeline");
 
-        MiniMain.UnfollowUser(MiniMain.User.username, username);
+        FollowCallAPI.UnfollowUser(UserState.User.username, username);
 
-        @* FollowerRepository.UnfollowUser(MiniMain.User.username, username); *@
+        @* FollowerRepository.UnfollowUser(UserState.User.username, username); *@
 
-        MiniMain.FlashedMessages = new [] 
+        UtilViewModel.FlashedMessages = new [] 
         { 
             "You are no longer following " + username 
         };
 
-        NavigationManager.NavigateTo(MiniMain.UrlForUser(username));
+        NavigationManager.NavigateTo(UtilViewModel.UrlForUser(username));
     }
 }
