@@ -10,36 +10,36 @@ on:
 
 jobs:
 
-####
+###
 
-#   build-and-test:
-#     runs-on: ${{ matrix.os }}
-#     strategy: 
-#       matrix:
-#         os: [ubuntu-latest, windows-latest, macOS-latest]
+  build-and-test:
+    runs-on: ${{ matrix.os }}
+    strategy: 
+      matrix:
+        os: [ubuntu-latest]
       
     
-#     steps:
-#       - uses: actions/checkout@v2
-#       - name: Setup .NET Core
-#         uses: actions/setup-dotnet@v1
-#         with:
-#           dotnet-version: '5.0.x'
+    steps:
+      - uses: actions/checkout@v2
+      - name: Setup .NET Core
+        uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: '5.0.x'
           
-#       - name: Install dependencies
-#         run: dotnet restore mvp/
+      - name: Install dependencies
+        run: dotnet restore mvp/
           
-#       - name: Build with dotnet 
-#         run: dotnet build mvp/ --configuration Release
+      - name: Build with dotnet 
+        run: dotnet build mvp/ --configuration Release
       
-#       - name: Run tests
-#         run: dotnet test mvp/ --configuration Release
+      - name: Run tests
+        run: dotnet test mvp/ --configuration Release
   
   
   ####
   
   deploy:
-#     needs: build-and-test # make sure we build and test before we actually deploy 
+    needs: build-and-test # make sure we build and test before we actually deploy 
     
     runs-on: ubuntu-latest
     
