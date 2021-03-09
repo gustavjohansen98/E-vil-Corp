@@ -14,6 +14,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Microsoft.OpenApi.Models;
 using Minitwit.Entities;
+using Prometheus;
 using Repos;
 
 namespace Server
@@ -66,6 +67,8 @@ namespace Server
             }
 
             // app.UseHttpsRedirection();   // this causes an SSL error when running againts the simulator ..
+
+            app.UseMetricServer();
 
             app.UseRouting();
 
