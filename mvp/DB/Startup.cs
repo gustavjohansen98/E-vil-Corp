@@ -68,7 +68,6 @@ namespace Server
 
             // app.UseHttpsRedirection();   // this causes an SSL error when running againts the simulator ..
 
-            app.UseMetricServer();
 
             app.UseRouting();
 
@@ -78,6 +77,10 @@ namespace Server
             {
                 endpoints.MapControllers();
             });
+
+            // Prometheus
+            app.UseMetricServer();
+            app.UseRequestMiddleware();
         }
     }
 }
