@@ -63,6 +63,7 @@ jobs:
           key: ${{secrets.SSH_DB_KEY}}
           username: ${{ secrets.SSH_DB_USERNAME }}
           
+          # Spins up both app, server, Prometheus and Grafana
           script: |
             cd repo/
             fuser -k -n tcp 5010
@@ -74,3 +75,4 @@ jobs:
             nohup dotnet run --project mvp/server >> foo.out 2>> foo.err < /dev/null &
             sleep 10s
             cat foo.out
+            nohup docker-compose up >> foo.out 2>> foo.err < /dev/null &
