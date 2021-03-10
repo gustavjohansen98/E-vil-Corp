@@ -47,6 +47,12 @@ namespace Server
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Server", Version = "v1" });
             });
 
+            services
+                .AddHealthChecks()
+                // .AddDbContextCheck<MinitwitContext>()
+                .AddCheck<LatestHealthCheck>("latest_health_check")
+                .ForwardToPrometheus();
+
             services.AddDbContext<IMinitwitContext, MinitwitContext>(o => o.UseSqlite("Filename=../../../minitwit.db"));
             
             services.AddScoped<IUserRepository, UserRepository>();
@@ -68,19 +74,19 @@ namespace Server
 
             // app.UseHttpsRedirection();   // this causes an SSL error when running againts the simulator ..
 
-
             app.UseRouting();
+            
+            app.UseRequestMiddleware(); // Prometheus
 
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
+                endpoints.MapHealthChecks("/health");                
+                endpoints.MapMetrics(); // Prometheus
             });
 
-            // Prometheus
-            app.UseMetricServer();
-            app.UseRequestMiddleware();
         }
     }
 }
