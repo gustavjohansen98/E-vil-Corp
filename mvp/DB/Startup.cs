@@ -54,6 +54,8 @@ namespace Server
             services.AddScoped<IMessageRepository, MessageRepository>();
 
             services.AddControllers();
+
+            // services.AddHealthChecks().ForwardToPrometheus();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -70,17 +72,18 @@ namespace Server
 
 
             app.UseRouting();
+            
+            app.UseRequestMiddleware(); // Prometheus
 
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
+
+                endpoints.MapMetrics(); // Prometheus
             });
 
-            // Prometheus
-            app.UseMetricServer();
-            app.UseRequestMiddleware();
         }
     }
 }
