@@ -47,6 +47,12 @@ namespace Server
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Server", Version = "v1" });
             });
 
+            services
+                .AddHealthChecks()
+                // .AddDbContextCheck<MinitwitContext>()
+                .AddCheck<LatestHealthCheck>("latest_health_check")
+                .ForwardToPrometheus();
+
             services.AddDbContext<IMinitwitContext, MinitwitContext>(o => o.UseSqlite("Filename=../../../minitwit.db"));
             
             services.AddScoped<IUserRepository, UserRepository>();
@@ -54,8 +60,6 @@ namespace Server
             services.AddScoped<IMessageRepository, MessageRepository>();
 
             services.AddControllers();
-
-            // services.AddHealthChecks().ForwardToPrometheus();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -70,7 +74,6 @@ namespace Server
 
             // app.UseHttpsRedirection();   // this causes an SSL error when running againts the simulator ..
 
-
             app.UseRouting();
             
             app.UseRequestMiddleware(); // Prometheus
@@ -80,7 +83,7 @@ namespace Server
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
-
+                endpoints.MapHealthChecks("/health");                
                 endpoints.MapMetrics(); // Prometheus
             });
 
