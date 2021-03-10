@@ -1,8 +1,8 @@
 version: '3.5'
 
-networks:
-  main:
-    name: monitoring-pro-graf
+#networks:
+#  main:
+#    name: monitoring-pro-graf
 
 
 services:
@@ -13,13 +13,13 @@ services:
       - ./prometheus.yml:/etc/prometheus/prometheus.yml
     ports:
       - "9090:9090"
-    networks:
-      - main
+#    networks:
+#      - main
 
 
   grafana:
     image: grafana/grafana:4.5.2
     ports:
       - "3000:3000"  
-    networks:
-      - main
+#    networks:
+#      - main
