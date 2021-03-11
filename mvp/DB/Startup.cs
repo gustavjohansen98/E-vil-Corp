@@ -41,6 +41,7 @@ namespace Server
             {
                 return resolver.GetRequiredService<IOptions<latest_global>>().Value;
             });
+            services.AddSingleton<MetricReporter>(); // Prometheus
 
             services.AddSwaggerGen(c =>
             {
@@ -52,7 +53,8 @@ namespace Server
                 // .AddDbContextCheck<MinitwitContext>()
                 .AddCheck<LatestHealthCheck>("latest_health_check")
                 .ForwardToPrometheus();
-
+            
+            
             services.AddDbContext<IMinitwitContext, MinitwitContext>(o => o.UseSqlite("Filename=../../../minitwit.db"));
             
             services.AddScoped<IUserRepository, UserRepository>();
@@ -76,7 +78,10 @@ namespace Server
 
             app.UseRouting();
             
-            app.UseRequestMiddleware(); // Prometheus
+            app.UseMetricServer();
+            app.UseMiddleware<ResponseMetricMiddleware>(); // Prometheus
+            // app.UseHealthChecksPrometheusExporter("/my-health-metrics");
+
 
             app.UseAuthorization();
 
