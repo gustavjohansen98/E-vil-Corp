@@ -26,6 +26,7 @@
       {% endif %}
       </div>
     {% elif request.endpoint == 'timeline' %}
+      This is your TimeLine. Write something!
       <div class=twitbox>
         <h3>What's on your mind {{ g.user.username }}?</h3>
         <form action="{{ url_for('add_message') }}" method=post>

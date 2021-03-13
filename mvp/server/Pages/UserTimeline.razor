@@ -11,14 +11,17 @@
 
 @if (NavigationManager.Uri == UtilViewModel.Url_for("public timeline")) @* public_timeline *@
      {
+        <title>Public Timeline</title>
         <h2>Public Timeline</h2>
      }
     else if (NavigationManager.Uri == UtilViewModel.Url_for("user timeline")) @* user timeline *@
     {
+        <title>@UserState.User.username 's Timeline</title>
         <h2>@UserState.User.username 's Timeline</h2>
     }
     else
     {
+        <title>profile_user.username 's Timeline</title>
         <h2>My Timeline</h2>
     }
     @* {% if g.user %} *@
