@@ -16,6 +16,7 @@ using Microsoft.OpenApi.Models;
 using Minitwit.Entities;
 using Prometheus;
 using Repos;
+using Npgsql.EntityFrameworkCore.PostgreSQL;
 
 namespace Server
 {
@@ -55,7 +56,8 @@ namespace Server
                 .ForwardToPrometheus();
             
             
-            services.AddDbContext<IMinitwitContext, MinitwitContext>(o => o.UseSqlite("Filename=../../../minitwit.db"));
+            // services.AddDbContext<IMinitwitContext, MinitwitContext>(o => o.UseSqlite("Filename=../../../minitwit.db"));
+            services.AddDbContext<IMinitwitContext, MinitwitContext>(o => o.UseNpgsql(Configuration.GetConnectionString("DigitalOceanPSQL")));
             
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IFollowerRepository, FollowerRepository>();
