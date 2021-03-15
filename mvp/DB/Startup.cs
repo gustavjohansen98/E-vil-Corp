@@ -10,6 +10,7 @@ using Microsoft.Extensions.Options;
 using Microsoft.OpenApi.Models;
 using Minitwit.Entities;
 using Prometheus;
+using Prometheus.SystemMetrics;
 using Repos;
 
 namespace Server
@@ -44,11 +45,11 @@ namespace Server
             });
 
             services
+                .AddSystemMetrics()
                 .AddHealthChecks()
                 // .AddDbContextCheck<MinitwitContext>()
                 .AddCheck<LatestHealthCheck>("latest_health_check")
                 .ForwardToPrometheus();
-            
             
             services.AddDbContext<IMinitwitContext, MinitwitContext>(o => o.UseSqlite("Filename=../../../minitwit.db"));
             
