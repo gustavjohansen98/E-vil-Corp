@@ -80,6 +80,7 @@ namespace Server
             
             app.UseMetricServer();
             app.UseMiddleware<ResponseMetricMiddleware>(); // Prometheus
+            app.UseHttpMetrics(); // Prometheus
             // app.UseHealthChecksPrometheusExporter("/my-health-metrics");
 
 
