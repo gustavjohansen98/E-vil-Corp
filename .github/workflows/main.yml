@@ -12,6 +12,30 @@ jobs:
 
 ###
 
+  static-code-analysis-on-ubuntu:
+    runs-on: ubuntu-latest
+    
+    steps: 
+      - uses: actions/checkout@v2
+      - uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: '5.0.x'
+          
+      - name: Build with dotnet on ubuntu
+        run: dotnet build mvp/ 
+        
+      - name: Run Infer#
+        uses: microsoft/infersharpaction@v1.0
+        id: runinfersharp
+        with:
+          binary-path: 'mvp'
+          
+      - name: Infer# analysis results
+        run: echo "${{ steps.runinfersharp.outputs.results }}"
+    
+###    
+    
+
   build-and-test:
     runs-on: ${{ matrix.os }}
     strategy: 
@@ -76,7 +100,7 @@ jobs:
   ####
   
   deploy:
-    needs: build-and-test # make sure we build and test before we actually deploy 
+    needs: [build-and-test, static-code-analysis-on-ubuntu] # make sure we build and test before we actually deploy 
     
     runs-on: ubuntu-latest
     
