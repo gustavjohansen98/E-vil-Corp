@@ -4,7 +4,9 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 
 // Taken from: https://medium.com/@aevitas/expose-asp-net-core-metrics-with-prometheus-15e3356415f4
-public class ResponseMetricMiddleware
+namespace Server
+{
+    public class ResponseMetricMiddleware
 {
     private readonly RequestDelegate _request;
 
@@ -34,4 +36,5 @@ public class ResponseMetricMiddleware
             reporter.RegisterResponseTime(httpContext.Response.StatusCode, httpContext.Request.Method, sw.Elapsed);
         }
     }
+}   
 }

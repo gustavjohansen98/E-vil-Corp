@@ -3,7 +3,9 @@ using Microsoft.Extensions.Logging;
 using Prometheus;
 
 // Taken from: https://medium.com/@aevitas/expose-asp-net-core-metrics-with-prometheus-15e3356415f4
-public class MetricReporter
+namespace Server
+{
+    public class MetricReporter
 {
     private readonly ILogger<MetricReporter> _logger;
     private readonly Counter _requestCounter;
@@ -33,4 +35,5 @@ public class MetricReporter
     {
         _responseTimeHistogram.Labels(statusCode.ToString(), method).Observe(elapsed.TotalSeconds);
     }
+}   
 }
