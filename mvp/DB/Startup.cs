@@ -52,7 +52,8 @@ namespace Server
                 .AddCheck<LatestHealthCheck>("latest_health_check")
                 .ForwardToPrometheus();
             
-            services.AddDbContext<IMinitwitContext, MinitwitContext>(o => o.UseNpgsql(Configuration.GetConnectionString("DigitalOceanPSQL")));
+            // services.AddDbContext<IMinitwitContext, MinitwitContext>(o => o.UseNpgsql(Configuration.GetConnectionString("DigitalOceanPSQL")));
+            services.AddDbContext<IMinitwitContext, MinitwitContext>(o => o.UseSqlite("Filename=../../../minitwit.db"));
             
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IFollowerRepository, FollowerRepository>();
