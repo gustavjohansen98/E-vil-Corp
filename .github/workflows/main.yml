@@ -12,7 +12,7 @@ jobs:
 
 ###
 
-  static-code-analysis-on-ubuntu:
+  static-code-analysis-on-ubuntu-finding-leaks:
     runs-on: ubuntu-latest
     
     steps: 
@@ -107,7 +107,7 @@ jobs:
   ####
   
   deploy:
-    needs: [build-and-test, static-code-analysis-on-ubuntu] # make sure we build and test before we actually deploy 
+    needs: [build-and-test, static-code-analysis-on-ubuntu-finding-leaks] # make sure we build and test before we actually deploy 
     
     runs-on: ubuntu-latest
     
