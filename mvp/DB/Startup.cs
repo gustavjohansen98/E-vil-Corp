@@ -12,6 +12,7 @@ using Minitwit.Entities;
 using Prometheus;
 using Prometheus.SystemMetrics;
 using Repos;
+using Npgsql.EntityFrameworkCore.PostgreSQL;
 
 namespace Server
 {
@@ -51,7 +52,7 @@ namespace Server
                 .AddCheck<LatestHealthCheck>("latest_health_check")
                 .ForwardToPrometheus();
             
-            services.AddDbContext<IMinitwitContext, MinitwitContext>(o => o.UseSqlite("Filename=../../../minitwit.db"));
+            services.AddDbContext<IMinitwitContext, MinitwitContext>(o => o.UseNpgsql(Configuration.GetConnectionString("DigitalOceanPSQL")));
             
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IFollowerRepository, FollowerRepository>();
