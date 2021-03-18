@@ -28,7 +28,7 @@ jobs:
         uses: microsoft/infersharpaction@v1.0
         id: runinfersharp
         with:
-          binary-path: 'mvp/server/bin/Debug/net5.0/mvp.dll'
+          binary-path: 'mvp/server/bin/Debug/net5.0/'
           
       - name: Infer# analysis results
         run: echo "${{ steps.runinfersharp.outputs.results }}"
