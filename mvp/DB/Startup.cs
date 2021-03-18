@@ -14,7 +14,9 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Microsoft.OpenApi.Models;
 using Minitwit.Entities;
+using Prometheus;
 using Repos;
+using Npgsql.EntityFrameworkCore.PostgreSQL;
 
 namespace Server
 {
@@ -40,13 +42,22 @@ namespace Server
             {
                 return resolver.GetRequiredService<IOptions<latest_global>>().Value;
             });
+            services.AddSingleton<MetricReporter>(); // Prometheus
 
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Server", Version = "v1" });
             });
 
-            services.AddDbContext<IMinitwitContext, MinitwitContext>(o => o.UseSqlite("Filename=../../../minitwit.db"));
+            services
+                .AddHealthChecks()
+                // .AddDbContextCheck<MinitwitContext>()
+                .AddCheck<LatestHealthCheck>("latest_health_check")
+                .ForwardToPrometheus();
+            
+            
+            // services.AddDbContext<IMinitwitContext, MinitwitContext>(o => o.UseSqlite("Filename=../../../minitwit.db"));
+            services.AddDbContext<IMinitwitContext, MinitwitContext>(o => o.UseNpgsql(Configuration.GetConnectionString("DigitalOceanPSQL")));
             
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IFollowerRepository, FollowerRepository>();
@@ -68,13 +79,21 @@ namespace Server
             // app.UseHttpsRedirection();   // this causes an SSL error when running againts the simulator ..
 
             app.UseRouting();
+            
+            app.UseMetricServer();
+            app.UseMiddleware<ResponseMetricMiddleware>(); // Prometheus
+            // app.UseHealthChecksPrometheusExporter("/my-health-metrics");
+
 
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
+                endpoints.MapHealthChecks("/health");                
+                endpoints.MapMetrics(); // Prometheus
             });
+
         }
     }
 }

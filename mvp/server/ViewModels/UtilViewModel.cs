@@ -23,7 +23,7 @@ namespace mvp.ViewModels
             _navigationManager = navigationManager;
 
             URL = _navigationManager.BaseUri;
-            APIURL = "http://159.89.213.38:5010/";
+            APIURL = "http://localhost:5010/";
             
             UserMessageDTO = new List<UserMessageDTO>();
         }
