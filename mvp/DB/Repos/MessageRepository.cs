@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Minitwit.Entities;
+using Prometheus;
 
 namespace Repos
 {
@@ -9,6 +10,7 @@ namespace Repos
     {
         private IMinitwitContext _context;
         private int LIMIT = 30;
+        private static readonly Counter TickTock = Metrics.CreateCounter("sampleapp_ticks_total", "Just keeps on ticking");
 
         public MessageRepository(IMinitwitContext context)
         {
@@ -54,6 +56,7 @@ namespace Repos
 
         public IEnumerable<UserMessageDTO> GetAllMessages()
         {
+            TickTock.Inc();
             return (from m in _context.Message
                     from u in _context.User
                     where m.flagged == 0 &&
