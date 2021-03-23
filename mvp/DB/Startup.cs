@@ -13,6 +13,8 @@ using Prometheus;
 using Prometheus.SystemMetrics;
 using Repos;
 using Npgsql.EntityFrameworkCore.PostgreSQL;
+// Logging
+using Serilog.Exceptions;
 
 namespace Server
 {
