@@ -2,10 +2,11 @@
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
   </PropertyGroup>
-  <ItemGroup>
+  <!-- <ItemGroup>
     <ProjectReference Include="..\DB\Server.csproj"/>
-  </ItemGroup>
+  </ItemGroup> -->
   <ItemGroup>
-    <PackageReference Include="codecracker.CSharp" Version="1.1.0"/>
+    <PackageReference Include="codecracker.CSharp" Version="1.1.0" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
   </ItemGroup>
 </Project>

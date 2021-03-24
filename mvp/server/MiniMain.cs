@@ -7,11 +7,11 @@ using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components;
-using Microsoft.Data.Sqlite;
-using Microsoft.EntityFrameworkCore;
+// using Microsoft.Data.Sqlite;
+// using Microsoft.EntityFrameworkCore;
 using Minitwit.Entities;
 using Newtonsoft.Json;
-using Repos;
+// using Repos;
 using mvp.ViewModels;
 
 namespace mvp
