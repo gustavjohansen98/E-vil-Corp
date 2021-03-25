@@ -72,12 +72,6 @@ namespace Controllers
             return BadRequest("could not execute");            
         }
 
-        [HttpGet]
-        public IActionResult GetFollowers(string username)
-        {
-            throw new NotImplementedException();
-        }
-
         [Route("{username1}/{username2}")]
         [HttpGet]
         public ActionResult<bool> DoesUser1FollowUser2(string username1, string username2)

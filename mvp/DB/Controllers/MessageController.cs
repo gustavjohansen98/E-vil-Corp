@@ -6,6 +6,7 @@ using Minitwit.Entities;
 using System.Linq;
 using System.Text.Json;
 using Newtonsoft.Json;
+using static System.Net.HttpStatusCode;
 
 namespace Controllers
 {
@@ -60,7 +61,10 @@ namespace Controllers
 
             DateTime pub_date = DateTime.Now;
 
-            _repoMessage.AddMessage(user_id, message, pub_date, 0);
+            var result = _repoMessage.AddMessage(user_id, message, pub_date, 0);
+
+            if (result == System.Net.HttpStatusCode.BadRequest)
+                return StatusCode(500);
 
             return Ok(null);    // with null as the argument, the action will result in a 204 status code rather than 200 ... 
         }

@@ -1,8 +1,10 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using Minitwit.Entities;
 using Prometheus;
+using static System.Net.HttpStatusCode;
 
 namespace Repos
 {
@@ -17,8 +19,9 @@ namespace Repos
             _context = context;
         }
 
-        public void AddMessage(int author_id, string text, DateTime pub_date, int flagged)
+        public HttpStatusCode AddMessage(int author_id, string text, DateTime pub_date, int flagged)
         {
+
             var message = new Message
             { 
                 author_id = author_id,
@@ -26,9 +29,15 @@ namespace Repos
                 pub_date = pub_date,
                 flagged = flagged
             };
-
+            
             _context.Message.Add(message);
             _context.SaveChanges();
+
+            if (_context.Message.Find(message) == null )
+                return BadRequest;
+
+            return NoContent;
+
         }
 
         public void AddMessage(Message message)
