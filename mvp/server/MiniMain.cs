@@ -9,7 +9,6 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components;
 using Minitwit.Entities;
 using Newtonsoft.Json;
-using Repos;
 using mvp.ViewModels;
 
 namespace mvp
