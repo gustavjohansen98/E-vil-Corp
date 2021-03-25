@@ -1,8 +1,10 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using Minitwit.Entities;
 using Prometheus;
+using static System.Net.HttpStatusCode;
 
 namespace Repos
 {
@@ -17,12 +19,8 @@ namespace Repos
             _context = context;
         }
 
-        public void AddMessage(int author_id, string text, DateTime pub_date, int flagged, string flagged2 = "")
+        public HttpStatusCode AddMessage(int author_id, string text, DateTime pub_date, int flagged)
         {
-            if (flagged2 != null) 
-            {
-                throw new Exception("Do not use string");
-            }
 
             var message = new Message
             { 
@@ -32,9 +30,14 @@ namespace Repos
                 flagged = flagged
             };
             
-
             _context.Message.Add(message);
             _context.SaveChanges();
+
+            if (_context.Message.Find(message) == null )
+                return BadRequest;
+
+            return NoContent;
+
         }
 
         public void AddMessage(Message message)
