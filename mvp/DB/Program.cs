@@ -61,11 +61,11 @@ namespace Server
                 .Build();
 
             Log.Logger = new LoggerConfiguration()
-                .MinimumLevel.Error()
                 .Enrich.FromLogContext()
+                .Enrich.WithExceptionDetails()
                 .Enrich.WithMachineName()
-                // .WriteTo.Debug()
-                // .WriteTo.Console()
+                .WriteTo.Debug()
+                .WriteTo.Console()
                 .WriteTo.Elasticsearch(ConfigureElasticSink(configuration, environment))
                 .Enrich.WithProperty("Environment", environment)
                 .ReadFrom.Configuration(configuration)
