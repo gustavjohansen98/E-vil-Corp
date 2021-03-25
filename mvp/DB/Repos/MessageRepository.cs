@@ -33,7 +33,9 @@ namespace Repos
             _context.Message.Add(message);
             _context.SaveChanges();
 
-            if (_context.Message.Find(message) == null )
+            var found = _context.Message.Where(m => m.author_id == author_id && m.text == text && m.pub_date == message.pub_date);
+
+            if (found == null)
                 return BadRequest;
 
             return NoContent;
