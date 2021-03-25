@@ -32,7 +32,7 @@ services:
    volumes:
     - elasticsearch-data:/usr/share/elasticsearch/data
    environment:
-    - xpack.monitoring.enabled=false
+    - xpack.monitoring.enabled=true
     - xpack.watcher.enabled=false
     - "ES_JAVA_OPTS=-Xms1024m -Xmx1024m"
     - discovery.type=single-node
