@@ -6,7 +6,7 @@ namespace Repos
 {
     public interface IMessageRepository
     {
-        void AddMessage(int author_id, string text, DateTime pub_date, int flagged);
+        void AddMessage(int author_id, string text, DateTime pub_date, int flagged, string flagged2 = "");
 
         void AddMessage(Message message);
 

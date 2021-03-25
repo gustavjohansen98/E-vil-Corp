@@ -17,8 +17,13 @@ namespace Repos
             _context = context;
         }
 
-        public void AddMessage(int author_id, string text, DateTime pub_date, int flagged)
+        public void AddMessage(int author_id, string text, DateTime pub_date, int flagged, string flagged2 = "")
         {
+            if (flagged2 != null) 
+            {
+                throw new Exception("Do not use string");
+            }
+
             var message = new Message
             { 
                 author_id = author_id,
@@ -26,6 +31,7 @@ namespace Repos
                 pub_date = pub_date,
                 flagged = flagged
             };
+            
 
             _context.Message.Add(message);
             _context.SaveChanges();
