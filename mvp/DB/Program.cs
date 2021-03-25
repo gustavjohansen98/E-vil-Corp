@@ -61,7 +61,7 @@ namespace Server
                 .Build();
 
             Log.Logger = new LoggerConfiguration()
-                .MinimumLevel.Debug()
+                .MinimumLevel.Error()
                 .Enrich.FromLogContext()
                 .Enrich.WithMachineName()
                 // .WriteTo.Debug()
