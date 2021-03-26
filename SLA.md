@@ -9,14 +9,21 @@ The Customer has to request the Credit Refund within 40 days from the down time 
 
 
 ### Definitions
-**Incident**: occurrence of at least minimum unit of Downtime\\
+**Incident**: occurrence of at least minimum unit of Downtime
+
 **Back-off requirement**: when an error occurs, the Customer must wait at least one second before issuing a new request. When consecutive requests fail, the Customer must wait X seconds before submitting a new request, where X follows the Fibonacci sequence (1, 1, 2, 3, 5, 8, etc.) up to and including 34.
-This SLA covers the following services:\\
+
+This SLA covers the following services:
+
     Minitwit API
-**Downtime** means more than 10% Error Rate.\\ 
-**Downtime Period** is defined as one or more minimum units of consecutive Downtime. The minimum unit of downtime is 45 seconds, partial downtime shorter than the minimum unit is not counted towards Downtime Periods.\\
-**Error** means that a request returns an HTTP error with Error Code 4xx or that a request fails to return a Success Code within 300 seconds of request submission.\\
-**Error rate**: is defined as the number of Errors divided by the number of valid requests during a minimum unit of Downtime.\\
+
+**Downtime** means more than 10% Error Rate.
+
+**Downtime Period** is defined as one or more minimum units of consecutive Downtime. The minimum unit of downtime is 45 seconds, partial downtime shorter than the minimum unit is not counted towards Downtime Periods.
+
+**Error** means that a request returns an HTTP error with Error Code 4xx or that a request fails to return a Success Code within 300 seconds of request submission.
+
+**Error rate**: is defined as the number of Errors divided by the number of valid requests during a minimum unit of Downtime.
 
 ### Monthly Uptime Measure
 Monthly Uptime Percentage is calculated as (all valid requests - all failed requests) / all valid requests. The time frame for monthly uptime is measured as the time between the first and last day of a calendar month (that is 1st-31st January, 1st-28th February, etc.)
