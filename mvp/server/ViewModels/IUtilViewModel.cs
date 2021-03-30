@@ -12,7 +12,10 @@ namespace mvp.ViewModels
         string APIURL { get; }
 
         string stringToHash(string toBeHashed, HashAlgorithm algorithm);
+
         string MD5Hasher(string toBeHashed);
+
+        bool DoesPasswordMatch(string passwordGiven, string passwordExpected);
 
         string Url_for(string name);
 
