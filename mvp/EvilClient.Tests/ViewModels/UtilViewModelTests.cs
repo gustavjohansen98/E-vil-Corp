@@ -1,7 +1,7 @@
 using Xunit;
 using mvp.ViewModels;
 using System.Net.Http;
-using Microsoft.AspNetCore.Components;
+using System.Security.Cryptography;
 
 namespace EvilClient.Tests
 {
@@ -9,6 +9,7 @@ namespace EvilClient.Tests
     {
         private readonly HttpClient httpClient;
         private IUtilViewModel util;
+        private readonly string password = "password";
 
         public UtilViewModelTests()
         {
@@ -25,10 +26,10 @@ namespace EvilClient.Tests
             var passwordHashedMD5 = "5f4dcc3b5aa765d61d8327deb882cf99";
         
             //When
-            var actual = util.MD5Hasher("password");
+            var actualMD5Hashed = util.stringToHash(password, MD5.Create());
         
             //Then
-            Assert.Equal(passwordHashedMD5, actual);
+            Assert.Equal(passwordHashedMD5, actualMD5Hashed);
         }
     }
 }
