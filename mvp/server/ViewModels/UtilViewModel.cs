@@ -28,6 +28,11 @@ namespace mvp.ViewModels
             UserMessageDTO = new List<UserMessageDTO>();
         }
 
+        public UtilViewModel(HttpClient httpClient)
+        {
+            _httpClient = httpClient;
+        }
+
         public string MD5Hasher(string toBeHashed)
         {
             byte[] emailBytes = Encoding.UTF8.GetBytes(toBeHashed.Trim().ToLower());
@@ -41,6 +46,8 @@ namespace mvp.ViewModels
 
             return builder.ToString().Trim().ToLower();
         }
+
+        // public string 
 
         public string Url_for(string name)
         {
