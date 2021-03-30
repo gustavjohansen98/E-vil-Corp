@@ -34,26 +34,41 @@ namespace mvp.ViewModels
             _httpClient = httpClient;
         }
 
-        public string MD5Hasher(string toBeHashed)
+        public string stringToHash(string toBeHashed, HashAlgorithm algorithm)
         {
-            byte[] emailBytes = Encoding.UTF8.GetBytes(toBeHashed.Trim().ToLower());
-            byte[] hashedEmail = _md5.ComputeHash(emailBytes);
+            var byteConversion = Encoding.UTF8.GetBytes(toBeHashed.Trim().ToLower());
+            var hashed = algorithm.ComputeHash(byteConversion);
 
             StringBuilder builder = new StringBuilder();
-            for (int i = 0; i < hashedEmail.Length; i++)
+            for (int i = 0; i < hashed.Length; i++)
             {
-                builder.Append(hashedEmail[i].ToString("X2"));
+                builder.Append(hashed[i].ToString("X2"));
             }
 
             return builder.ToString().Trim().ToLower();
         }
 
-        public string SHA256Hasher(string toBeHashed)
+        /// <summary>
+        /// passwordExpected should be hashed already
+        /// </summary>
+        public bool DoesPasswordMatch(string passwordGiven, string passwordExpected)
         {
-            using (SHA256 sha256 = SHA256.Create())
+            if (stringToHash(passwordGiven, SHA256.Create()) == passwordExpected) return true;
+
+            if (stringToHash(passwordGiven, MD5.Create()) == passwordExpected) return true;
+            
+            return false;
+        }
+
+        /// <summary>
+        /// DEPRECATED
+        /// </summary>
+        public string MD5Hasher(string toBeHashed)
+        {
+            using (MD5 md5 = MD5.Create())
             {
                 var byteConversion = Encoding.UTF8.GetBytes(toBeHashed.Trim().ToLower());
-                var hashed = sha256.ComputeHash(byteConversion);
+                var hashed = _md5.ComputeHash(byteConversion);
 
                 StringBuilder builder = new StringBuilder();
                 for (int i = 0; i < hashed.Length; i++)
@@ -63,10 +78,7 @@ namespace mvp.ViewModels
 
                 return builder.ToString().Trim().ToLower();
             }
-
         }
-
-        // public string 
 
         public string Url_for(string name)
         {
