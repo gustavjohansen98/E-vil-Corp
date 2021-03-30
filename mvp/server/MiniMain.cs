@@ -58,7 +58,6 @@ namespace mvp
         /// <summary>
         /// DEPRECATED (see IUtilViewModel)
         /// </summary>
-        
         public string MD5Hasher(string toBeHashed)
         {
             byte[] emailBytes = Encoding.UTF8.GetBytes(toBeHashed.Trim().ToLower());

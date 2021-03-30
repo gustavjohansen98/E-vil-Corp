@@ -60,26 +60,6 @@ namespace mvp.ViewModels
             return false;
         }
 
-        /// <summary>
-        /// DEPRECATED
-        /// </summary>
-        public string MD5Hasher(string toBeHashed)
-        {
-            using (MD5 md5 = MD5.Create())
-            {
-                var byteConversion = Encoding.UTF8.GetBytes(toBeHashed.Trim().ToLower());
-                var hashed = _md5.ComputeHash(byteConversion);
-
-                StringBuilder builder = new StringBuilder();
-                for (int i = 0; i < hashed.Length; i++)
-                {
-                    builder.Append(hashed[i].ToString("X2"));
-                }
-
-                return builder.ToString().Trim().ToLower();
-            }
-        }
-
         public string Url_for(string name)
         {
             switch (name)
@@ -121,7 +101,7 @@ namespace mvp.ViewModels
         public string GravatarUrl(string email, int size = 80)
         {
             return "http://www.gravatar.com/avatar/" +
-                    MD5Hasher(email) +
+                    stringToHash(email, MD5.Create()) +
                     "?d=identicon&s=" +
                     size;
         }

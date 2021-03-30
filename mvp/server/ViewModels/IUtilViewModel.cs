@@ -13,7 +13,7 @@ namespace mvp.ViewModels
 
         string stringToHash(string toBeHashed, HashAlgorithm algorithm);
 
-        string MD5Hasher(string toBeHashed);
+        // string MD5Hasher(string toBeHashed);
 
         bool DoesPasswordMatch(string passwordGiven, string passwordExpected);
 
