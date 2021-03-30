@@ -3,6 +3,7 @@ using System.Net.Http;
 using System.Text;
 using Minitwit.Entities;
 using Microsoft.AspNetCore.Components;
+using System.Security.Cryptography;
 
 namespace mvp.ViewModels
 {
@@ -24,7 +25,7 @@ namespace mvp.ViewModels
 
             URL = _navigationManager.BaseUri;
             APIURL = "http://localhost:5010/";
-            
+
             UserMessageDTO = new List<UserMessageDTO>();
         }
 
@@ -47,6 +48,24 @@ namespace mvp.ViewModels
             return builder.ToString().Trim().ToLower();
         }
 
+        public string SHA256Hasher(string toBeHashed)
+        {
+            using (SHA256 sha256 = SHA256.Create())
+            {
+                var byteConversion = Encoding.UTF8.GetBytes(toBeHashed.Trim().ToLower());
+                var hashed = sha256.ComputeHash(byteConversion);
+
+                StringBuilder builder = new StringBuilder();
+                for (int i = 0; i < hashed.Length; i++)
+                {
+                    builder.Append(hashed[i].ToString("X2"));
+                }
+
+                return builder.ToString().Trim().ToLower();
+            }
+
+        }
+
         // public string 
 
         public string Url_for(string name)
@@ -64,7 +83,7 @@ namespace mvp.ViewModels
 
                 case "register":
                     return URL + "register";
-                
+
                 case "login":
                     return URL + "login";
             }
@@ -84,12 +103,12 @@ namespace mvp.ViewModels
 
         public string UrlForFollow(string username)
         {
-            return URL +  username + "/follow";
+            return URL + username + "/follow";
         }
 
-        public string GravatarUrl(string email, int size=80)
+        public string GravatarUrl(string email, int size = 80)
         {
-            return "http://www.gravatar.com/avatar/" + 
+            return "http://www.gravatar.com/avatar/" +
                     MD5Hasher(email) +
                     "?d=identicon&s=" +
                     size;
