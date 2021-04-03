@@ -3,7 +3,8 @@
 @using System.ComponentModel.DataAnnotations
 @inject IMiniMain MiniMain
 @inject IUserState UserState
-@inject NavigationManager NavigationManager;
+@inject IUtilViewModel UtilViewModel
+@inject NavigationManager NavigationManager
 
 <h2>Sign In</h2>
 <EditForm Model=@loginUser OnValidSubmit=@HandleValidSubmit>
@@ -39,7 +40,7 @@
         {
             MiniMain.FlashedMessages = new string[]{"Usernane does not exist"};
             NavigationManager.NavigateTo("login");
-        } else if(MiniMain.MD5Hasher(loginUser.Password) == UserState.User.pwd)
+        } else if(UtilViewModel.DoesPasswordMatch(loginUser.Password, UserState.User.pwd))
         {
             UserState.User.user_id = userID;
             UserState.User.username = loginUser.Username;

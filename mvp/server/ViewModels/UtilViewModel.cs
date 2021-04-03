@@ -3,6 +3,7 @@ using System.Net.Http;
 using System.Text;
 using Minitwit.Entities;
 using Microsoft.AspNetCore.Components;
+using System.Security.Cryptography;
 
 namespace mvp.ViewModels
 {
@@ -23,23 +24,40 @@ namespace mvp.ViewModels
             _navigationManager = navigationManager;
 
             URL = _navigationManager.BaseUri;
-            APIURL = "http://localhost:5010/";
-            
+            APIURL = "http://159.89.213.38:5010/";
+
             UserMessageDTO = new List<UserMessageDTO>();
         }
 
-        public string MD5Hasher(string toBeHashed)
+        public UtilViewModel(HttpClient httpClient)
         {
-            byte[] emailBytes = Encoding.UTF8.GetBytes(toBeHashed.Trim().ToLower());
-            byte[] hashedEmail = _md5.ComputeHash(emailBytes);
+            _httpClient = httpClient;
+        }
+
+        public string stringToHash(string toBeHashed, HashAlgorithm algorithm)
+        {
+            var byteConversion = Encoding.UTF8.GetBytes(toBeHashed.Trim().ToLower());
+            var hashed = algorithm.ComputeHash(byteConversion);
 
             StringBuilder builder = new StringBuilder();
-            for (int i = 0; i < hashedEmail.Length; i++)
+            for (int i = 0; i < hashed.Length; i++)
             {
-                builder.Append(hashedEmail[i].ToString("X2"));
+                builder.Append(hashed[i].ToString("X2"));
             }
 
             return builder.ToString().Trim().ToLower();
+        }
+
+        /// <summary>
+        /// passwordExpected should be hashed already
+        /// </summary>
+        public bool DoesPasswordMatch(string passwordGiven, string passwordExpected)
+        {
+            if (stringToHash(passwordGiven, SHA256.Create()) == passwordExpected) return true;
+
+            if (stringToHash(passwordGiven, MD5.Create()) == passwordExpected) return true;
+            
+            return false;
         }
 
         public string Url_for(string name)
@@ -57,7 +75,7 @@ namespace mvp.ViewModels
 
                 case "register":
                     return URL + "register";
-                
+
                 case "login":
                     return URL + "login";
             }
@@ -77,13 +95,13 @@ namespace mvp.ViewModels
 
         public string UrlForFollow(string username)
         {
-            return URL +  username + "/follow";
+            return URL + username + "/follow";
         }
 
-        public string GravatarUrl(string email, int size=80)
+        public string GravatarUrl(string email, int size = 80)
         {
-            return "http://www.gravatar.com/avatar/" + 
-                    MD5Hasher(email) +
+            return "http://www.gravatar.com/avatar/" +
+                    stringToHash(email, MD5.Create()) +
                     "?d=identicon&s=" +
                     size;
         }

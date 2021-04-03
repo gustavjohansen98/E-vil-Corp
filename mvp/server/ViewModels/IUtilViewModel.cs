@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Security.Cryptography;
 using Minitwit.Entities;
 
 namespace mvp.ViewModels
@@ -10,7 +11,11 @@ namespace mvp.ViewModels
         string URL { get; }
         string APIURL { get; }
 
-        string MD5Hasher(string toBeHashed);
+        string stringToHash(string toBeHashed, HashAlgorithm algorithm);
+
+        // string MD5Hasher(string toBeHashed);
+
+        bool DoesPasswordMatch(string passwordGiven, string passwordExpected);
 
         string Url_for(string name);
 
