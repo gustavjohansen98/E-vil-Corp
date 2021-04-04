@@ -5,7 +5,7 @@ using System.Linq;
 using Minitwit.Entities;
 using static System.Net.HttpStatusCode;
 
-namespace Repos
+namespace EvilAPI.Repos
 {
     public class FollowerRepository : IFollowerRepository
     {

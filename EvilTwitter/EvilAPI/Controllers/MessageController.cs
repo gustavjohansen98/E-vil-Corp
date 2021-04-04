@@ -1,4 +1,4 @@
-using Repos;
+using EvilAPI.Repos;
 using System;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
@@ -8,7 +8,7 @@ using System.Text.Json;
 using Newtonsoft.Json;
 using static System.Net.HttpStatusCode;
 
-namespace Controllers
+namespace EvilAPI.Controllers
 {
     [Route("/msgs/")]
     [ApiController]

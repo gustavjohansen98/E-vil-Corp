@@ -3,7 +3,7 @@ using Microsoft.Extensions.Logging;
 using Prometheus;
 
 // Taken from: https://medium.com/@aevitas/expose-asp-net-core-metrics-with-prometheus-15e3356415f4
-namespace Server
+namespace EvilAPI
 {
     public class MetricReporter
 {

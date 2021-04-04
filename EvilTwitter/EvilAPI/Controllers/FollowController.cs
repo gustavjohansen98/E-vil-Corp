@@ -1,4 +1,4 @@
-using Repos;
+using EvilAPI.Repos;
 using System;
 using Microsoft.AspNetCore.Mvc;
 
@@ -8,7 +8,7 @@ using System.Text.Json;
 using Newtonsoft.Json;
 
 
-namespace Controllers
+namespace EvilAPI.Controllers
 {
     [ApiController]
     [Route("/fllws")]

@@ -1,4 +1,4 @@
-using Repos;
+using EvilAPI.Repos;
 using System;
 using Microsoft.AspNetCore.Mvc;
 
@@ -7,7 +7,7 @@ using static System.Net.HttpStatusCode;
 using System.Text.Json;
 using Newtonsoft.Json;
 
-namespace Controllers
+namespace EvilAPI.Controllers
 {
     public class ControllerUtil : ControllerBase
     {

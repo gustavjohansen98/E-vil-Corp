@@ -1,4 +1,4 @@
-using Repos;
+using EvilAPI.Repos;
 using System;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text.Json;
 using Newtonsoft.Json;
 
-namespace Controllers
+namespace EvilAPI.Controllers
 {
     [ApiController]
     [Route("/user")]

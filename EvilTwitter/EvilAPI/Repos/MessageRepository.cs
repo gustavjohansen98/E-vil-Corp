@@ -6,7 +6,7 @@ using Minitwit.Entities;
 using Prometheus;
 using static System.Net.HttpStatusCode;
 
-namespace Repos
+namespace EvilAPI.Repos
 {
     public class MessageRepository : IMessageRepository
     {

@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 
 // Taken from: https://medium.com/@aevitas/expose-asp-net-core-metrics-with-prometheus-15e3356415f4
-namespace Server
+namespace EvilAPI
 {
     public class ResponseMetricMiddleware
 {

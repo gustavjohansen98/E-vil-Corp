@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Net;
 using Minitwit.Entities;
 
-namespace Repos
+namespace EvilAPI.Repos
 {
     public interface IMessageRepository
     {
