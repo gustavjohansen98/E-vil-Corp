@@ -6,10 +6,10 @@ using static System.Net.HttpStatusCode;
 
 
 using Minitwit.Entities;
-using Repos;
-using Controllers;
+using EvilAPI.Repos;
+using EvilAPI.Controllers;
 
-namespace DB.Tests
+namespace EvilAPI.Tests
 {
     public class FollowerControllerTest
     {

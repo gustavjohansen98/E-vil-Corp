@@ -5,9 +5,9 @@ using Xunit;
 using static System.Net.HttpStatusCode;
 
 using Minitwit.Entities;
-using Repos;
+using EvilAPI.Repos;
 
-namespace DB.Tests
+namespace EvilAPI.Tests
 {
     public class ReposTest : IDisposable
     {

@@ -1,7 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using Minitwit.Entities;
 
-namespace DB.Tests
+namespace EvilAPI.Tests
 {
     public class DBTestContext : MinitwitContext
     {
