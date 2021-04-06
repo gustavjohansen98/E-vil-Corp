@@ -237,6 +237,9 @@ namespace EvilClient
             _userState.User = user;
         }
 
+        /// <summary>
+        /// DEPRECATED (see AuthenticationCallApi)
+        /// </summary>
         public async Task<User> GetUserFromUsername(string username)
         {
             var response = await _httpClient.GetAsync(APIURL + "user/" + username);
