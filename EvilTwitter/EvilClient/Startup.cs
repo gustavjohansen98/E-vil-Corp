@@ -31,6 +31,7 @@ namespace EvilClient
             services.AddScoped<ITimelineCallAPI, TimelineCallAPI>();
             services.AddScoped<IFollowCallAPI, FollowCallAPI>();
             services.AddScoped<IAuthenticationCallApi, AuthenticationCallApi>();
+            services.AddScoped<IMessageCallApi, MessageCallApi>();
             services.AddScoped<IMiniMain, MiniMain>();
         }
 

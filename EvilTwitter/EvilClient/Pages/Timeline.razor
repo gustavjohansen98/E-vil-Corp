@@ -3,10 +3,12 @@
 @inject IUserState UserState
 @inject IUtilViewModel UtilViewModel
 @inject ITimelineCallAPI TimelineCallAPI
+@inject IMessageCallApi MessageCallApi
 @using System.Collections.Generic
 @using System.Linq
 @* @using Repos; *@
 @using Minitwit.Entities;
+@using System.Net
 @inject NavigationManager NavigationManager
 
 
@@ -51,9 +53,22 @@
 
     private MessageText messageText = new MessageText();
 
-    private void OnValidSubmit()
+    private async Task OnValidSubmit()
     {
-        MiniMain.AddMessageToDB(messageText.text);
+        var response = await MessageCallApi.PostMessageToApi(messageText.text);
+
+        if (response == HttpStatusCode.OK)
+        {
+            UtilViewModel.FlashedMessages = null;
+            NavigationManager.NavigateTo("/public");
+        }
+        else
+        {
+            UtilViewModel.FlashedMessages = new[] {"Something went wrong, please try again"};
+            NavigationManager.NavigateTo("");
+        }
+
+        @* MiniMain.AddMessageToDB(messageText.text); *@
     }
 
     protected override async Task OnInitializedAsync()
