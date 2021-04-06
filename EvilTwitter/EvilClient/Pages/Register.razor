@@ -1,7 +1,9 @@
 @page "/register"
 @using Minitwit.Entities
 @using System.ComponentModel.DataAnnotations
-@inject IMiniMain MiniMain
+@using System.Net
+@inject IUtilViewModel UtilViewModel
+@inject IAuthenticationCallApi AuthenticationCallApi
 @inject NavigationManager NavigationManager
 
 <title>Sign Up</title>
@@ -56,8 +58,18 @@
 
     private async Task OnValidSubmit() 
     {
-        await MiniMain.AddUserToDB(submittedUser.Username, submittedUser.Email, submittedUser.Password);
+        var responseStatusCode = await AuthenticationCallApi.SignUp(submittedUser.Username, submittedUser.Email, submittedUser.Password);
 
-        NavigationManager.NavigateTo("login");
+        if (responseStatusCode == HttpStatusCode.OK)
+        {
+            UtilViewModel.FlashedMessages = null;
+            NavigationManager.NavigateTo("login");
+        }
+        else
+        {
+            UtilViewModel.FlashedMessages = new []{ "Something went wrong, please try again" };   
+            NavigationManager.NavigateTo("register");
+        }
+
     }
 }

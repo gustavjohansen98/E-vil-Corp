@@ -22,20 +22,20 @@ namespace EvilClient.Tests
         }
 
         [Fact]
-        public void Given_password_hashed_stringToHash_with_algorithm_return_the_same()
+        public void Given_password_hashed_StringToHash_with_algorithm_return_the_same()
         {
             //When
-            var actualMD5Hashed = util.stringToHash(password, MD5.Create());
+            var actualMD5Hashed = util.StringToHash(password, MD5.Create());
 
             //Then
             Assert.Equal(passwordHashedMD5, actualMD5Hashed);
         }
 
         [Fact]
-        public void Given_password_hashed_stringToHash_with_SHA256_return_the_same()
+        public void Given_password_hashed_StringToHash_with_SHA256_return_the_same()
         {
             //When
-            var actualMD5Hashed = util.stringToHash(password, SHA256.Create());
+            var actualMD5Hashed = util.StringToHash(password, SHA256.Create());
 
             //Then
             Assert.Equal(passwordHashedSHA256, actualMD5Hashed);

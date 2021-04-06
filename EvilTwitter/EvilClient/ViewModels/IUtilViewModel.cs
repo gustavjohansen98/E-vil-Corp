@@ -11,9 +11,9 @@ namespace EvilClient.ViewModels
         string URL { get; }
         string APIURL { get; }
 
-        string stringToHash(string toBeHashed, HashAlgorithm algorithm);
+        string StringToHash(string toBeHashed, HashAlgorithm algorithm);
 
-        // string MD5Hasher(string toBeHashed);
+        string CurrentPasswordHasher(string passwordToBeHashed);
 
         bool DoesPasswordMatch(string passwordGiven, string passwordExpected);
 

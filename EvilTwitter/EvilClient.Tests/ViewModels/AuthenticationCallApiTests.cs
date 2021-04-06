@@ -72,7 +72,7 @@ namespace EvilClient.Tests
             Assert.Equal(email, actualUser.email);
             Assert.Equal(pwd, actualUser.pwd);
         }
-        
+
         [Fact]
         public async Task Given_url_that_returns_404_SignIn_returns_false_and_does_not_update_user_state()
         {
@@ -86,6 +86,32 @@ namespace EvilClient.Tests
             //Then
             Assert.Equal(false, actual);
             Assert.Equal(-1, _userState.User.user_id);
+        }
+
+        [Fact]
+        public async Task Given_incorrect_user_info_SignUp_returns_BadRequest()
+        {
+            //Given
+            setUpHandlerMock(HttpStatusCode.BadRequest, "");
+
+            //When
+            var actual = await _auth.SignUp("", "", "");
+
+            //Then
+            Assert.Equal(HttpStatusCode.BadRequest, actual);
+        }
+        
+        [Fact]
+        public async Task Given_correct_user_info_SignUp_returns_Ok()
+        {
+            //Given
+            setUpHandlerMock(HttpStatusCode.NoContent, "");
+
+            //When
+            var actual = await _auth.SignUp("", "", "");
+
+            //Then
+            Assert.Equal(HttpStatusCode.OK, actual);
         }
     }
 }

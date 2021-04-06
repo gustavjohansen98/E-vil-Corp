@@ -195,6 +195,9 @@ namespace EvilClient
             return UserMessageDTO;
         }
 
+        /// <summary>
+        /// DEPRECATED (see AuthenticationCallApi)
+        /// </summary>
         public async Task AddUserToDB(string username, string email, string password)
         {
             var userToDB = new User
@@ -223,6 +226,9 @@ namespace EvilClient
             await _httpClient.PostAsync(APIURL + "msgs/" + User.username, data);
         }
 
+        /// <summary>
+        /// DEPRECATED (see AuthenticationCallApi)
+        /// </summary>
         public async Task Login(string username)
         {
             var response = await _httpClient.GetAsync(APIURL + "user/" + username);

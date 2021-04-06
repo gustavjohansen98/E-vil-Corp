@@ -1,3 +1,4 @@
+using System.Net;
 using System.Threading.Tasks;
 using Minitwit.Entities;
 
@@ -8,9 +9,7 @@ namespace EvilClient.ViewModels
         Task<User> GetUserFromUsername(string username);
 
         Task<bool> SignIn(string username);
-
-        Task SignOut();
         
-        Task SignUp();
+        Task<HttpStatusCode> SignUp(string username, string email, string password);
     }
 }
