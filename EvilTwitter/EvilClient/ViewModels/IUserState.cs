@@ -6,5 +6,7 @@ namespace EvilClient.ViewModels
     public interface IUserState
     {
         User User { get; set; }
+        
+        void Clear();
     }
 }

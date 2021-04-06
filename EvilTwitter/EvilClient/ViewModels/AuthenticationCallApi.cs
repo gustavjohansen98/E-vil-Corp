@@ -2,17 +2,20 @@ using System.Net.Http;
 using System.Text.Json;
 using System.Threading.Tasks;
 using Minitwit.Entities;
+using static System.Net.HttpStatusCode;
 
 namespace EvilClient.ViewModels
 {
-    class AuthenticationCallApi : IAuthenticationCallApi
+    public class AuthenticationCallApi : IAuthenticationCallApi
     {
         private readonly IUtilViewModel _util;
+        private readonly IUserState _userState;
         private readonly HttpClient _httpClient;
 
-        public AuthenticationCallApi(IUtilViewModel utilViewModel, HttpClient httpClient)
+        public AuthenticationCallApi(IUtilViewModel utilViewModel, IUserState userState, HttpClient httpClient)
         {
             _util = utilViewModel;
+            _userState = userState;
             _httpClient = httpClient;
         }
 
@@ -30,9 +33,25 @@ namespace EvilClient.ViewModels
             return user;
         }
 
-        public Task SignIn()
+        public async Task<bool> SignIn(string username)
         {
-            throw new System.NotImplementedException();
+            var response = await _httpClient.GetAsync(_util.APIURL + "user/" + username);
+
+            if (response.StatusCode != OK)
+            {
+                return false;
+            }
+
+            var content = await response.Content.ReadAsStringAsync();
+
+            var user = System.Text.Json.JsonSerializer.Deserialize<User>
+            (
+                content,
+                new JsonSerializerOptions { PropertyNameCaseInsensitive = true }
+            );
+
+            _userState.User = user;
+            return true;
         }
 
         public Task SignOut()

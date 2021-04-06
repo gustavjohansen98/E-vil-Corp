@@ -60,8 +60,9 @@ namespace EvilClient.ViewModels
             return false;
         }
 
-        public string Url_for(string name)
+        public string UrlFor(string name)
         {
+
             switch (name)
             {
                 case "timeline":

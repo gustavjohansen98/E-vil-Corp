@@ -1,5 +1,5 @@
 using Xunit;
-using mvp.ViewModels;
+using EvilClient.ViewModels;
 using System.Net.Http;
 using System.Security.Cryptography;
 

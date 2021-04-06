@@ -21,7 +21,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\server\mvp.csproj" />
+    <ProjectReference Include="..\EvilClient\EvilClient.csproj" />
   </ItemGroup>
-
 </Project>

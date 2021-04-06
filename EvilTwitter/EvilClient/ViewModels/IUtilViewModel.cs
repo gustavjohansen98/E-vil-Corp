@@ -17,7 +17,7 @@ namespace EvilClient.ViewModels
 
         bool DoesPasswordMatch(string passwordGiven, string passwordExpected);
 
-        string Url_for(string name);
+        string UrlFor(string name);
 
         string UrlForUser(string username);
 

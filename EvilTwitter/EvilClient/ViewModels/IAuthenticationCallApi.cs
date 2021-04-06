@@ -7,7 +7,7 @@ namespace EvilClient.ViewModels
     {
         Task<User> GetUserFromUsername(string username);
 
-        Task SignIn();
+        Task<bool> SignIn(string username);
 
         Task SignOut();
         
