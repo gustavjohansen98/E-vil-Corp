@@ -1,5 +1,4 @@
 @page "/"
-@inject IMiniMain MiniMain
 @inject IUserState UserState
 @inject IUtilViewModel UtilViewModel
 @inject ITimelineCallAPI TimelineCallAPI
@@ -67,8 +66,6 @@
             UtilViewModel.FlashedMessages = new[] {"Something went wrong, please try again"};
             NavigationManager.NavigateTo("");
         }
-
-        @* MiniMain.AddMessageToDB(messageText.text); *@
     }
 
     protected override async Task OnInitializedAsync()

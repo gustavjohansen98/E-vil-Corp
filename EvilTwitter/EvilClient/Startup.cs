@@ -32,7 +32,6 @@ namespace EvilClient
             services.AddScoped<IFollowCallAPI, FollowCallAPI>();
             services.AddScoped<IAuthenticationCallApi, AuthenticationCallApi>();
             services.AddScoped<IMessageCallApi, MessageCallApi>();
-            services.AddScoped<IMiniMain, MiniMain>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

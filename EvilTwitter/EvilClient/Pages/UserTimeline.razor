@@ -1,8 +1,8 @@
 @page "/{username}"
-@inject IMiniMain MiniMain
 @inject IUserState UserState
 @inject IUtilViewModel UtilViewModel
 @inject ITimelineCallAPI TimelineCallAPI
+@inject IFollowCallAPI FollowCallAPI
 @using System.Collections.Generic
 @using System.Linq
 @using Minitwit.Entities
@@ -77,7 +77,7 @@
 
         if (UserState.User.username != username && UserState.User.username != null)
         {
-            IsFollowed = await MiniMain.IsFollowed(UserState.User.username, username);
+            IsFollowed = await FollowCallAPI.IsFollowed(UserState.User.username, username);
         }
 
         await TimelineCallAPI.UserTimeline(username);
