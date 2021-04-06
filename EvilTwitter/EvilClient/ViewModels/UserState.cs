@@ -11,5 +11,13 @@ namespace EvilClient.ViewModels
         {
             User = new User { user_id = -1 };
         }
+
+        public void Clear()
+        {
+            User.user_id = -1;
+            User.username = null;
+            User.email = null;
+            User.pwd = null;
+        }
     }
 }

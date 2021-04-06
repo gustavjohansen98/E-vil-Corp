@@ -1,9 +1,10 @@
 @page "/login"
 @using Minitwit.Entities
 @using System.ComponentModel.DataAnnotations
-@inject IMiniMain MiniMain
+@* @inject IMiniMain MiniMain *@
 @inject IUserState UserState
 @inject IUtilViewModel UtilViewModel
+@inject IAuthenticationCallApi AuthenticationCallApi
 @inject NavigationManager NavigationManager
 
 <title>Sign in</title>
@@ -36,24 +37,26 @@
 
     private async Task HandleValidSubmit() 
     {
-        await MiniMain.Login(loginUser.Username);
-        int userID = UserState.User.user_id;
+        var isLoggedIn = await AuthenticationCallApi.SignIn(loginUser.Username);
 
-        if (userID == -1) 
+        if (!isLoggedIn)
         {
-            MiniMain.FlashedMessages = new string[]{"Usernane does not exist"};
+            UtilViewModel.FlashedMessages = new string[]{"Username does not exist"};
             NavigationManager.NavigateTo("login");
-        } else if(UtilViewModel.DoesPasswordMatch(loginUser.Password, UserState.User.pwd))
+        }
+        else 
         {
-            UserState.User.user_id = userID;
-            UserState.User.username = loginUser.Username;
-            MiniMain.FlashedMessages = new string[]{"You were logged in"};
-            NavigationManager.NavigateTo("");
-        } 
-        else
-        {
-            MiniMain.FlashedMessages = new string[]{"Incorrect password"};
-            NavigationManager.NavigateTo("login");
+            if(UtilViewModel.DoesPasswordMatch(loginUser.Password, UserState.User.pwd))
+            {
+                UtilViewModel.FlashedMessages = new string[]{"You were logged in"};
+                NavigationManager.NavigateTo("");
+            } 
+            else
+            {
+                UtilViewModel.FlashedMessages = new string[]{"Incorrect password"};
+                UserState.Clear();
+                NavigationManager.NavigateTo("login");
+            }
         }
     }
 }

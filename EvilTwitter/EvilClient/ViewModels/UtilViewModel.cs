@@ -34,7 +34,7 @@ namespace EvilClient.ViewModels
             _httpClient = httpClient;
         }
 
-        public string stringToHash(string toBeHashed, HashAlgorithm algorithm)
+        public string StringToHash(string toBeHashed, HashAlgorithm algorithm)
         {
             var byteConversion = Encoding.UTF8.GetBytes(toBeHashed.Trim().ToLower());
             var hashed = algorithm.ComputeHash(byteConversion);
@@ -48,20 +48,26 @@ namespace EvilClient.ViewModels
             return builder.ToString().Trim().ToLower();
         }
 
+        public string CurrentPasswordHasher(string passwordToBeHashed)
+        {
+            return StringToHash(passwordToBeHashed, SHA256.Create());
+        }
+
         /// <summary>
         /// passwordExpected should be hashed already
         /// </summary>
         public bool DoesPasswordMatch(string passwordGiven, string passwordExpected)
         {
-            if (stringToHash(passwordGiven, SHA256.Create()) == passwordExpected) return true;
+            if (StringToHash(passwordGiven, SHA256.Create()) == passwordExpected) return true;
 
-            if (stringToHash(passwordGiven, MD5.Create()) == passwordExpected) return true;
+            if (StringToHash(passwordGiven, MD5.Create()) == passwordExpected) return true;
             
             return false;
         }
 
-        public string Url_for(string name)
+        public string UrlFor(string name)
         {
+
             switch (name)
             {
                 case "timeline":
@@ -101,7 +107,7 @@ namespace EvilClient.ViewModels
         public string GravatarUrl(string email, int size = 80)
         {
             return "http://www.gravatar.com/avatar/" +
-                    stringToHash(email, MD5.Create()) +
+                    StringToHash(email, MD5.Create()) +
                     "?d=identicon&s=" +
                     size;
         }
