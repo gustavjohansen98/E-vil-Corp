@@ -15,6 +15,7 @@ using EvilAPI.Repos;
 using Npgsql.EntityFrameworkCore.PostgreSQL;
 // Logging
 using Serilog.Exceptions;
+using System.IO;
 
 namespace EvilAPI
 {
@@ -54,8 +55,8 @@ namespace EvilAPI
                 .AddCheck<LatestHealthCheck>("latest_health_check")
                 .ForwardToPrometheus();
             
-            // services.AddDbContext<IMinitwitContext, MinitwitContext>(o => o.UseNpgsql(Configuration.GetConnectionString("DigitalOceanPSQL")));
-            services.AddDbContext<IMinitwitContext, MinitwitContext>(o => o.UseSqlite("Filename=../../../minitwit.db"));
+            // Connects to the psql db cluster via a secret connection
+            services.AddDbContext<IMinitwitContext, MinitwitContext>(o => o.UseNpgsql(GetConnectionString.GetPsqlDbClusterConnectionString()));
             
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IFollowerRepository, FollowerRepository>();
