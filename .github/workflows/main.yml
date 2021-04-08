@@ -28,13 +28,13 @@ jobs:
         uses: microsoft/infersharpaction@v1.0
         id: runinfersharp
         with:
-          binary-path: 'mvp/server/bin/Debug/net5.0/'
+          binary-path: 'EvilTwitter/EvilClient/bin/Debug/net5.0/'
         
       - name: Run Infer# on DB
         uses: microsoft/infersharpaction@v1.0
         id: runinfersharp1
         with:
-          binary-path: 'mvp/DB/bin/Debug/net5.0/'
+          binary-path: 'EvilTwitter/EvilAPI/bin/Debug/net5.0/'
  
           
       - name: Infer# analysis results
@@ -93,7 +93,7 @@ jobs:
         shell: powershell
         run: |
           .\.sonar\scanner\dotnet-sonarscanner begin /k:"gustavjohansen98_E-vil-Corp" /o:"evilcorp" /d:sonar.login="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io"
-          dotnet build mvp/ --configuration Release
+          dotnet build EvilTwitter/ --configuration Release
           .\.sonar\scanner\dotnet-sonarscanner end /d:sonar.login="${{ secrets.SONAR_TOKEN }}"
         
         
@@ -101,7 +101,7 @@ jobs:
 # #         run: dotnet build mvp/ --configuration Release
       
       - name: Run tests
-        run: dotnet test mvp/ --configuration Release
+        run: dotnet test EvilTwitter/ --configuration Release
   
   
   ####
@@ -138,9 +138,9 @@ jobs:
             sleep 4s
             fuser -k -n tcp 5000
             sleep 4s
-            nohup dotnet run --project mvp/DB > foo.out 2> foo.err < /dev/null &
+            nohup dotnet run --project EvilTwitter/EvilAPI > foo.out 2> foo.err < /dev/null &
             sleep 25s
-            nohup dotnet run --project mvp/server >> foo.out 2>> foo.err < /dev/null &
+            nohup dotnet run --project EvilTwitter/EvilClient >> foo.out 2>> foo.err < /dev/null &
             sleep 10s
             cat foo.out
             nohup docker-compose up >> foo.out 2>> foo.err < /dev/null &
