@@ -1,0 +1,46 @@
+@inherits LayoutComponentBase
+@using System.Linq;
+@inject IUserState UserState
+@inject IUtilViewModel UtilViewModel
+
+<!--<title>Welcome | MiniTwit</title>-->
+<div class="page">
+    <h1>MiniTwit</h1>
+    <div class=navigation>
+      @if (UserState.User.user_id != -1)
+      {
+        <a href=@UtilViewModel.UrlFor("timeline")>my timeline |</a> 
+        <a href=@UtilViewModel.UrlFor("public timeline")>public timeline |</a> 
+        <a href=@UtilViewModel.UrlFor("logout")>sign out [ @UserState.User.username ]</a>
+      }
+      else 
+      {
+        <a href=@UtilViewModel.UrlFor("public timeline")>public timeline |</a> 
+        <a href=@UtilViewModel.UrlFor("register")>sign up |</a> 
+        <a href=@UtilViewModel.UrlFor("login")>sign in</a>
+      }
+    </div>
+    @if (@UtilViewModel.FlashedMessages != null)
+    {
+      <ul class=flashes>
+        @foreach (var message in UtilViewModel.FlashedMessages)
+        {
+         <li>@message</li>   
+        }
+      </ul>
+    }
+    <div class=body>
+        @Body
+    </div>
+  <div class=footer>
+    MiniTwit &mdash; A ASP.NET Application
+  </div>
+</div>
+
+@code {
+    protected override void OnInitialized()
+    {
+        // TODO: Doesn't work
+        UtilViewModel.FlashedMessages = null;
+    }
+}
