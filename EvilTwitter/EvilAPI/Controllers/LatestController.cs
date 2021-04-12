@@ -1,11 +1,10 @@
 using EvilAPI.Repos;
 using System;
 using Microsoft.AspNetCore.Mvc;
-
 using static System.Net.HttpStatusCode;
-
 using System.Text.Json;
 using Newtonsoft.Json;
+using Prometheus;
 
 namespace EvilAPI.Controllers
 {
@@ -15,6 +14,9 @@ namespace EvilAPI.Controllers
     {
         public static int LATEST { get; set ; }
         private static latest_global latest_;
+        //private static Counter TikTok = Metrics.CreateCounter("sampleapp_ticks_total", "Just keeps on ticking");
+        private static readonly Histogram LoginDuration = Metrics
+    .CreateHistogram("myapp_login_duration_seconds", "Histogram of login call processing durations.");
 
         public LatestController(latest_global latest)
         {
@@ -24,10 +26,14 @@ namespace EvilAPI.Controllers
         [HttpGet]
         public IActionResult getLatest()
         {
-            var latest = new { latest = latest_.LATEST };
-            string output = JsonConvert.SerializeObject(latest);
+            using (LoginDuration.NewTimer())
+            {
+                var latest = new { latest = latest_.LATEST };
+                string output = JsonConvert.SerializeObject(latest);
 
-            return Ok(output);
+                return Ok(output);
+            }
+            //TikTok.Inc();
         }
 
         public static void Not_req_from_simulator()
