@@ -85,7 +85,7 @@
               "format": "time_series",
               "intervalFactor": 2,
               "refId": "A",
-              "step": 60
+              "step": 30
             }
           ],
           "thresholds": [],
@@ -181,6 +181,7 @@
           },
           "lines": true,
           "linewidth": 1,
+          "links": [],
           "nullPointMode": "null",
           "percentage": false,
           "pointradius": 5,
@@ -211,7 +212,7 @@
           ],
           "timeFrom": null,
           "timeShift": null,
-          "title": "Panel Title",
+          "title": "Health check - is Api running",
           "tooltip": {
             "shared": true,
             "sort": 0,
@@ -817,5 +818,5 @@
   },
   "timezone": "",
   "title": "Main",
-  "version": 24
+  "version": 25
 }
