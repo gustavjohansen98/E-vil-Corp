@@ -25,7 +25,7 @@ namespace EvilAPI.Controllers
         public IActionResult getLatest()
         {
             var latest = new { latest = latest_.LATEST };
-            string output = JsonConvert.SerializeObject(latest) + " testing ";
+            string output = JsonConvert.SerializeObject(latest);
 
             return Ok(output);
         }
