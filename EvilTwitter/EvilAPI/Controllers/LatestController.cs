@@ -1,11 +1,10 @@
 using EvilAPI.Repos;
 using System;
 using Microsoft.AspNetCore.Mvc;
-
 using static System.Net.HttpStatusCode;
-
 using System.Text.Json;
 using Newtonsoft.Json;
+using Prometheus;
 
 namespace EvilAPI.Controllers
 {
