@@ -59,7 +59,11 @@ namespace EvilAPI.Controllers
 
             var user_id = _repoUser.GetUserIDFromUsername(username);
 
-            DateTime pub_date = DateTime.Now;
+            if (user_id == -1) {
+                return BadRequest();
+            }
+
+            string pub_date = DateTime.UtcNow.ToString();
 
             var result = _repoMessage.AddMessage(user_id, message, pub_date, 0);
 

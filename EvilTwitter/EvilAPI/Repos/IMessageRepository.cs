@@ -7,7 +7,7 @@ namespace EvilAPI.Repos
 {
     public interface IMessageRepository
     {
-        HttpStatusCode AddMessage(int author_id, string text, DateTime pub_date, int flagged);
+        HttpStatusCode AddMessage(int author_id, string text, string pub_date, int flagged);
 
         void AddMessage(Message message);
 
