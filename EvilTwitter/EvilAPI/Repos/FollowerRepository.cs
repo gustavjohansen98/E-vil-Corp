@@ -28,6 +28,11 @@ namespace EvilAPI.Repos
                 return NotAcceptable;
             }
 
+            if (userInSessionID == userToFollowID)
+            {
+                return NotAcceptable;
+            }
+
             var follow = new Follower {
                 who_id = userInSessionID,
                 whom_id = userToFollowID
