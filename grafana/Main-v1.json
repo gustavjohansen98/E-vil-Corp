@@ -27,6 +27,12 @@
       "id": "prometheus",
       "name": "Prometheus",
       "version": "1.0.0"
+    },
+    {
+      "type": "panel",
+      "id": "singlestat",
+      "name": "Singlestat",
+      "version": ""
     }
   ],
   "annotations": {
@@ -85,7 +91,7 @@
               "format": "time_series",
               "intervalFactor": 2,
               "refId": "A",
-              "step": 30
+              "step": 600
             }
           ],
           "thresholds": [],
@@ -198,7 +204,7 @@
               "format": "time_series",
               "intervalFactor": 2,
               "refId": "A",
-              "step": 60
+              "step": 1200
             }
           ],
           "thresholds": [
@@ -297,7 +303,7 @@
               "format": "time_series",
               "intervalFactor": 2,
               "refId": "A",
-              "step": 40
+              "step": 600
             }
           ],
           "thresholds": [],
@@ -379,7 +385,7 @@
               "format": "time_series",
               "intervalFactor": 2,
               "refId": "A",
-              "step": 40
+              "step": 600
             }
           ],
           "thresholds": [],
@@ -472,7 +478,7 @@
               "format": "time_series",
               "intervalFactor": 2,
               "refId": "A",
-              "step": 40
+              "step": 600
             }
           ],
           "thresholds": [],
@@ -553,7 +559,7 @@
               "format": "time_series",
               "intervalFactor": 2,
               "refId": "A",
-              "step": 40
+              "step": 600
             }
           ],
           "thresholds": [],
@@ -602,7 +608,7 @@
     },
     {
       "collapse": false,
-      "height": 250,
+      "height": 278,
       "panels": [
         {
           "aliasColors": {},
@@ -646,7 +652,7 @@
               "format": "time_series",
               "intervalFactor": 2,
               "refId": "A",
-              "step": 20
+              "step": 600
             }
           ],
           "thresholds": [],
@@ -695,7 +701,7 @@
     },
     {
       "collapse": false,
-      "height": 250,
+      "height": 229,
       "panels": [
         {
           "aliasColors": {},
@@ -724,7 +730,7 @@
           "renderer": "flot",
           "seriesOverrides": [],
           "spaceLength": 10,
-          "span": 12,
+          "span": 6,
           "stack": false,
           "steppedLine": false,
           "targets": [
@@ -733,7 +739,7 @@
               "format": "time_series",
               "intervalFactor": 2,
               "refId": "A",
-              "step": 20
+              "step": 240
             }
           ],
           "thresholds": [],
@@ -771,6 +777,84 @@
               "show": true
             }
           ]
+        },
+        {
+          "cacheTimeout": null,
+          "colorBackground": false,
+          "colorValue": false,
+          "colors": [
+            "rgba(245, 54, 54, 0.9)",
+            "rgba(237, 129, 40, 0.89)",
+            "rgba(50, 172, 45, 0.97)"
+          ],
+          "datasource": "${DS_EVIL_CORP}",
+          "format": "none",
+          "gauge": {
+            "maxValue": 8000,
+            "minValue": 0,
+            "show": true,
+            "thresholdLabels": false,
+            "thresholdMarkers": false
+          },
+          "id": 10,
+          "interval": null,
+          "links": [],
+          "mappingType": 1,
+          "mappingTypes": [
+            {
+              "name": "value to text",
+              "value": 1
+            },
+            {
+              "name": "range to text",
+              "value": 2
+            }
+          ],
+          "maxDataPoints": 100,
+          "nullPointMode": "connected",
+          "nullText": null,
+          "postfix": "",
+          "postfixFontSize": "50%",
+          "prefix": "",
+          "prefixFontSize": "50%",
+          "rangeMaps": [
+            {
+              "from": "null",
+              "text": "N/A",
+              "to": "null"
+            }
+          ],
+          "span": 6,
+          "sparkline": {
+            "fillColor": "rgba(31, 118, 189, 0.18)",
+            "full": false,
+            "lineColor": "rgb(31, 120, 193)",
+            "show": true
+          },
+          "tableColumn": "",
+          "targets": [
+            {
+              "expr": "node_memory_Active_bytes / 1e+6",
+              "format": "time_series",
+              "interval": "",
+              "intervalFactor": 2,
+              "legendFormat": "",
+              "refId": "A",
+              "step": 7200
+            }
+          ],
+          "thresholds": "50,80",
+          "title": "# of RAM used",
+          "type": "singlestat",
+          "valueFontSize": "30%",
+          "valueMaps": [
+            {
+              "op": "=",
+              "text": "N/A",
+              "value": "null"
+            }
+          ],
+          "valueName": "avg"
         }
       ],
       "repeat": null,
@@ -788,8 +872,8 @@
     "list": []
   },
   "time": {
-    "from": "2021-04-14T13:07:19.255Z",
-    "to": "2021-04-14T17:55:28.218Z"
+    "from": "2021-04-11T23:26:50.121Z",
+    "to": "2021-04-15T20:38:58.313Z"
   },
   "timepicker": {
     "refresh_intervals": [
@@ -818,5 +902,5 @@
   },
   "timezone": "",
   "title": "Main",
-  "version": 25
+  "version": 30
 }
