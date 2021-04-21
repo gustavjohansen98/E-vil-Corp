@@ -104,7 +104,7 @@ jobs:
   ####
   
   deploy:
-    # needs: [build-and-test, static-code-analysis-on-ubuntu-finding-leaks] # make sure we build and test before we actually deploy 
+    needs: [build-and-test, static-code-analysis-on-ubuntu-finding-leaks] # make sure we build and test before we actually deploy 
     
     runs-on: ubuntu-latest
     
