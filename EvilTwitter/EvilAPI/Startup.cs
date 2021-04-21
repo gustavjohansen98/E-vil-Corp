@@ -62,7 +62,11 @@ namespace EvilAPI
             services.AddScoped<IFollowerRepository, FollowerRepository>();
             services.AddScoped<IMessageRepository, MessageRepository>();
 
-            services.AddControllers();
+            services.AddControllers().AddJsonOptions(options => 
+                {
+                    options.JsonSerializerOptions.Converters.Add(new Controllers.DateTimeConverter());
+                }
+            );
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

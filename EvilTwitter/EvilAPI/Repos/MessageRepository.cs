@@ -19,7 +19,7 @@ namespace EvilAPI.Repos
             _context = context;
         }
 
-        public HttpStatusCode AddMessage(int author_id, string text, DateTime pub_date, int flagged)
+        public HttpStatusCode AddMessage(int author_id, string text, string pub_date, int flagged)
         {
 
             var message = new Message
