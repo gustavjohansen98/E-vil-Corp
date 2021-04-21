@@ -23,7 +23,7 @@ namespace EvilAPI.Controllers
         [HttpGet]
         public IActionResult getLatest()
         {
-            var latest = new { latest = latest_.LATEST };
+            var latest = new { latest = latest_.LATEST + " swarm test" };
             string output = JsonConvert.SerializeObject(latest);
 
             return Ok(output);
