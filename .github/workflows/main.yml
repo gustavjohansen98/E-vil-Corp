@@ -142,6 +142,5 @@ jobs:
             cat foo.out
             sleep 10s
             nohup docker-compose up >> foo.out 2>> foo.err < /dev/null &
-            sleep 20s
-            cat foo.out
             sleep 10s
+            cat foo.out
