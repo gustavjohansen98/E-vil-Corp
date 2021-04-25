@@ -1,4 +1,4 @@
-$serviceName = "tokengen"
+$serviceName = "api"
 
 # parse version number for deployment
 $versionPath = "appsettings.json"
@@ -6,7 +6,7 @@ $json = Get-Content -Raw -Path $versionPath | ConvertFrom-Json
 $version = $json.version.Split("-")[0]
 
 # tag docker image with the updated application version
-$imageName = "$serviceName-img:$version"
+$imageName = "evilapi:$version"
 
 # build image
 if (docker images -q $imageName) {
