@@ -11,5 +11,8 @@ namespace EvilClient.ViewModels
         Task<bool> SignIn(string username);
         
         Task<HttpStatusCode> SignUp(string username, string email, string password);
+
+        bool ValidateEmail (string email);
+
     }
 }

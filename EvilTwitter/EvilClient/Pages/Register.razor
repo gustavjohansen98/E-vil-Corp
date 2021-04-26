@@ -66,8 +66,14 @@
             NavigationManager.NavigateTo("login");
         }
         else
-        {
-            UtilViewModel.FlashedMessages = new []{ "Something went wrong, please try again" };   
+        {   
+            var isEmailValid = AuthenticationCallApi.ValidateEmail(submittedUser.Email);
+
+            if (!isEmailValid)
+                UtilViewModel.FlashedMessages = new []{ "That is not a valid email Address" }; 
+            else  
+                UtilViewModel.FlashedMessages = new []{ "User already exists" }; /*"Something went wrong, please try again"*/  
+
             NavigationManager.NavigateTo("register");
         }
 
