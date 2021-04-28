@@ -6,44 +6,44 @@ using Microsoft.Data.Sqlite;
 using Minitwit.Entities;
 using EvilAPI;
 
-namespace Minitwit.Entities
+namespace EvilAPI.Tests
 {
 
-    public class MinitwitContext : DbContext, IMinitwitContext
+    public class MinitwitContextTest : DbContext, IMinitwitContext
     {
         public DbSet<User> User { get; set; }
         public DbSet<Follower> Follower { get; set; }
         public DbSet<Message> Message { get; set; }
 
-        public MinitwitContext()
+        public MinitwitContextTest()
         {
             Database.EnsureCreated();
         }
 
-        public MinitwitContext(DbContextOptions<MinitwitContext> options) : base(options)
+        public MinitwitContextTest(DbContextOptions<MinitwitContextTest> options) : base(options)
         {
             // Database.EnsureCreated();
         }
 
 
 
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-            => optionsBuilder.UseNpgsql(GetConnectionString.GetPsqlDbClusterConnectionString());
-            
         // protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        // {
-        //     if (!optionsBuilder.IsConfigured)
-        //     {
-        //         optionsBuilder.UseNpgsql(GetConnectionString.GetPsqlDbClusterConnectionString());
-        //     }
-        //     else
-        //     {
-        //         var _connection = new SqliteConnection("Filename=:memory:");
-        //         _connection.Open();
-        //         optionsBuilder.UseSqlite(_connection);
-        //         // Database.EnsureCreated();
-        //     }
-        // }
+        //     => optionsBuilder.UseNpgsql(GetConnectionString.GetPsqlDbClusterConnectionString());
+            
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            if (!optionsBuilder.IsConfigured)
+            {
+                optionsBuilder.UseNpgsql(GetConnectionString.GetPsqlDbClusterConnectionString());
+            }
+            else
+            {
+                var _connection = new SqliteConnection("Filename=:memory:");
+                _connection.Open();
+                optionsBuilder.UseSqlite(_connection);
+                // Database.EnsureCreated();
+            }
+        }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

@@ -3,9 +3,9 @@ using Minitwit.Entities;
 
 namespace EvilAPI.Tests
 {
-    public class DBTestContext : MinitwitContext
+    public class DBTestContext : MinitwitContextTest
     {
-        public DBTestContext(DbContextOptions<MinitwitContext> options)
+        public DBTestContext(DbContextOptions<MinitwitContextTest> options)
             : base(options) { }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
