@@ -12,7 +12,7 @@ namespace EvilAPI.Tests
     public class ReposTest : IDisposable
     {
         private readonly SqliteConnection _connection;
-        private readonly MinitwitContext _context;
+        private readonly MinitwitContextTest _context;
         private readonly UserRepository _userRepo;
         private readonly FollowerRepository _followerRepo;
 
@@ -20,7 +20,7 @@ namespace EvilAPI.Tests
         {
             _connection = new SqliteConnection("DataSource=:memory:");
             _connection.Open();
-            var builder = new DbContextOptionsBuilder<MinitwitContext>().UseSqlite(_connection);
+            var builder = new DbContextOptionsBuilder<MinitwitContextTest>().UseSqlite(_connection);
             _context = new DBTestContext(builder.Options);
             _context.Database.EnsureCreated();
             _userRepo = new UserRepository(_context);
