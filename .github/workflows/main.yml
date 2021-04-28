@@ -138,8 +138,5 @@ jobs:
             cd && cd repo/
             nohup dotnet run --project EvilTwitter/EvilClient >> foo.out 2>> foo.err < /dev/null &
             sleep 10s
-            cat foo.out
-            sleep 10s
             nohup docker-compose up >> foo.out 2>> foo.err < /dev/null &
             sleep 10s
-            cat foo.out
