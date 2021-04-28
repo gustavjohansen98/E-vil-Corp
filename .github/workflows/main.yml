@@ -97,8 +97,8 @@ jobs:
           .\.sonar\scanner\dotnet-sonarscanner end /d:sonar.login="${{ secrets.SONAR_TOKEN }}"
         
       
-      # - name: Run tests
-      #   run: dotnet test mvp/ --configuration Release
+      - name: Run tests
+        run: dotnet test mvp/ --configuration Release
   
   
   ####
