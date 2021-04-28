@@ -22,7 +22,7 @@ namespace EvilAPI.Tests
             _connection.Open();
             var builder = new DbContextOptionsBuilder<MinitwitContext>().UseSqlite(_connection);
             _context = new DBTestContext(builder.Options);
-            // _context.Database.EnsureCreated();
+            _context.Database.EnsureCreated();
             _userRepo = new UserRepository(_context);
             _followerRepo = new FollowerRepository(_context);
         }
