@@ -10,7 +10,7 @@ on:
 
 jobs:
 
-###
+##
 
   static-code-analysis-on-ubuntu-finding-leaks:
     runs-on: ubuntu-latest
@@ -40,8 +40,7 @@ jobs:
       - name: Infer# analysis results
         run: echo "${{ steps.runinfersharp.outputs.results }}"
     
-###    
-    
+# ##        
 
   build-and-test:
     runs-on: ${{ matrix.os }}
@@ -130,16 +129,17 @@ jobs:
           
           # Spins up both app, server, Prometheus and Grafana
           script: |
-            cd repo/
-            fuser -k -n tcp 5010
-            sleep 4s
             fuser -k -n tcp 5000
+            sleep 5s
+            cd repo/EvilTwitter/EvilAPI/
             sleep 4s
-            nohup dotnet run --project EvilTwitter/EvilAPI > foo.out 2> foo.err < /dev/null &
-            sleep 25s
+            nohup pwsh -Command ./swarm-ver-deploy.ps1 > foo.out 2> foo.err < /dev/null &
+            sleep 15s
+            cd && cd repo/
             nohup dotnet run --project EvilTwitter/EvilClient >> foo.out 2>> foo.err < /dev/null &
             sleep 10s
             cat foo.out
+            sleep 10s
             nohup docker-compose up >> foo.out 2>> foo.err < /dev/null &
             sleep 10s
             cat foo.out
