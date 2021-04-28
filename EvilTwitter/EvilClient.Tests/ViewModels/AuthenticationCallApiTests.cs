@@ -111,7 +111,7 @@ namespace EvilClient.Tests
             var actual = await _auth.SignUp("", "", "");
 
             //Then
-            Assert.Equal(HttpStatusCode.OK, actual);
+            Assert.Equal(HttpStatusCode.BadRequest, actual);
         }
     }
 }

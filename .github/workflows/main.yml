@@ -98,7 +98,7 @@ jobs:
         
       
       - name: Run tests
-        run: dotnet test mvp/ --configuration Release
+        run: dotnet test EvilTwitter/ --configuration Release
   
   
   ####
