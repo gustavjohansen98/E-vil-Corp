@@ -9,15 +9,15 @@
     <div class=navigation>
       @if (UserState.User.user_id != -1)
       {
-        <a href=@UtilViewModel.UrlFor("timeline")>my timeline |</a> 
-        <a href=@UtilViewModel.UrlFor("public timeline")>public timeline |</a> 
-        <a href=@UtilViewModel.UrlFor("logout")>sign out [ @UserState.User.username ]</a>
+        <a @onclick="@clearFlashed" href=@UtilViewModel.UrlFor("timeline")>my timeline |</a> 
+        <a @onclick="@clearFlashed" href=@UtilViewModel.UrlFor("public timeline")>public timeline |</a> 
+        <a @onclick="@clearFlashed" href=@UtilViewModel.UrlFor("logout")>sign out [ @UserState.User.username ]</a>
       }
       else 
       {
-        <a href=@UtilViewModel.UrlFor("public timeline")>public timeline |</a> 
-        <a href=@UtilViewModel.UrlFor("register")>sign up |</a> 
-        <a href=@UtilViewModel.UrlFor("login")>sign in</a>
+        <a @onclick="@clearFlashed" href=@UtilViewModel.UrlFor("public timeline")>public timeline |</a> 
+        <a @onclick="@clearFlashed" href=@UtilViewModel.UrlFor("register")>sign up |</a> 
+        <a @onclick="@clearFlashed" href=@UtilViewModel.UrlFor("login")>sign in</a>
       }
     </div>
     @if (@UtilViewModel.FlashedMessages != null)
@@ -42,5 +42,10 @@
     {
         // TODO: Doesn't work
         UtilViewModel.FlashedMessages = null;
+    }
+
+    public void clearFlashed()
+    {
+      UtilViewModel.FlashedMessages = null;
     }
 }
