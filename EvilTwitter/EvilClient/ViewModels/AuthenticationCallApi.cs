@@ -1,8 +1,6 @@
-using System;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
-using System.Net.Mail;
 using System.Text;
 using System.Text.Json;
 using System.Text.RegularExpressions;
@@ -64,10 +62,9 @@ namespace EvilClient.ViewModels
         public async Task<HttpStatusCode> SignUp(string username, string email, string password)
         {
             var isEmailValid = ValidateEmail(email);
-            var isPasswordValid = ValidatePassword(password);
-            if (!isEmailValid || !isPasswordValid)
+            if (!isEmailValid)
             {
-                return BadRequest;//UnprocessableEntity;
+                return BadRequest; //UnprocessableEntity;
             } 
 
             var userToDB = new User
@@ -99,6 +96,7 @@ namespace EvilClient.ViewModels
             return reg.IsMatch(email); 
         }
 
+        /*Validate password is not called in this class since the simulator gives passwords that don't comply with our requirements*/
         public bool ValidatePassword(string password) 
         {
             var containsDigit = password.Any(char.IsDigit);
@@ -109,6 +107,7 @@ namespace EvilClient.ViewModels
             return containsLowercase && containsUppercase && longerThanSevenChars && containsDigit;
         }
 
+        /*Returns string containing the missing requirements of the given password*/
         public string GeneratePasswardValidationErrorMessage(string password) 
         {
             var errorMessage = "Password must: ";

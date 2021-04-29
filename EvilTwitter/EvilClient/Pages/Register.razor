@@ -59,17 +59,16 @@
     private async Task OnValidSubmit() 
     {
         var responseStatusCode = await AuthenticationCallApi.SignUp(submittedUser.Username, submittedUser.Email, submittedUser.Password);
+        var isPasswordValid = AuthenticationCallApi.ValidatePassword(submittedUser.Password);
+        var isEmailValid = AuthenticationCallApi.ValidateEmail(submittedUser.Email);
 
-        if (responseStatusCode == HttpStatusCode.OK)
+        if (responseStatusCode == HttpStatusCode.OK && isPasswordValid)
         {
             UtilViewModel.FlashedMessages = null;
             NavigationManager.NavigateTo("login");
         }
         else
         {   
-            var isEmailValid = AuthenticationCallApi.ValidateEmail(submittedUser.Email);
-            var isPasswordValid = AuthenticationCallApi.ValidatePassword(submittedUser.Password);
-
             if (!isEmailValid)
                 UtilViewModel.FlashedMessages = new []{ "That is not a valid email Address" }; 
             else if (!isPasswordValid)
