@@ -21,7 +21,6 @@ namespace EvilAPI.Repos
 
         public HttpStatusCode AddMessage(int author_id, string text, string pub_date, int flagged)
         {
-
             var message = new Message
             { 
                 author_id = author_id,
@@ -55,7 +54,7 @@ namespace EvilAPI.Repos
                     where m.flagged == 0 &&
                     m.author_id == u.user_id &&
                     u.user_id == user_id
-                    orderby m.pub_date descending
+                    orderby m.message_id descending
                     select new UserMessageDTO
                     {
                         username = u.username,
@@ -67,12 +66,15 @@ namespace EvilAPI.Repos
 
         public IEnumerable<UserMessageDTO> GetAllMessages()
         {
+
+            // 2021-04-15 14:20:47.5910938
+
             TickTock.Inc();
             return (from m in _context.Message
                     from u in _context.User
                     where m.flagged == 0 &&
                     m.author_id == u.user_id
-                    orderby m.pub_date descending
+                    orderby m.message_id descending
                     select new UserMessageDTO
                     {
                         username = u.username,
@@ -81,6 +83,7 @@ namespace EvilAPI.Repos
                         pub_date = m.pub_date
                     }).Take(LIMIT);
         }
+
 
         public IEnumerable<UserMessageDTO> GetOwnAndFollowedMessages(int user_id)
         {
@@ -94,7 +97,7 @@ namespace EvilAPI.Repos
                         where f.who_id == user_id
                         select f.whom_id).Contains(u.user_id)
                    )
-                   orderby m.pub_date descending
+                   orderby m.message_id descending
                    select new UserMessageDTO
                    {
                         username = u.username,

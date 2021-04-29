@@ -22,3 +22,6 @@ if (docker images -q $imageName) {
 # update service in swarm 
 docker service update --image $imageName $serviceName
 
+# remove unused containers, images and such to free up space 
+docker system prune -a --force
+

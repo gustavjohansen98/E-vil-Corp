@@ -2,12 +2,15 @@
 @using Minitwit.Entities
 @inject NavigationManager NavigationManager
 @inject IUserState UserState
+@inject IUtilViewModel UtilViewModel
 
 
 @code {
     protected override async Task OnInitializedAsync()
     {
         UserState.User = new User{ user_id = -1 };
+
+        UtilViewModel.FlashedMessages = null;
         
         NavigationManager.NavigateTo("/public");
        
