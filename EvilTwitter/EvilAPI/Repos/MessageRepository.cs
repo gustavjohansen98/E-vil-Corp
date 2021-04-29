@@ -21,7 +21,6 @@ namespace EvilAPI.Repos
 
         public HttpStatusCode AddMessage(int author_id, string text, string pub_date, int flagged)
         {
-
             var message = new Message
             { 
                 author_id = author_id,
