@@ -14,5 +14,8 @@ namespace EvilClient.ViewModels
 
         bool ValidateEmail (string email);
 
+        bool ValidatePassword (string password);
+
+        string GeneratePasswardValidationErrorMessage(string password);
     }
 }

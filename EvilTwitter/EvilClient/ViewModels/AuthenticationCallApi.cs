@@ -1,7 +1,6 @@
-using System;
+using System.Linq;
 using System.Net;
 using System.Net.Http;
-using System.Net.Mail;
 using System.Text;
 using System.Text.Json;
 using System.Text.RegularExpressions;
@@ -62,10 +61,10 @@ namespace EvilClient.ViewModels
 
         public async Task<HttpStatusCode> SignUp(string username, string email, string password)
         {
-            var validationOfEmail = ValidateEmail(email);
-            if (!validationOfEmail)
+            var isEmailValid = ValidateEmail(email);
+            if (!isEmailValid)
             {
-                return BadRequest;//UnprocessableEntity;
+                return BadRequest; //UnprocessableEntity;
             } 
 
             var userToDB = new User
@@ -97,5 +96,31 @@ namespace EvilClient.ViewModels
             return reg.IsMatch(email); 
         }
 
+        /*Validate password is not called in this class since the simulator gives passwords that don't comply with our requirements*/
+        public bool ValidatePassword(string password) 
+        {
+            var containsDigit = password.Any(char.IsDigit);
+            var containsUppercase = password.Any(char.IsUpper);
+            var containsLowercase = password.Any(char.IsLower);
+            var longerThanSevenChars = password.Length >= 8; 
+
+            return containsLowercase && containsUppercase && longerThanSevenChars && containsDigit;
+        }
+
+        /*Returns string containing the missing requirements of the given password*/
+        public string GeneratePasswardValidationErrorMessage(string password) 
+        {
+            var errorMessage = "Password must: ";
+            if (!password.Any(char.IsDigit))
+                errorMessage += "|contain a digit| ";
+            if (!password.Any(char.IsUpper))
+                errorMessage += "|contain an uppercase letter| ";
+            if (!password.Any(char.IsLower))
+                errorMessage += "|contain a lowercase letter| ";
+            if (password.Length < 8)
+                errorMessage += "|be longer than 7 characters|";
+
+            return errorMessage;
+        }
     }
 }
