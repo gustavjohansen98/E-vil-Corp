@@ -68,10 +68,13 @@
         else
         {   
             var isEmailValid = AuthenticationCallApi.ValidateEmail(submittedUser.Email);
+            var isPasswordValid = AuthenticationCallApi.ValidatePassword(submittedUser.Password);
 
             if (!isEmailValid)
                 UtilViewModel.FlashedMessages = new []{ "That is not a valid email Address" }; 
-            else  
+            else if (!isPasswordValid)
+                UtilViewModel.FlashedMessages = new []{ AuthenticationCallApi.GeneratePasswardValidationErrorMessage(submittedUser.Password)};
+            else
                 UtilViewModel.FlashedMessages = new []{ "User already exists" }; /*"Something went wrong, please try again"*/  
 
             NavigationManager.NavigateTo("register");
