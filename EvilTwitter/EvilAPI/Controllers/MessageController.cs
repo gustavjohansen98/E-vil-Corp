@@ -7,6 +7,8 @@ using System.Linq;
 using System.Text.Json;
 using Newtonsoft.Json;
 using static System.Net.HttpStatusCode;
+using ProfanityFilter;
+using ProfanityFilter.Interfaces;
 
 namespace EvilAPI.Controllers
 {
@@ -18,12 +20,14 @@ namespace EvilAPI.Controllers
         private IUserRepository _repoUser;
         private const int LIMIT = 100; // (y) noice 
         private static latest_global latest_;
+        private ProfanityFilter.ProfanityFilter _filter;
 
         public MessageController(IMessageRepository repoMessage, IUserRepository repoUser, latest_global LATEST)
         {
             _repoMessage = repoMessage;
             _repoUser = repoUser;
             latest_ = LATEST;
+            _filter = new ProfanityFilter.ProfanityFilter();
         }
 
         [HttpGet]
@@ -31,10 +35,10 @@ namespace EvilAPI.Controllers
         {
             latest_.LATEST = latest;
             // TODO: not_req-from_simulator
-            
+
             var messages = _repoMessage.GetAllMessages();
 
-            return Ok(messages);            
+            return Ok(messages);
         }
 
         [HttpGet("{username}")]
@@ -45,7 +49,7 @@ namespace EvilAPI.Controllers
             // TODO: not re_from_reposonse
 
             var user_id = _repoUser.GetUserIDFromUsername(username);
-            
+
             return Ok(_repoMessage.GetAllMessageFromUser(user_id));
         }
 
@@ -55,22 +59,38 @@ namespace EvilAPI.Controllers
             latest_.LATEST = latest;
 
             dynamic o = JsonConvert.DeserializeObject(body.ToString());
-            string message = (string) o.content;
+            string message = (string)o.content;
 
             var user_id = _repoUser.GetUserIDFromUsername(username);
 
-            if (user_id == -1) {
+            if (user_id == -1)
+            {
                 return BadRequest();
             }
 
             string pub_date = DateTime.UtcNow.ToString();
 
-            var result = _repoMessage.AddMessage(user_id, message, pub_date, 0);
+            var isFlagged = 0;
+
+            if (_filter.ContainsProfanity(message))
+            {
+                isFlagged = 1;
+            }
+            else
+            {
+                isFlagged = 0;
+            }
+
+            var result = _repoMessage.AddMessage(user_id, message, pub_date, isFlagged);
 
             if (result == System.Net.HttpStatusCode.BadRequest)
+            {
                 return StatusCode(500);
-
-            return Ok(null);    // with null as the argument, the action will result in a 204 status code rather than 200 ... 
+            }
+            else
+            {
+                return Ok(null);    // with null as the argument, the action will result in a 204 status code rather than 200 ... 
+            }
         }
 
         [Route("{username}/follows")]
@@ -85,5 +105,5 @@ namespace EvilAPI.Controllers
 
             return Ok(messages);
         }
-    }   
+    }
 }
