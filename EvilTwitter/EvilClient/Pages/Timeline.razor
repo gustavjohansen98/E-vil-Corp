@@ -56,7 +56,7 @@
     {
         var response = await MessageCallApi.PostMessageToApi(messageText.text);
 
-        if (response == HttpStatusCode.OK)
+        if (response == HttpStatusCode.NoContent)
         {
             UtilViewModel.FlashedMessages = null;
             NavigationManager.NavigateTo("/public");

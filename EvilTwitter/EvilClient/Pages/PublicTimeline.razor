@@ -16,7 +16,7 @@
 @* {% for message in messages %} *@
     @if (UtilViewModel.UserMessageDTO.ToList().Count > 0)
     {
-        @foreach (var message in @UtilViewModel.UserMessageDTO.OrderByDescending(m => Convert.ToDateTime(m.pub_date)))
+        @foreach (var message in @UtilViewModel.UserMessageDTO)
         {
             <li><img src=@UtilViewModel.GravatarUrl(message.email, 48)>
             <strong><a href=@UtilViewModel.UrlForUser(message.username)>@message.username</a></strong>
