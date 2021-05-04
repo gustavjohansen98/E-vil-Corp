@@ -19,5 +19,4 @@ jobs:
 
       - name: Sync changes with 
         run: |
-          echo Hello World!
-          echo Report\ Latex/main.tex
+          ls
