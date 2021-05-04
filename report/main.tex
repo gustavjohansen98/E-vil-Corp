@@ -17,18 +17,23 @@
 \useunder{\uline}{\ul}{}
 
 \begin{document}
-    %\subfile{sections/Front Page.tex}
-    \subfile{sections/Front Page Security}
+    \subfile{sections/0 Front Page}
     
     \tableofcontents
     \thispagestyle{empty}
     \newpage
     
     \setcounter{page}{1}
-    %\subfile{sections/1 Security Assessment}
+    \subfile{sections/1 System's Perspective}
     \newpage
     
-    %\verbatiminput{assets/reports/lynis console local droplet.txt}
+    \subfile{sections/2 Process' Perspective}
+    \newpage
     
-    %\printbibliography
+    \subfile{sections/3 Lessons Learned Perspective}
+    
+    \printbibliography
+    
+    % Appendix
+    %\verbatiminput{assets/reports/lynis console local droplet.txt}
 \end{document}
