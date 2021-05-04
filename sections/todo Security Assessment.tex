@@ -1,0 +1,107 @@
+\documentclass[main.tex]{subfiles}
+
+\begin{document}
+    \section{Security Assessment}
+    \label{Sec:security}
+        \subsection{Risk Identification}
+            \subsubsection{Assets identification}
+            \label{SubSubSec:assets_identification}
+                The following assets was used in the EvilTwitter project
+            
+                \begin{itemize}
+                    \item \textbf{Droplet on DigitalOcean}: Contains both the webserver and webclient. Also holds the connectionstring for the postgres cluster as a docker secret.
+                    \item \textbf{Public repository hosted on github.com}: Contains the repository, and stores relevant keys for connecting to the droplet in github secrets. 
+                    \item \textbf{Postgres cluster on DigitalOcean}: Postgres server holding all data provided by users. 
+                \end{itemize}
+        
+            \subsubsection{Risk Sources and Scenarios}
+            \label{SubSubSec:risk_sources_and_scenarios}
+                The assets identified in section \ref{SubSubSec:assets_identification} have the various vulnerabilities, which will be identified in this section followed by an assessment of the severity via a risk matrix in section \ref{SubSubSec:risk_matrix}. Finally solutions to these risks will be proposed in section \ref{SubSubSec:discuss_scenarios}. The identified risks are:
+            
+                \begin{enumerate}
+                    \item \label{risk:github_actions} \textbf{Github Actions}: The adversary clones the repository and changes the Github Actions Workflow to get information such as the connection string from docker secrets \label{Risk:github_actions}
+                    \item \label{risk:github_repo} \textbf{Github repository owner's profile gets hacked}: The owner of the repository gets hacked and the attached secrets and deploy keys can be exploited. This will give the adversary direct access to the server. 
+                    \item \label{risk:ddos} \textbf{DDoS attack}: The adversary could do a DDoS attack on the MiniTwit service, making it unavailable for users.
+                    \item \label{risk:provider_hacked} \textbf{The cloud provider getting hacked}: an adversary could gain access to all the infrastructure and destroy the data, leak it, or extort us.
+                    \item \label{risk:nuget_hacked} \textbf{Nuget Package getting hacked}: A Nuget package which the system depends on could be tampered with and get infected with malware. This would be a supply chain attack and could be used to for instance exploit the connection string for the PostgreSQL cluster.
+                    \item \label{risk:spoofing_pwd} \textbf{IP Spoofing/Eavesdropping to get password}: The adversary could gain access to a user's account by IP Spoofing/Eavesdropping to get the hashed passwords of a user, and if they know our hashing algorithm, and the user has a simple password, that they can look up from a rainbow table.
+                \end{enumerate}
+                
+            
+            
+        \subsection{Risk Analysis}
+            \subsubsection{Risk Matrix}
+            \label{SubSubSec:risk_matrix}
+                \begin{figure}[H]
+                    \begin{tabular}{ l l l l l } 
+                        & & \multicolumn{3}{l}{Probability} \\ 
+                        \cline{3-5} 
+                        & \multicolumn{1}{l|}{} & \multicolumn{1}{p{3cm}|}{High} & \multicolumn{1}{p{3cm}|}{Medium} & \multicolumn{1}{p{3cm}|}{Low} \\ 
+                        \cline{2-5} 
+                        \multicolumn{1}{l|}{\multirow{3}{*}{Impact}} & \multicolumn{1}{l|}{High} & \multicolumn{1}{p{3.5cm}|}{\ref{risk:github_actions}, \ref{risk:ddos}} & \multicolumn{1}{l|}{} & \multicolumn{1}{p{3.5cm}|}{\ref{risk:github_repo}, \ref{risk:provider_hacked}} \\ 
+                        \cline{2-5} 
+                        \multicolumn{1}{l|}{} & \multicolumn{1}{l|}{Medium} & \multicolumn{1}{l|}{} & \multicolumn{1}{p{3.5cm}|}{\ref{risk:spoofing_pwd}} & \multicolumn{1}{p{3.5cm}|}{\ref{risk:nuget_hacked}} \\ 
+                        \cline{2-5} 
+                        \multicolumn{1}{l|}{} & \multicolumn{1}{l|}{Low} & \multicolumn{1}{l|}{} & \multicolumn{1}{l|}{} & \multicolumn{1}{l|}{} \\ 
+                        \cline{2-5} 
+                    \end{tabular}
+                    \caption{Assessment of risks to the system with the probability of the given risk happening on the x-axis, and the impact of said risk on the system on the y-axis. The number references the risks shown on the list in section \ref{SubSubSec:risk_sources_and_scenarios}}
+                    \label{table:risk_matrix}
+                \end{figure}
+        
+            \subsubsection{Discuss Scenarios}
+            \label{SubSubSec:discuss_scenarios}
+                Solutions to the risk scenarios identified in section \ref{SubSubSec:risk_sources_and_scenarios} will be provided
+                
+                \begin{itemize}
+                    \item \textbf{Github Actions} : Limit commit access to only trusted collaborators
+                    \item \textbf{Github repository owner's profile gets hacked}: Enable two-factor authentication and setting a strong password.
+                    \item \textbf{DDoS attack}: sign up for some dos protection service such as Cloudfare, limit the number of request each user can send, add CAPTCHA to stop bots from creating accounts.
+                    \item \textbf{The cloud provider getting hacked}: store backups at different providers as well as offline
+                    \item \textbf{Nuget Package getting hacked}: peg the version of every nuget package to a specific version and only update that said package once it its integrity can be confirmed 
+                    \item \textbf{IP Spoofing/Eavesdropping to get password}: We can use an https protocol and we can make strict restrictions on the passwords like minimum 8 characters with upper and lower chase characters and at least one numerical digit. Furthermore, we can use salt and pepper in our password hashing algorithm.
+                \end{itemize}
+        
+        % \subsection{Results from pen tests}
+        
+        % The system has been pen tested with three different tools namely \textit{wmap}, \textit{zaproxy}\footnote{See appendix jada jada for repport}, \textit{lynis} (\cite{lynis-web})\footnote{See appendix jada jada for repport}. Futhermore, open ports have been explored with \textit{nmap}. \\
+        
+        % To summarize the findins shortly
+        
+        % \begin{itemize}
+        %     \item \textit{Lynis} : Combined normal and pen test scan resulted in two warnings and 56 suggestions. The two warnings given was the system needed an update, which was done together with a system update and upgrade, and a old configuration on the profile which was chosen not to handle
+        % \end{itemize}
+        
+        % \centering
+        % \begin{tabular}{ |p{3cm}|p{3cm}|p{3cm}|p{3cm}|  }
+        %     \hline
+        %         \multicolumn{4}{|c|}{Open ports exploited with \textit{nmap}} \\
+        %     \hline
+        %     Port & Open & Service & Version\\
+        %     \hline
+        %     22/tcp & open & ssh & OpenSSH 7.6p1\\
+        %     3000/tcp & open & Grafana & \\
+        %     5000/tcp & open & upnp & \\
+        %     9090/tcp & open & Golang net, Prometheus & \\
+        %     \hline
+        % \end{tabular}
+        
+        
+        % \centering
+        % \begin{tabular}{ |p{5cm}|p{3cm}|  }
+        %     \hline
+        %         \multicolumn{2}{|c|}{Vulnerabilities found with  \textit{wmap}} 
+        %         \\
+        %     \hline
+        %     Webclient/webserver & Vulnerabilities \\
+        %     \hline
+        %     159.89.213.38:5000 & None found \\
+        %     159.89.213.38:5010 & None found \\
+        %     \hline
+        %     Postgres cluster & Vulnerabilities \\
+        %     \hline
+        %     138.68.69.185:80 & None found \\
+        %     \hline
+        % \end{tabular}
+
+\end{document}
