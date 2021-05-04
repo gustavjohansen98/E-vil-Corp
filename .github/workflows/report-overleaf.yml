@@ -17,6 +17,13 @@ jobs:
       - name: Check out the latest version of the master branch
         uses: actions/checkout@v2
 
-      - name: Sync changes with 
-        run: |
-          ls
+      - name: Compile the Latex report to an pdf file 
+        uses: xu-cheng/latex-action@v2
+        with:
+          root_file: report/main.tex
+      
+      - name: U
+        uses: actions/upload-artifact@v2
+        with:
+          name: PDF
+          path: main.pdf
