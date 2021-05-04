@@ -1,0 +1,29 @@
+POST http://localhost:5000/register HTTP/1.1
+content-type: application/json
+
+{
+    "username": "test",
+    "email": "test@mail.com",
+    "pwd": "1234"
+}
+
+###
+POST http://159.89.213.38:5010/latest/register HTTP/1.1
+content-type: application/json
+
+{
+    "username": "test5",
+    "email": "test@ail.com",
+    "pwd": "1234"
+}
+
+###
+
+POST http://159.89.213.38:5010/register HTTP/1.1
+content-type: application/json
+
+{
+    "username": "test5",
+    "email": "test@ail.com",
+    "pwd": "1234"
+}

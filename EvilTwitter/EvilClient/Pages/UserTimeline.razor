@@ -1,0 +1,85 @@
+@page "/{username}"
+@inject IUserState UserState
+@inject IUtilViewModel UtilViewModel
+@inject ITimelineCallAPI TimelineCallAPI
+@inject IFollowCallAPI FollowCallAPI
+@using System.Collections.Generic
+@using System.Linq
+@using Minitwit.Entities
+@* @using Repos; *@
+@inject NavigationManager NavigationManager
+
+@if (NavigationManager.Uri == UtilViewModel.UrlFor("public timeline")) @* public_timeline *@
+     {
+        <title>Public Timeline</title>
+        <h2>Public Timeline</h2>
+     }
+    else if (NavigationManager.Uri == UtilViewModel.UrlFor("user timeline")) @* user timeline *@
+    {
+        <title>@UserState.User.username 's Timeline</title>
+        <h2>@UserState.User.username 's Timeline</h2>
+    }
+    else
+    {
+        <title>profile_user.username 's Timeline</title>
+        <h2>My Timeline</h2>
+    }
+    @* {% if g.user %} *@
+@* {% if request.endpoint == 'user_timeline' %} *@
+<div class=followstatus>
+    @* {% if g.user.user_id == profile_user.user_id %} *@
+    @if (@UserState.User.username == username)
+    {
+        <p>This is you!</p>
+    }
+    @* {% elif followed %} *@
+    else if (IsFollowed && UserState.User.user_id != -1)
+    {
+        <p>You are currently following this user.</p>
+        <a class=unfollow href=@UtilViewModel.UrlForUnfollow(username)>Unfollow user</a>
+    }
+    @* {% else %} *@
+    else if (UserState.User.user_id != -1)
+    {
+        <p>You are not yet following this user.</p>
+        <a class=follow href=@UtilViewModel.UrlForFollow(username)>Follow user</a>
+    }
+</div>
+     
+<ul class=messages>
+@* {% for message in messages %} *@
+    @if (UtilViewModel.UserMessageDTO.ToList().Count > 0)
+    {
+        @foreach (var message in @UtilViewModel.UserMessageDTO.OrderByDescending(m => Convert.ToDateTime(m.pub_date)))
+        {
+            <li><img src=@UtilViewModel.GravatarUrl(message.email, 48)>
+            <strong><a href=@UtilViewModel.UrlForUser(message.username)>@message.username</a></strong>
+            @message.text
+            <small>&mdash; @message.pub_date </small></li> 
+        }
+    }
+    else
+    {
+        <li><em>There's no messages so far</em></li>
+    }
+</ul>
+
+@code {
+    [Parameter]
+    public string username { get; set; }
+    private bool IsFollowed = false;
+
+    protected override async Task OnInitializedAsync()
+    {
+        UtilViewModel.FlashedMessages = null;
+        
+        UtilViewModel.UserMessageDTO = new List<UserMessageDTO>();
+
+        if (UserState.User.username != username && UserState.User.username != null)
+        {
+            IsFollowed = await FollowCallAPI.IsFollowed(UserState.User.username, username);
+        }
+
+        await TimelineCallAPI.UserTimeline(username);
+    }
+}

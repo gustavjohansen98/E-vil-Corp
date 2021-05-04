@@ -1,0 +1,40 @@
+@page "/public"
+@inject IUtilViewModel UtilViewModel
+@inject ITimelineCallAPI TimelineCallAPI
+@using System.Collections.Generic
+@using System.Linq
+@* @using Repos; *@
+@using Minitwit.Entities
+@inject NavigationManager NavigationManager
+
+
+<title>Public Timeline</title>
+
+<h2>Public Timeline</h2>
+
+<ul class=messages>
+@* {% for message in messages %} *@
+    @if (UtilViewModel.UserMessageDTO.ToList().Count > 0)
+    {
+        @foreach (var message in @UtilViewModel.UserMessageDTO)
+        {
+            <li><img src=@UtilViewModel.GravatarUrl(message.email, 48)>
+            <strong><a href=@UtilViewModel.UrlForUser(message.username)>@message.username</a></strong>
+            @message.text
+            <small>&mdash; @message.pub_date </small></li> 
+        }
+    }
+    else
+    {
+        <li><em>There's no messages so far</em></li>
+    }
+</ul>
+
+@code {
+     protected override async Task OnInitializedAsync()
+    {
+        UtilViewModel.UserMessageDTO = new List<UserMessageDTO>();
+        
+        await TimelineCallAPI.PublicTimeline(); 
+    }
+}

@@ -1,0 +1,79 @@
+@page "/"
+@inject IUserState UserState
+@inject IUtilViewModel UtilViewModel
+@inject ITimelineCallAPI TimelineCallAPI
+@inject IMessageCallApi MessageCallApi
+@using System.Collections.Generic
+@using System.Linq
+@* @using Repos; *@
+@using Minitwit.Entities;
+@using System.Net
+@inject NavigationManager NavigationManager
+
+
+<title>@UserState.User.username 's Timeline</title>
+
+<h2>@UserState.User.username 's Timeline</h2>//
+
+<div class=twitbox>
+    <h3>What's on your mind @UserState.User.username ?</h3>
+    <EditForm Model="messageText" OnValidSubmit="OnValidSubmit">
+        <DataAnnotationsValidator />
+        <InputText @bind-Value="messageText.text" />
+        <ValidationMessage For="@(() => messageText.text)" />
+        <input type=submit value="Share" />
+        @* <form action="{{ url_for('add_message') }}" method=post> *@
+    </EditForm>
+</div>
+
+<ul class=messages>
+    @* {% for message in messages %} *@
+    @if (UtilViewModel.UserMessageDTO.ToList().Count > 0)
+    {
+        @foreach (var message in @UtilViewModel.UserMessageDTO.OrderByDescending(m => Convert.ToDateTime(m.pub_date)))
+        {
+            <li><img src=@UtilViewModel.GravatarUrl(message.email, 48)>
+            <strong><a href=@UtilViewModel.UrlForUser(message.username)>@message.username</a></strong>
+            @message.text
+            <small>&mdash; @message.pub_date </small></li> 
+        }
+    }
+    else
+    {
+        <li><em>There's no messages so far</em></li>
+    }
+</ul>
+
+@code {
+    public class MessageText
+    {
+        public string text { get; set; }
+    }
+
+    private MessageText messageText = new MessageText();
+
+    private async Task OnValidSubmit()
+    {
+        var response = await MessageCallApi.PostMessageToApi(messageText.text);
+
+        if (response == HttpStatusCode.NoContent)
+        {
+            UtilViewModel.FlashedMessages = null;
+            NavigationManager.NavigateTo("/public");
+        }
+        else
+        {
+            UtilViewModel.FlashedMessages = new[] {"Something went wrong, please try again"};
+            NavigationManager.NavigateTo("");
+        }
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        if (UserState.User.user_id <= -1) NavigationManager.NavigateTo("public");
+
+            UtilViewModel.UserMessageDTO = new List<UserMessageDTO>();
+
+        await TimelineCallAPI.Timeline();
+    }
+}

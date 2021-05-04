@@ -1,0 +1,26 @@
+@page "/{username}/follow"
+@* @using Repos; *@
+@inject IUserState UserState
+@inject IUtilViewModel UtilViewModel
+@inject IFollowCallAPI FollowCallAPI
+@inject NavigationManager NavigationManager
+
+@code {
+    [Parameter]
+    public string username { get; set; }
+    protected override async Task OnInitializedAsync()
+    {
+        if (UserState.User.user_id <= -1) NavigationManager.NavigateTo("timeline");
+
+        await FollowCallAPI.FollowUser(UserState.User.username, username);
+
+        @* FollowerRepository.FollowUser(MiniMain.User.username, username); *@
+
+        UtilViewModel.FlashedMessages = new [] 
+        { 
+            "You are now following " + username 
+        };
+
+        NavigationManager.NavigateTo(UtilViewModel.UrlForUser(username));
+    }
+}

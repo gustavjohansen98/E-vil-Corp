@@ -1,0 +1,19 @@
+POST http://localhost:5000/fllws/test HTTP/1.1
+content-type: application/json
+
+{
+    "follow": "test"
+}
+
+
+###
+
+POST http://localhost:5000/fllws/test1 HTTP/1.1
+content-type: application/json
+
+{
+    "unfollow": "test"
+}
+
+###
+
