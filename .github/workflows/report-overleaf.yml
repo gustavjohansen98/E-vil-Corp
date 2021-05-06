@@ -16,21 +16,35 @@ jobs:
     steps:
       - name: Check out the latest version of the master branch
         uses: actions/checkout@v2
+        with:
+          fetch-depth: 0 # otherwise, you will failed to push refs to dest repo
 
       - name: Setup of Latex compiler and compile pdf
         uses: xu-cheng/latex-action@v2
         with:
           root_file: report/main.tex
       
-      - name: Upload main.pdf as artifact
-        uses: actions/upload-artifact@v2
-        with:
-          name: PDF
-          path: main.pdf
+      # - name: Upload main.pdf as artifact
+      #   uses: actions/upload-artifact@v2
+      #   with:
+      #     name: PDF
+      #     path: main.pdf
       
-      - name: look into repo
+      - name: Move and rename pdf into correct folder
         run: |
           ls
+          rm -f report/build/Group-E-report.pdf
+          mv main.pdf report/build/Group-E-report.pdf
+      
+      - name: Commit files
+        run: |
+          git commit -m "Upload pdf to correct folder" -a
+
+      - name: Push changes
+        uses: ad-m/github-push-action@master
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          branch: ${{ github.ref }}
 
 #       - name: Download pdf from artifacts
 #         uses: actions/download-artifact@v2
