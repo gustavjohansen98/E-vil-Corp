@@ -23,12 +23,6 @@ jobs:
         uses: xu-cheng/latex-action@v2
         with:
           root_file: report/main.tex
-       
-      # - name: Upload main.pdf as artifact
-      #   uses: actions/upload-artifact@v2
-      #   with:
-      #     name: PDF
-      #     path: main.pdf
       
       - name: Move and rename pdf into correct folder
         run: |
@@ -39,6 +33,7 @@ jobs:
       
       - name: Commit files
         run: |
+          git config --local user.name "ReportBot"
           git add -f report/build/Group-E-report.pdf
           git commit -m "Upload pdf to correct folder"
 
@@ -47,23 +42,3 @@ jobs:
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           branch: ${{ github.ref }}
-
-#       - name: Download pdf from artifacts
-#         uses: actions/download-artifact@v2
-#         with:
-#           name: PDF
-#           path: report/build/
- 
-#       - name: Check folder
-#         run: | 
-#           ls -R
-#           ls
-#         working-directory: report/build/
-      
-#       - name: Download artifact
-#         uses: dawidd6/action-download-artifact@v2
-#         with:
-#           # Required, workflow file name or ID
-#           workflow: report-overleaf.yml
-#           # Optional, directory where to extract artifact
-#           path: report/build/
