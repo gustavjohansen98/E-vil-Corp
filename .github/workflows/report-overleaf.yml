@@ -34,11 +34,13 @@ jobs:
         run: |
           ls
           rm -f report/build/Group-E-report.pdf
+          mkdir -p report/build/
           mv main.pdf report/build/Group-E-report.pdf
       
       - name: Commit files
         run: |
-          git commit -m "Upload pdf to correct folder" -a
+          git add report/build/Group-E-report.pdf
+          git commit -m "Upload pdf to correct folder"
 
       - name: Push changes
         uses: ad-m/github-push-action@master
