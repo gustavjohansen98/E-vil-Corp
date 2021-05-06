@@ -17,13 +17,18 @@ jobs:
       - name: Check out the latest version of the master branch
         uses: actions/checkout@v2
 
-      - name: Compile the Latex report to an pdf file 
+      - name: Setup of Latex compiler and compile pdf
         uses: xu-cheng/latex-action@v2
         with:
           root_file: report/main.tex
       
-      - name: U
+      - name: Upload main.pdf as artifact
         uses: actions/upload-artifact@v2
         with:
           name: PDF
-          path: main.pdf
+          path: report/build/main.pdf
+
+      - name: Check folder
+        run: |
+          cd /report
+          ls
