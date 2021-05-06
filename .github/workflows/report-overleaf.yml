@@ -23,7 +23,7 @@ jobs:
         uses: xu-cheng/latex-action@v2
         with:
           root_file: report/main.tex
-      
+       
       # - name: Upload main.pdf as artifact
       #   uses: actions/upload-artifact@v2
       #   with:
@@ -39,7 +39,7 @@ jobs:
       
       - name: Commit files
         run: |
-          git add report/build/Group-E-report.pdf
+          git add -f report/build/Group-E-report.pdf
           git commit -m "Upload pdf to correct folder"
 
       - name: Push changes
