@@ -31,9 +31,10 @@ jobs:
       - name: Download pdf from artifacts
         uses: actions/download-artifact@v2
         with:
-          name: main.pdf
+          name: PDF
+          path: report/build/
 
       - name: Check folder
-        run: |
+        run: | 
           ls -R
-        working-directory: report/build
+        working-directory: report/build/
