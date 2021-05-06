@@ -27,6 +27,10 @@ jobs:
         with:
           name: PDF
           path: main.pdf
+      
+      - name: look into repo
+        run: |
+          ls
 
       - name: Download pdf from artifacts
         uses: actions/download-artifact@v2
