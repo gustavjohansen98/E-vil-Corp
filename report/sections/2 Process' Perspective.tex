@@ -44,7 +44,24 @@
                 
             
         \subsection{Monitoring}
-        %Lukas
+            \subsubsection{Setup}
+                The monitoring of the EvilTwitter application was done using the monitoring and alerting toolkit Prometheus\footnote{\hyperlink{https://prometheus.io/}{https://prometheus.io/}} to gather information from the application. Two dotnet package was used to retrieve data from the application. Prometheus-net.SystemMetrics\footnote{\hyperlink{https://github.com/Daniel15/prometheus-net.SystemMetrics}{https://github.com/Daniel15/prometheus-net.SystemMetrics}} was used to retreive system information from where the application was running, and prometheus-net\footnote{\hyperlink{https://github.com/prometheus-net/prometheus-net}{https://github.com/prometheus-net/prometheus-net}} to gather information from the Controllers
+                
+                Grafana\footnote{\hyperlink{https://grafana.com/}{https://grafana.com/}} was used to interpret this data and gain valuable information
+            
+            \subsubsection{TODO: title}
+                The information gathered in Grafana was setup in 3 categories: 1. Alerts, 2. Controller usage, 3. System.
+                
+                % TODO: maybe two figures?!?!?
+                \begin{figure}[H]
+                    \centering
+                    \includegraphics[width=\textwidth]{report/images/Grafana Setup.jpg}
+                    \caption{Caption}
+                    \label{fig:grafana_setup}
+                \end{figure}
+            
+                First the alert graph can be seen at the top right, which is a value that can be either 1 or 0. This translates to what value latest returned last, with any latest value greater than 0 would resolved to a value of 1 and anything else would resolved to a value of 0. Hence if the Api is down or returns odd values this would be registered by Grafana
+            
         \subsection{Logging}
         %Lukas
         
