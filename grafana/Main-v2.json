@@ -91,7 +91,7 @@
               "format": "time_series",
               "intervalFactor": 2,
               "refId": "A",
-              "step": 600
+              "step": 1200
             }
           ],
           "thresholds": [],
@@ -204,7 +204,7 @@
               "format": "time_series",
               "intervalFactor": 2,
               "refId": "A",
-              "step": 1200
+              "step": 2400
             }
           ],
           "thresholds": [
@@ -299,17 +299,17 @@
           "steppedLine": false,
           "targets": [
             {
-              "expr": "avg(http_request_duration_seconds_count{controller=\"Latest\"})",
+              "expr": "sum(http_request_duration_seconds_count{controller=\"Latest\"})",
               "format": "time_series",
               "intervalFactor": 2,
               "refId": "A",
-              "step": 600
+              "step": 1800
             }
           ],
           "thresholds": [],
           "timeFrom": null,
           "timeShift": null,
-          "title": "Avg request duration Latest controller",
+          "title": "Sum request duration Latest controller",
           "tooltip": {
             "shared": true,
             "sort": 0,
@@ -381,17 +381,17 @@
           "steppedLine": false,
           "targets": [
             {
-              "expr": "avg(http_request_duration_seconds_sum{controller=\"User\"})",
+              "expr": "sum(http_request_duration_seconds_sum{controller=\"User\"})",
               "format": "time_series",
               "intervalFactor": 2,
               "refId": "A",
-              "step": 600
+              "step": 1800
             }
           ],
           "thresholds": [],
           "timeFrom": null,
           "timeShift": null,
-          "title": "Avg request time User controller",
+          "title": "Sum request time User controller",
           "tooltip": {
             "shared": true,
             "sort": 0,
@@ -474,17 +474,17 @@
           "steppedLine": false,
           "targets": [
             {
-              "expr": "avg(http_request_duration_seconds_sum{controller=\"Follower\"})",
+              "expr": "sum(http_request_duration_seconds_sum{controller=\"Follower\"})",
               "format": "time_series",
               "intervalFactor": 2,
               "refId": "A",
-              "step": 600
+              "step": 1800
             }
           ],
           "thresholds": [],
           "timeFrom": null,
           "timeShift": null,
-          "title": "Avg request duration Follower controller",
+          "title": "Sum request duration Follower controller",
           "tooltip": {
             "shared": true,
             "sort": 0,
@@ -555,17 +555,17 @@
           "steppedLine": false,
           "targets": [
             {
-              "expr": "avg(http_request_duration_seconds_sum{controller=\"Register\"})",
+              "expr": "sum(http_request_duration_seconds_sum{controller=\"Register\"})",
               "format": "time_series",
               "intervalFactor": 2,
               "refId": "A",
-              "step": 600
+              "step": 1800
             }
           ],
           "thresholds": [],
           "timeFrom": null,
           "timeShift": null,
-          "title": "Avg request duration Register controller",
+          "title": "Sum request duration Register controller",
           "tooltip": {
             "shared": true,
             "sort": 0,
@@ -648,7 +648,7 @@
           "steppedLine": false,
           "targets": [
             {
-              "expr": "avg(http_request_duration_seconds_sum{controller=\"Message\"})",
+              "expr": "sum(http_request_duration_seconds_sum{controller=\"Message\"})",
               "format": "time_series",
               "intervalFactor": 2,
               "refId": "A",
@@ -658,7 +658,7 @@
           "thresholds": [],
           "timeFrom": null,
           "timeShift": null,
-          "title": "Avg request duration Message controller",
+          "title": "Sum request duration Message controller",
           "tooltip": {
             "shared": true,
             "sort": 0,
@@ -739,7 +739,7 @@
               "format": "time_series",
               "intervalFactor": 2,
               "refId": "A",
-              "step": 240
+              "step": 1800
             }
           ],
           "thresholds": [],
@@ -840,7 +840,7 @@
               "intervalFactor": 2,
               "legendFormat": "",
               "refId": "A",
-              "step": 7200
+              "step": 14400
             }
           ],
           "thresholds": "50,80",
@@ -872,8 +872,8 @@
     "list": []
   },
   "time": {
-    "from": "2021-04-11T23:26:50.121Z",
-    "to": "2021-04-15T20:38:58.313Z"
+    "from": "2021-04-30T22:42:47.451Z",
+    "to": "2021-05-09T11:39:31.739Z"
   },
   "timepicker": {
     "refresh_intervals": [
@@ -902,5 +902,5 @@
   },
   "timezone": "",
   "title": "Main",
-  "version": 30
+  "version": 31
 }
