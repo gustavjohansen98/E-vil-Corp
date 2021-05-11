@@ -14,7 +14,20 @@
     \section{Lessons Learned Perspective}
     \label{Sec:lessons_learned_persective}
     \subsection{Evolution and refactoring}
+    Since we came from different backgrounds - data science and software development-, our first issue in refactoring was settling on a language. As we didn't have a shared programming language all of us knew, we tried learning a common language none of us knew before. While we thought we can pick up a language quickly, since we knew the basic building blocks and had experience learning from documentation, we ended up settling for C# after some gruesome weeks of learning go. This choice created some discrepancies in our abilities to interact with the codebase, which was hard to bridge for the entirety of project period.
+    
+    When setting up virtualization, we started by deploying local copies to Digital Ocean with the help of Vagrant. Later, we switched from local copies to cloning from github, since it was easier to just specify the production branch in Vagrant than manually switching branches for spinning up the machines. An issue we were still facing was the database. Since we were working with an sqlite database, we had to manually copy the database from our VM before every destruction. At first, we bridged the issue by setting up a vagrant trigger-on-destroy to copy the database file. Later, we switched to a postgres cluster, also deployed on Digital Ocean, so that the database was more independent from the application.
+    importance of database setup initially
+    
+    Creating the CI/CD setup, we've been through hell. We had a lot of issues with setting up the keys the right way for everything, which is why we ended up not using Travis, but github actions, since it was more tightly integrated with the repository.
+    
+    Monitoring
+    
+    Logging
+    
+    Load balancing
     \subsection{Operations}
+    
     \subsection{Maintenance}
         Even more text :O
 \end{document}

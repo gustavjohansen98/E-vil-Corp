@@ -23,17 +23,23 @@
     \section{Process' Perspective}
     \label{Sec:process_perspective}
         Some more text
+        \subsection{Team Work}
+            \subsubsection{Organisation}
+                
+                The teams aimed at doing agile development via including practices like self organising teams and iterative delivery. We worked in weekly iterations. Every week we had two meetings one on Mondays and one on every Thursday. Each meeting started with stand up meeting where everyone summarised what have been achieved since the session and what we expect to be done until next week. On Mondays we defined the task that we plan to do on the given with priorities assigned to each of them. Also, we picked the individual or group tasks for the week through out the week the individuals and groups work on the tasks in a self-organising manner. The Thursday session had the main focus demonstrating the progress ,helping each other out if one of the group or group member is stuck with a task and deciding on the which task to pick if we were done with the one picked on Monday.
         
+            
+            \subsubsection{Communication Tools}
+                
+                We used Teams Groups for the meetings and communication , which contained a general chat, a chat for arranging meetings and a chat that contains various useful links. This enabled us ask questions and provide feed back out side of the meetings, thus we could work on the project more continuously. We organised the tasks in Kanban, this way we could easily track the progression of them and see which ones need to be worked on urgently.  
+
         \subsection{Development Strategy}
-            TODO: fancy intro here
+            We used  repository. We developed on our local machines and pushed to the development branch first. The have been deployed when it was pushed to the main branch. Before merging the development branch with the main, at least two group members reviewed the code and tested the new functionality.
             
             \subsubsection{Tools used}
-                The teams aimed at doing agile development via including practices like self organising teams and iterative delivery (TODO). This becomes more once the teams Kanban board is explained
-            
-                For communication between the team members a Teams Group was used, which contained a general chat, a chat for arranging meetings and a chat that contains various useful links
-                
+
                 To host the code a Github Repository was used, which was owned by one group member
-                
+        
                 Github Actions
                 
                 Github Projects
@@ -44,27 +50,100 @@
                 
             
         \subsection{Monitoring}
+        \label{SubSec:monitoring}
+            % - How do you monitor your systems and what precisely do you monitor?
             \subsubsection{Setup}
-                The monitoring of the EvilTwitter application was done using the monitoring and alerting toolkit Prometheus\footnote{\hyperlink{https://prometheus.io/}{https://prometheus.io/}} to gather information from the application. Two dotnet package was used to retrieve data from the application. Prometheus-net.SystemMetrics\footnote{\hyperlink{https://github.com/Daniel15/prometheus-net.SystemMetrics}{https://github.com/Daniel15/prometheus-net.SystemMetrics}} was used to retreive system information from where the application was running, and prometheus-net\footnote{\hyperlink{https://github.com/prometheus-net/prometheus-net}{https://github.com/prometheus-net/prometheus-net}} to gather information from the Controllers
+                The monitoring of the EvilTwitter application was done using the monitoring and alerting toolkit Prometheus\footnote{\hyperlink{https://prometheus.io/}{https://prometheus.io/}} to gather information from the application. Two dotnet package was used to retrieve data from the application. Prometheus-net.SystemMetrics\footnote{\hyperlink{https://github.com/Daniel15/prometheus-net.SystemMetrics}{https://github.com/Daniel15/prometheus-net.SystemMetrics}} was used to retreive system information from where the application was running, and prometheus-net\footnote{\hyperlink{https://github.com/prometheus-net/prometheus-net}{https://github.com/prometheus-net/prometheus-net}} to gather information from the Controllers.
                 
-                Grafana\footnote{\hyperlink{https://grafana.com/}{https://grafana.com/}} was used to interpret this data and gain valuable information
+                All the data collected was posted on the following URL \textit{http://159.89.213.38:5010/metrics}, which Grafana\footnote{\hyperlink{https://grafana.com/}{https://grafana.com/}} used to interpret the data. Then via grafana this data was changed to a more readable format collected in a dashboard.
             
             \subsubsection{TODO: title}
-                The information gathered in Grafana was setup in 3 categories: 1. Alerts, 2. Controller usage, 3. System.
+                The information gathered in Grafana was setup in 3 categories: 1. General, 2. Controller usage, 3. System.
                 
                 % TODO: maybe two figures?!?!?
                 \begin{figure}[H]
                     \centering
                     \includegraphics[width=\textwidth]{report/images/Grafana Setup.jpg}
-                    \caption{Caption}
+                    \caption{TODO}
                     \label{fig:grafana_setup}
                 \end{figure}
             
-                First the alert graph can be seen at the top right, which is a value that can be either 1 or 0. This translates to what value latest returned last, with any latest value greater than 0 would resolved to a value of 1 and anything else would resolved to a value of 0. Hence if the Api is down or returns odd values this would be registered by Grafana
-            
+                First as a general view on the traffic an graph over how many request occurring can be seen, such that an overview of incoming traffic can be seen. Further, the alert graph can be seen at the top right, which is a value that can be either 1 or 0. This translates to what value latest returned last, with any latest value greater than 0 would resolved to a value of 1 and anything else would resolved to a value of 0. Hence if the Api is down or returns odd values this would be registered by Grafana. This tracker could be used to notify the developers if the Api behaved oddly, which was utilised by having a webhook that sends messages to a discord server as seen in the figure \ref{fig:grafana_discord_alert}.
+                
+                \begin{figure}[H]
+                    \centering
+                    \includegraphics[width=\textwidth]{report/images/Grafana Discord Alert.jpg}
+                    \caption{TODO}
+                    \label{fig:grafana_discord_alert}
+                \end{figure}
+                
+                Second information from controllers was very detailed, and could be filtered by message type (POST, GET etc), response (204, 404 etc.). This information is valuable in solving performance issues, but creating a graph for every single message type and response would clutter the dashboard and make it less readable. Hence a decision was made that such queries should be done on a case by case basis, and a more general overview was created to monitor each controller as a whole. The query can be seen below.
+                
+                \begin{center}
+                    sum(http\_request\_duration\_seconds\_sum{controller="Follower"})
+                \end{center}
+                
+                As an example, at one point the message controller was more time as the other controllers, where by looking on the summarised time per message type revealed that it was the GET call that used a lot of time.
+                
+                Third TODO: should we delete the one with RAM?!?!
+                
+
         \subsection{Logging}
-        %Lukas
-        
+            \label{SubSec:logging}
+            % - What do you log in your systems and how do you aggregate logs?
+            The application uses Elastic Search\footnote{TODO}, Kibana\footnote{TODO} and Serilog\footnote{TODO} to aggregate the logs. This is done by having C# logs useful information that is then propagated to \textit{http://localhost:9200} where Elastic Search monitors and collects log. Finally Kibana imports this data in order to display and query the logs.
+            
+            The package Serilog came with some off the shelf functionality in case of logging, where at the informational level the following functionality was utilised initially. Logging of database queries and requests and response send to and from the controllers. After evaluation this was deemed unnecessary, as the information given in the logs could be retrieved wither from the monitoring setup or from database queries themselves, hence logging was kept at an error level as this information cannot be retrieved otherwise.
+
         \subsection{Security assessment}
+        To assess the security of our system, we considered vulnerabilities of our cloud infrastructure, vulnerabilities of the code we produced, and security of the user data.
+        When assessing the safety of our infrastructure, we found it high impact and high probability that an adversary gains access to the account of the repo owner, gaining access to our secrets. To decrease this risk, the repo owner enabled 2-factor authentication. We also found it high probability high impact to fall victim to a denial-of-service attack, since DoS attacks are cheap to execute, and we have no protection set up against it. The system could also be overwhelmed by automated sign-ups to the platform, so it would be advantageous to set up CAPTCHA against it.
+        
+        Considering we use the insecure version of http, our users are at risk of an adversary eavesdropping or spoofing our server's IP. This in turn would lead to disclosure of the user's credentials. Could by remedied by self-signing a certificate with Let's Encrypt. We deemed this issue medium impact and medium probability.
+        
+        One low probability risk we identified was the cloud provider (or our account at the provider) getting hacked. This would be a severe problem, since we would lose access to our infrastructure, with the adversary gaining complete control over the live server and our database. User credentials would be somewhat safe, we only store hashes of passwords, however common passwords could be easily looked up from a rainbow table. To provide better guarantees, we could also add salt and pepper to the passwords.
+        The other low probability risk we identified was a supply chain attack on any of our dependencies. Since it is unfeasible to constantly audit every new version the supplier publishes, the best line of defence is auditing once, and freezing version numbers after.
+        
+        \newpage
+        
+        \subsection{Description of CI/CD pipeline}
+        
+        
+        Overall, the project consists of three workflows all utilised with GitHub Actions to make use of the open source workflow actions found in the GitHub Marketplace:
+        \begin{itemize} 
+            \item \textbf{release.yml} to automatically make a release every Sunday at 9 pm. 
+            \item \textbf{report-overleaf.yml} to automatically compile the Latex source code into a pdf.
+            \item \textbf{main.yml} to deploy local changes from development to production.
+        \end{itemize}
+        
+        All the workflow files are found in the \textit{.github/workflows} folder of the repository, and each uses the action checkout\footnote{https://github.com/actions/checkout} to checkout the repository to a virtual machine hosted by GitHub to perform operations on. 
+        
+        \subsubsection{Automatic release}
+        
+        This workflow uses the create-release\footnote{https://github.com/actions/create-release} and CRON formatting to automatically trigger a release of the main branch every sunday at 9 pm. 
+        
+        \subsubsection{Latex report build}
+        
+        TODO
+        
+        
+        \subsubsection{From development to production}
+        
+        Figure 3 displays the different stages on how implementations are taken from development into production. 
+        
+        \begin{figure}[H]
+            \centering
+                \includegraphics[width=\textwidth]{report/images/MiniTwit-workflow-final.png}
+                \caption{Overall workflow diagram}
+            \label{fig:overall_workflow}
+        \end{figure}
+        
+        
+        \begin{figure}[H]
+            \centering
+                \includegraphics[width=\textwidth/2]{report/images/MiniTwit-main-final.png}
+                \caption{Main Workflow diagram}
+            \label{fig:main_workflow}
+        \end{figure}
             
 \end{document}
