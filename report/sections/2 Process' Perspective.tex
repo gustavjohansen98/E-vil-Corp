@@ -22,32 +22,48 @@
 \begin{document}
     \section{Process' Perspective}
     \label{Sec:process_perspective}
-        \subsection{Team Work}
-            \subsubsection{Organisation}
-                
-                The teams aimed at doing agile development via including practices like self organising teams and iterative delivery. We worked in weekly iterations. Every week we had two meetings one on Mondays and one on every Thursday. Each meeting started with stand up meeting where everyone summarised what have been achieved since the session and what we expect to be done until next week. On Mondays we defined the task that we plan to do on the given with priorities assigned to each of them. Also, we picked the individual or group tasks for the week through out the week the individuals and groups work on the tasks in a self-organising manner. The Thursday session had the main focus demonstrating the progress ,helping each other out if one of the group or group member is stuck with a task and deciding on the which task to pick if we were done with the one picked on Monday.
-        
+        \subsection{Development Team}
+        \label{subsec:development-team}
+            To adopt a DevOps organisation and develop style as specified in \cite{devops-handbook} part 1, a mix of various software development strategies and frameworks was chosen, support by tools to support these strategies. In this section the development strategies will be covered first followed by the tools used.
             
+            \subsubsection{Development Strategies}
+            \label{subsubsec:development-strategies}
+                % self organising teams?
+                To accommodate the DevOps principles of 'smaller batch sizes' and 'Reduce the number of handoffs' (\cite{devops-handbook} p. 9-10), an agile approach was taken to the development by using the agile principle of "Deliver working software frequently ..." (\cite{agile-manifesto-second-page} para. 5). This lead to a delivery interval of 1 week with a release on Sunday evening marking the end of an interval.
+                
+                Team members had other commitments which made it hard to find common working hours, hence a self organising approach was chosen (\cite{agile-manifesto-second-page} para. 13) to handle this issue. With this short overlapping working time, it was decided to practice the Scrum daily meetings (\cite{2020-scrum-guide} p. 9) two times per week, one on Mondays and one Thursdays. The Monday meetings would be used for prioritising and planning, while Thursday meetings were more of a catch up and experience exchange.
+                
+                Various tools was utilised to achieve the above strategies, which will be covered in the next sections.
+                
+                %Each meeting started with stand up meeting where everyone summarised what have been achieved since the session and what we expect to be done until next week. On Mondays we defined the task that we plan to do on the given with priorities assigned to each of them. Also, we picked the individual or group tasks for the week through out the week the individuals and groups work on the tasks in a self-organising manner. The Thursday session had the main focus demonstrating the progress ,helping each other out if one of the group or group member is stuck with a task and deciding on the which task to pick if we were done with the one picked on Monday.
+        
+        \subsection{Development Tools}
+        \label{subsec:development-tools}
             \subsubsection{Communication Tools}
+            \label{subsubsec:communication-tools}
+                Communication and meetings between team members were done by using a Team Group. The Group contained 3 channels a general chat, a chat for arranging meetings/hosting meetings and a chat that contains various useful links. %This enabled us ask questions and provide feed back out side of the meetings, thus we could work on the project more continuously. We organised the tasks in Kanban, this way we could easily track the progression of them and see which ones need to be worked on urgently.
                 
-                We used Teams Groups for the meetings and communication , which contained a general chat, a chat for arranging meetings and a chat that contains various useful links. This enabled us ask questions and provide feed back out side of the meetings, thus we could work on the project more continuously. We organised the tasks in Kanban, this way we could easily track the progression of them and see which ones need to be worked on urgently.  
+            \subsubsection{Planning tools}
+            \label{subsubsec:planning-tools}
+                A Kanban board was create with Github Projects\footnote{TODO} in combination with Github Issues\footnote{TODO} as the sticky notes in it to keep an overview of the tasks at hand. Issues could be added to the project in two ways. Every Monday once the tasks for the following week was known, issues would be created and added to the project. They would then be prioritised in regards to the severity for the application i.e. security risks would be handled as quickly as possible while minor UI bugs would be fixed last. If any bugs became apparent at any point they could be added to the project, where after the developers would assess severity as soon as possible. All of this can be seen in figure \ref{fig:kanban-board-1}  together with part of the column setup, which can be seen below
+                
+                \begin{center}
+                    To Do $\longrightarrow$ In Progress $\longrightarrow$ Review In Progress $\longrightarrow$ Done $\longrightarrow$ Deployed $\longrightarrow$ To Be Archived
+                \end{center}
+                
+                \begin{figure}[H]
+                    \centering
+                    \includegraphics[width=0.8\textwidth]{report/images/Kanban board 1.png}
+                    \caption{TODO}
+                    \label{fig:kanban-board-1}
+                \end{figure}
 
-        \subsection{Development Strategy}
-            We used  repository. We developed on our local machines and pushed to the development branch first. The have been deployed when it was pushed to the main branch. Before merging the development branch with the main, at least two group members reviewed the code and tested the new functionality.
-            
-            \subsubsection{Tools used}
-
-                To host the code a Github Repository was used, which was owned by one group member
-        
-                Github Actions
+            \subsubsection{Version Control}
+            \label{subsubsec:version-control}
+                % TODO: Specify folders in repo?!?!
+                Git was used as the version control system and Github was used to host the repositories. A mono-repository setup as utilised to host the source code, with a task based branching strategy (\cite{task-branching}) combined with a develop and main branch. Meaning that main contained code that was deployed and develop was a branch for testing and merging the different task branches.
+                %We used  repository. We developed on our local machines and pushed to the development branch first. The have been deployed when it was pushed to the main branch. Before merging the development branch with the main, at least two group members reviewed the code and tested the new functionality.
                 
-                Github Projects
-                
-                Digital Ocean Droplet
-                
-                Digital Ocean Database Cluster
-                
-            
         \subsection{Monitoring}
         \label{SubSec:monitoring}
             % - How do you monitor your systems and what precisely do you monitor?
