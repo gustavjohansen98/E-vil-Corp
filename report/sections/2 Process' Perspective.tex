@@ -22,7 +22,6 @@
 \begin{document}
     \section{Process' Perspective}
     \label{Sec:process_perspective}
-        Some more text
         \subsection{Team Work}
             \subsubsection{Organisation}
                 
@@ -52,40 +51,43 @@
         \subsection{Monitoring}
         \label{SubSec:monitoring}
             % - How do you monitor your systems and what precisely do you monitor?
-            \subsubsection{Setup}
-                The monitoring of the EvilTwitter application was done using the monitoring and alerting toolkit Prometheus\footnote{\hyperlink{https://prometheus.io/}{https://prometheus.io/}} to gather information from the application. Two dotnet package was used to retrieve data from the application. Prometheus-net.SystemMetrics\footnote{\hyperlink{https://github.com/Daniel15/prometheus-net.SystemMetrics}{https://github.com/Daniel15/prometheus-net.SystemMetrics}} was used to retreive system information from where the application was running, and prometheus-net\footnote{\hyperlink{https://github.com/prometheus-net/prometheus-net}{https://github.com/prometheus-net/prometheus-net}} to gather information from the Controllers.
+            The monitoring of the EvilTwitter application was done using the monitoring and alerting toolkit Prometheus\footnote{\hyperlink{https://prometheus.io/}{https://prometheus.io/}} to gather information from the application. Two dotnet package was used to retrieve data from the application. Prometheus-net.SystemMetrics\footnote{\hyperlink{https://github.com/Daniel15/prometheus-net.SystemMetrics}{https://github.com/Daniel15/prometheus-net.SystemMetrics}} was used to retreive system information from where the application was running, and prometheus-net\footnote{\hyperlink{https://github.com/prometheus-net/prometheus-net}{https://github.com/prometheus-net/prometheus-net}} to gather information from the Controllers. The application posted all the collected data at \textit{http://159.89.213.38:5010/metrics} where Prometheus could then gather the necessary data.
                 
-                All the data collected was posted on the following URL \textit{http://159.89.213.38:5010/metrics}, which Grafana\footnote{\hyperlink{https://grafana.com/}{https://grafana.com/}} used to interpret the data. Then via grafana this data was changed to a more readable format collected in a dashboard.
+            Prometheus then made its services available at \textit{http://159.89.213.38:9090} where Grafana\footnote{\hyperlink{https://grafana.com/}{https://grafana.com/}} could connect and retrieve the necessary data. Via grafana this data was changed to a more readable format collected in a dashboard that was made available at \textit{http://159.89.213.38:3000}.
             
-            \subsubsection{TODO: title}
-                The information gathered in Grafana was setup in 3 categories: 1. General, 2. Controller usage, 3. System.
+            The information gathered in Grafana was setup in two categories: General and controller usage
                 
-                % TODO: maybe two figures?!?!?
-                \begin{figure}[H]
-                    \centering
-                    \includegraphics[width=\textwidth]{report/images/Grafana Setup.jpg}
-                    \caption{TODO}
-                    \label{fig:grafana_setup}
-                \end{figure}
+            \begin{figure}[H]
+                \centering
+                \includegraphics[width=\textwidth]{report/images/Grafana EvilTwitter 1.jpg}
+                \caption{TODO}
+                \label{fig:grafana_setup_1}
+            \end{figure}
+                
+            \begin{figure}[H]
+                \centering
+                \includegraphics[width=\textwidth]{report/images/Grafana EvilTwitter 2.jpg}
+                \caption{TODO}
+                \label{fig:grafana_setup_2}
+            \end{figure}
             
-                First as a general view on the traffic an graph over how many request occurring can be seen, such that an overview of incoming traffic can be seen. Further, the alert graph can be seen at the top right, which is a value that can be either 1 or 0. This translates to what value latest returned last, with any latest value greater than 0 would resolved to a value of 1 and anything else would resolved to a value of 0. Hence if the Api is down or returns odd values this would be registered by Grafana. This tracker could be used to notify the developers if the Api behaved oddly, which was utilised by having a webhook that sends messages to a discord server as seen in the figure \ref{fig:grafana_discord_alert}.
+            First at the top row of figure \ref{fig:grafana_setup_1} the genral view of the application is given. This includes a graph over how many request is occurring at a given time (the graph to the left), to give an overview of the incoming traffic. Further, the alert graph can be seen at the top right, which is a value that can be either 1 or 0. This translates to what value latest returned last, with any latest value greater than 0 would resolved to a value of 1 and anything else would resolved to a value of 0. Hence if the Api is down or returns odd values this would be registered by Grafana. This tracker could be used to notify the developers if the Api behaved oddly, which was utilised by having a webhook that sends messages to a discord server as seen in the figure \ref{fig:grafana_discord_alert}.
                 
-                \begin{figure}[H]
-                    \centering
-                    \includegraphics[width=\textwidth]{report/images/Grafana Discord Alert.jpg}
-                    \caption{TODO}
-                    \label{fig:grafana_discord_alert}
-                \end{figure}
+            \begin{figure}[H]
+                \centering
+                \includegraphics[width=\textwidth]{report/images/Grafana Discord Alert.jpg}
+                \caption{TODO}
+                \label{fig:grafana_discord_alert}
+            \end{figure}
+            
+            % TODO: the shortened or the longer version?!?!
+            Second information from controllers was very detailed\footnote{The data posted can be seen at \hyperlink{http://159.89.213.38:5010/metrics}{http://159.89.213.38:5010/metrics}}, and could be filtered by message type (POST, GET etc), response (204, 404 etc.). This information is valuable in solving performance issues, but creating a graph for every single message type and response would clutter the dashboard and make it less readable. Hence a decision was made that such queries should be done on a case by case basis, and a more general overview was created to monitor each controller as a whole. The query can be seen below.
                 
-                Second information from controllers was very detailed, and could be filtered by message type (POST, GET etc), response (204, 404 etc.). This information is valuable in solving performance issues, but creating a graph for every single message type and response would clutter the dashboard and make it less readable. Hence a decision was made that such queries should be done on a case by case basis, and a more general overview was created to monitor each controller as a whole. The query can be seen below.
+            \begin{center}
+                sum(http\_request\_duration\_seconds\_sum{controller="Follower"})
+            \end{center}
                 
-                \begin{center}
-                    sum(http\_request\_duration\_seconds\_sum{controller="Follower"})
-                \end{center}
-                
-                As an example, at one point the message controller was more time as the other controllers, where by looking on the summarised time per message type revealed that it was the GET call that used a lot of time.
-                
-                Third TODO: should we delete the one with RAM?!?!
+            Everything else on the Grafana dashboard is the query above executed on all controllers. An example to the use fullness of this approach can be seen in the following example. At one point the message controller was more time as the other controllers, where by looking on the summarised time per message type revealed that it was the GET call that used a lot of time.
                 
 
         \subsection{Logging}
@@ -104,11 +106,7 @@
         One low probability risk we identified was the cloud provider (or our account at the provider) getting hacked. This would be a severe problem, since we would lose access to our infrastructure, with the adversary gaining complete control over the live server and our database. User credentials would be somewhat safe, we only store hashes of passwords, however common passwords could be easily looked up from a rainbow table. To provide better guarantees, we could also add salt and pepper to the passwords.
         The other low probability risk we identified was a supply chain attack on any of our dependencies. Since it is unfeasible to constantly audit every new version the supplier publishes, the best line of defence is auditing once, and freezing version numbers after.
         
-        \newpage
-        
         \subsection{Description of CI/CD pipeline}
-        
-        
         Overall, the project consists of three workflows all utilised with GitHub Actions to make use of the open source workflow actions found in the GitHub Marketplace:
         \begin{itemize} 
             \item \textbf{release.yml} to automatically make a release every Sunday at 9 pm. 
@@ -116,20 +114,18 @@
             \item \textbf{main.yml} to deploy local changes from development to production.
         \end{itemize}
         
-        All the workflow files are found in the \textit{.github/workflows} folder of the repository, and each uses the action checkout\footnote{https://github.com/actions/checkout} to checkout the repository to a virtual machine hosted by GitHub to perform operations on. 
+        All the workflow files are found in the \textit{.github/workflows} folder of the repository, and each uses the action checkout\footnote{\hyperlink{checkout action}{https://github.com/actions/checkout}} to checkout the repository to a virtual machine hosted by GitHub to perform operations on. 
         
         \subsubsection{Automatic release}
         
-        This workflow uses the create-release\footnote{https://github.com/actions/create-release} and CRON formatting to automatically trigger a release of the main branch every sunday at 9 pm. 
+        This workflow uses the create-release\footnote{\hyperlink{release action}{https://github.com/actions/create-release}} and CRON formatting to automatically trigger a release of the main branch every sunday at 9 pm. 
         
         \subsubsection{Latex report build}
         
-        TODO
+        We write the report in Overleaf and from their platform, we push the changes in the Latex documents directly to main, which compiles them to a pdf via the latex-action\footnote{\hyperlink{latex compiler action}{https://github.com/xu-cheng/latex-action}}. We then use the push action\footnote{\hyperlink{push action}{https://github.com/ad-m/github-push-action}} to push the pdf document back into the correct folder in the repository. 
         
         
         \subsubsection{From development to production}
-        
-        Figure 3 displays the different stages on how implementations are taken from development into production. 
         
         \begin{figure}[H]
             \centering
@@ -138,12 +134,55 @@
             \label{fig:overall_workflow}
         \end{figure}
         
+        Figure 4 displays the different stages on how implementations are taken from development into production. We can make use of a tier structure to explain the details:
         
-        \begin{figure}[H]
+        \begin{enumerate}
+            \item \textbf{Development tier} \\
+            Changes to the source code are made in this tier on individual developer workstations. To ensure code quality before pushing to version control, the project uses the dotnet CodeCracker\footnote{\hyperlink{CodeCracker}{https://github.com/code-cracker/code-cracker}} package to provide the developer with a static code analysis when building locally. 
+            
+            \item \textbf{Integration tier} \\
+            Upon merging into the main branch, the \textit{main.yml} workflow will be triggered. This workflow handles testing, quality control and staging and is separated into three jobs, that will run on GitHub Actions hosted containers: 
+            
+            \begin{itemize}
+                \item \textbf{Build, test and Infersharp analysis} \\
+                This job runs in an Ubuntu 18.04 environment to resemble the actual target production environment hence staging. Here, dependencies are restored, the source code will be built and all the unit tests will be performed. Furthermore, we make use of the Infersharp action\footnote{\hyperlink{Infersharp action}{https://github.com/microsoft/infersharpaction}}, that will detect security leaks such as exposed connectionstrings for instance.  
+                
+                \item \textbf{Build and SonarCloud analysis} \\
+                The second job runs in a Windows latest version environment, since the SonarCloud static code analysis depends on this environment. When built and completed, a comprehensive code analysis is available on our SonarCloud dashboard. 
+                
+            \end{itemize}
+            
+            Both of these jobs run concurrently and utilise the dotnet action\footnote{\hyperlink{dotnet action}{https://github.com/actions/setup-dotnet}} with dotnet version 5.0.102 to mirror the dotnet environment in production. 
+            
+            
+            \item \textbf{Deployment tier} \\
+            The third job of the \textit{main.yml} workflow handles continuous deployment and is dependent on the aforementioned jobs, as shown in figure 5. 
+            
+            \begin{figure}[H]
             \centering
                 \includegraphics[width=\textwidth/2]{report/images/MiniTwit-main-final.png}
                 \caption{Main Workflow diagram}
             \label{fig:main_workflow}
-        \end{figure}
+            \end{figure}
+            
+            That is, this final job will be triggered if and only if the other jobs succeed, and upon success the job will run the deployment script:
+            
+            \begin{itemize}
+                \item Checkout the repository from main. 
+                \item Copy repository to DigitalOcean droplet via SCP action\footnote{\hyperlink{scp action}{https://github.com/appleboy/scp-action}}. 
+                \item SSH into the droplet via SSH action\footnote{\hyperlink{ssh action}{https://github.com/appleboy/ssh-action}}.
+                \item Run the swarm deploy script, such that the api docker service updates its running containers with the latest build of the EvilAPI subsystem. 
+                \item Run an instance of the EvilClient subsystem. 
+                \item Run the Grafana, Kibana, ElasticSearch and Prometheus containers if they are not already running via docker-compose.  
+            \end{itemize}
+            
+            If the rolling update in the api docker service fails, an automatic rollback to the previous image will be performed. Unfortunately, the EvilClient instance does not have any rollback strategy upon failures as of now.  
+            
+        \end{enumerate}
+        
+        
+        \subsection{Applied strategy for scaling and load balancing}
+        
+        
             
 \end{document}

@@ -1,6 +1,6 @@
 \documentclass[report/main.tex]{subfiles}
 
-A description and illustration of the:
+% A description and illustration of the:
 
 % - Design of your ITU-MiniTwit systems
 % - Architecture of your ITU-MiniTwit systems
@@ -16,73 +16,132 @@ A description and illustration of the:
     \section{System's Perspective}
     \label{Sec:systems_perspective}
     
-    \subsection{Design of the system}
-    \label{subsec:design_of_system}
-    % https://stackoverflow.com/questions/704855/software-design-vs-software-architecture
-
     \subsection{Architecture of the system}
     \label{subsec:architecture_of_system}
     % https://stackoverflow.com/questions/704855/software-design-vs-software-architecture
-        TODO: the rest
+    % https://codeburst.io/software-architecture-the-difference-between-architecture-and-design-7936abdd5830
+    % https://softwareengineering.stackexchange.com/questions/361371/what-is-a-proper-diagram-to-describe-software-architecture#:~:text=In%20UML%20there%20is%20no%20single%20architecture%20diagram%20that%20summarizes%20everything.&text=For%20the%20layers%2C%20the%20logical,also%20components%2C%20and%20use%20cases.
         
-        TODO: client server
+        % \begin{wrapfigure}{r}{0.4\textwidth}
+        %     \centering
+        %     \includegraphics[width=0.4\textwidth]{report/images/EvilTwitter-Three Layered Architecture.jpg}
+        %     \caption{TODO}
+        %     \label{fig:three-layered-architecture}
+        % \end{wrapfigure}
         
-        Following the principle of separation of concerns a Three Layered Architecture was chosen, thereby having separate programs for presentation tier (EvilClient), logic tier (EvilApi) and data tier (PSQL database). For reference see figure \ref{fig:three_layered:architecture}.
+        % TODO: too much arguing?!?!
+        This section will start with an overall walk through of the overall structure, followed by a further explanation of the various parts.
         
-
-        \begin{wrapfigure}{r}{0.4\textwidth}
+        For the overall structure of the application a Three Layered Architecture was chosen, As this resulted in a nice separation of concern in the application. This resulted in three distinct applications namely, EvilClient for the presentation tier, EvilApi for the business tier logic tier and the PostgreSQL (PSQL) database cluster for the data tier.
+        
+        To give an overview of this, see figure \ref{fig:model-diagram} that contains a model diagram depicting said flow via its dependencies.
+        
+        \begin{figure}[H]
             \centering
-            \includegraphics[width=0.4\textwidth]{report/images/MiniTwit-Three Layered Architecture.jpg}
-            \caption{Caption}
-            \label{fig:three_layered:architecture}
-        \end{wrapfigure}
-
-        As the application was split into two separate subsystem each subsystem will be covered separately starting with the EvilClient followed by the EvilApi
+            \includegraphics[width=0.8\textwidth]{report/images/EvilTwitter-Model Diagram - Evil Corp.jpg}
+            \caption{Model diagram of the EvilTwitter project, depicting important folders of the source code. Arrows have been added to show flow of data in the system, starting at the user or simulator and pointing to the next source file that would further the request along, resulting in all arrows leading to the database at the bottom}
+            \label{fig:model-diagram}
+        \end{figure}
         
-        \subsubsection{Architecture of EvilClient}
+        By following the Three Layered Architecture only two paths of communication exists, where both use a different architecture. First is between EvilClient and EcilApi, the second is between EvilApi and the database. This flow can be seen in figure \ref{fig:model-diagram} which is also depicted in figure \ref{fig:deployment-diagram}.
+        
+        \begin{figure}
+            \centering
+            \includegraphics[width=0.8\textwidth]{report/images/EvilTwitter-Deployment Diagram - Evil Corp.jpg}
+            \caption{Deployment diagrom of the project EvilTwitter showing the current state of the project}
+            \label{fig:deployment-diagram}
+        \end{figure}
+        
+        Communication between EvilClient and EvilApi is done via TCP/IP using the http protocol to deliver deliver json files. The EvilApi follows the REST Architecture (Representational State Transfer). The EvilApi and the database communicates via an ORM, specifically the EF Core framework.
+        
+        TODO: communication between EF Core and PSQL
+        
+        Finally as seen in figure \ref{fig:deployment-diagram} the application attempts to create a microservice by orchestrating some of the docker containers in swarm mode. In order to handle increase in traffic, thereby handling scaling in a horizontal way while also making the service more resilient. This had some shortcomings that will be discussed in section \ref{subsec:current-state-of-the-system}.
+
+    \subsection{Design of the system}
+    \label{subsec:design_of_system}
+    % https://stackoverflow.com/questions/704855/software-design-vs-software-architecture
+    % https://codeburst.io/software-architecture-the-difference-between-architecture-and-design-7936abdd5830 
+    % https://softwareengineering.stackexchange.com/questions/361371/what-is-a-proper-diagram-to-describe-software-architecture#:~:text=In%20UML%20there%20is%20no%20single%20architecture%20diagram%20that%20summarizes%20everything.&text=For%20the%20layers%2C%20the%20logical,also%20components%2C%20and%20use%20cases.
+        The overall architecture outlined in section \ref{subsec:architecture_of_system} separated the application into 3 distinct entities, namely EvilClient, EvilTwitter and the PSQL Database. Their design will be covered in separately in the following sections
+        
+        \subsubsection{Design of EvilClient}
         \label{subsubsec:architexture_of_evilclient}
             The main responsibility of the EvilClient is to display data from the database to the user send by the EvilApi, and handle inputs to the user that could manipulate data in the database. Hence the responsibility of the EvilClient is data conversion between displaying data to the user, and converting user input to usable data in the database thereby, the MVVM (Model-View-ViewModel) pattern was chosen (\cite{ms-mvvm}).
             
             Of notice should be the Pages, Shared, ViewModels folders of the EvilClient folder. Here Pages and Shared contains the View part of MVVM which is handle by the Microsoft Blazor Framework\footnote{\hyperlink{https://dotnet.microsoft.com/apps/aspnet/web-apps/blazor}{https://dotnet.microsoft.com/apps/aspnet/web-apps/blazor}} to convert the code into a application that is executable in a web browser. The ViewModels folder holds the code that converts data from the EvilApi into usuable information to the user, and vice verse converts input from the client into data that is usable for the EvilApi.
 
-        \subsubsection{Architecture of EvilApi}
+        \subsubsection{Design of EvilApi}
         \label{subsubsec:architecture-of-evilApi}
-            EvilApi is a simple REST Api (\cite{rest}) that handles request via the Microsoft ControllerBase (\cite{ms-web-api}), and updates a PostgreSQL database via EF Core\footnote{\hyperlink{https://docs.microsoft.com/en-us/ef/core/}{https://docs.microsoft.com/en-us/ef/core/}}. Hence it would receive http request, send them to
+            EvilApi is a REST \cite{rest} Api that updates a database according to the requests send. To handle the conversion from C\# to PostreSQL an ORM is used, that in this case is EF Core\footnote{\hyperlink{https://docs.microsoft.com/en-us/ef/core/}{https://docs.microsoft.com/en-us/ef/core/}}.
+        
+        \subsubsection{Design of the database}
+        \label{subsubsec:design-of-the-database}
+            TODO
     
     \subsection{Dependencies}
     \label{subsec:dependencies}
         \begin{table}[h!]
-    \small
-    \caption {Dependencies grouped by license} \label{tab:title}
-    \begin{tabular}{|l|l|l|l|}
-    \hline
-    apache 2                            & MIT                           & BSD 3clause & PostgresQL license \\ \hline
-    AspNetCore.Diagnostics.HealthChecks & Newtonsoft.Json               & moq4        & npgsql/efcore.pg   \\
-    code-cracker                        & ProfanityDetector             &             &                    \\
-    dotnet/efcore                       & prometheus-net                &             &                    \\
-    aspnet/Diagnostics                  & prometheus-net.SystemMetrics  &             &                    \\
-    serilog-aspnetcore                  & RehanSaeed/Serilog.Exceptions &             &                    \\
-    serilog-enrichers-environment       & Swashbuckle.AspNetCore        &             &                    \\
-    serilog-sinks-debug                 & coverlet                      &             &                    \\
-    serilog-sinks-elasticsearch         & vstest                        &             &                    \\
-    Roslynator                          &                               &             &                    \\
-    xunit                               &                               &             &                    \\
-    visualstudio.xunit                  &                               &             &                    \\ \hline
-    \end{tabular}
-    \end{table}
+            \small
+            \caption {Dependencies grouped by license} \label{tab:title}
+            \begin{tabular}{|l|l|l|l|}
+                \hline
+                apache 2                            & MIT                           & BSD 3clause & PostgresQL license \\ \hline
+                AspNetCore.Diagnostics.HealthChecks & Newtonsoft.Json               & moq4        & npgsql/efcore.pg   \\
+                code-cracker                        & ProfanityDetector             &             &                    \\
+                dotnet/efcore                       & prometheus-net                &             &                    \\
+                aspnet/Diagnostics                  & prometheus-net.SystemMetrics  &             &                    \\
+                serilog-aspnetcore                  & RehanSaeed/Serilog.Exceptions &             &                    \\
+                serilog-enrichers-environment       & Swashbuckle.AspNetCore        &             &                    \\
+                serilog-sinks-debug                 & coverlet                      &             &                    \\
+                serilog-sinks-elasticsearch         & vstest                        &             &                    \\
+                Roslynator                          &                               &             &                    \\
+                xunit                               &                               &             &                    \\
+                visualstudio.xunit                  &                               &             &                    \\ \hline
+            \end{tabular}
+        \end{table}
+        
+        A dependency graph for all used dependencies can be found in our GitHub repository\footnote{\hyperlink{Dependeny graph}{https://github.com/gustavjohansen98/E-vil-Corp/network/dependencies}}.
 
-    
-    
     \subsection{Interactions of subsystems}
+        Taking the current state of the system as a starting point helps describe the interactions of the subsystems, hence a setup having multiple droplets is possible and each droplet would be identical in regards to interactions of subsystems. The setup is depicted in figure \ref{fig:component-diagram}, following the Three Layered Architecture presented in section \ref{subsec:architecture_of_system}, but in this example the presentation tier and and business tier is located on the same droplet with the data tier located on another device. Also it is observed that the EvilClient communicate directly with the EvilApi.\footnote{Note should be taken that the EvilClient actually sends out an http request that leaves the droplet only to return shortly after. This is not optimal and the services should talk internaly on the droplet i.e. via the docker network}, by sending http requests back and forth that depending on the request might contain a data in a json format, as described in section \ref{subsec:architecture_of_system}. Further, a simulator talks directly to the EvilApi in the same manner as the EvilClient, which leaves only the EvilApi communicating directly with the database.
+
+        \begin{figure}[H]
+            \centering
+            \includegraphics[width=0.8\textwidth]{report/images/EvilTwitter-Component Diagram - Evil Corp.jpg}
+            \caption{Component diagram depicting the interactions of the subsystems that make up the EvilTwitter project}
+            \label{fig:component-diagram}
+        \end{figure}
+        
+        As seen 
     
     \subsection{Current state of the systems}
-    
-    \begin{itemize}
-        \item \textbf{} \url{https://sonarcloud.io/dashboard?id=gustavjohansen98_E-vil-Corp}
-    \end{itemize}
-    
+    \label{subsec:current-state-of-the-system}
+        To assess the state of the system, first a look and discussion of the SonarCloud report will be done.\footnote{\hyperlink{https://sonarcloud.io/dashboard?id=gustavjohansen98_E-vil-Corp}{https://sonarcloud.io/dashboard?id=gustavjohansen98\_E-vil-Corp}}
+        
+        \begin{figure}[H]
+            \centering
+            \includegraphics[width=0.7\textwidth]{report/images/SonarCloud Report.png}
+            \caption{TODO}
+            \label{fig:sonarcloud}
+        \end{figure}
+        
+        By looking at the security hotspots 3 clear risks can be seen:
+        
+        \begin{itemize}
+            \item Use of MD5 hasher
+            \item Logging Injection
+            \item Use of the http protocol
+        \end{itemize}
+        
+        From this the MD5 hash was kept due to the lack of a password reset function, as the application was first deployed with a MD5 hash, hence users made initially would not be able to log in. Though the MD5 hash is used in the creation of the user avatar this only hashes the email, and since this is public available on people profile it is not seen as a risk.
+        
+        Due to two factors logging injection is seen as less of a risk. Firstly messages received containing the hashed password isn't logged or un-hashed, and secondly the application is in a transition of moving the logs to a PostgreSQL database.
+        
+        TODO: use of http protocol
+
     \subsection{Software license agreement}
-    As listed in section \ref{subsec:dependencies}, we have 21 direct dependencies. 11 of them are licensed under Apache version 2\footnote{https://www.apache.org/licenses/LICENSE-2.0}, 8 of them under the MIT license\footnote{https://opensource.org/licenses/MIT}, while the BSD 3-clause\footnote{https://opensource.org/licenses/BSD-3-Clause} and PostgresQL license\footnote{https://www.postgresql.org/about/licence/} cover 1-1 dependency each. Since all of these licences are permissive, we had a lot of freedom to choose how to license our software. While we must preserve the original license notices in the files which use code covered by the aforementioned licences, we are permitted to license the project \textit{as a whole} as we see fit. Therefore, to make sure evil capitalists don't profit from our work, we released the project under the GPL version 3\footnote{https://www.gnu.org/licenses/gpl-3.0.en.html}.
+        As listed in section \ref{subsec:dependencies}, we have 21 direct dependencies. 11 of them are licensed under Apache version 2\footnote{https://www.apache.org/licenses/LICENSE-2.0}, 8 of them under the MIT license\footnote{https://opensource.org/licenses/MIT}, while the BSD 3-clause\footnote{https://opensource.org/licenses/BSD-3-Clause} and PostgresQL license\footnote{https://www.postgresql.org/about/licence/} cover 1-1 dependency each. Since all of these licences are permissive, we had a lot of freedom to choose how to license our software. While we must preserve the original license notices in the files which use code covered by the aforementioned licences, we are permitted to license the project \textit{as a whole} as we see fit. Therefore, to make sure evil capitalists don't profit from our work, we released the project under the GPL version 3\footnote{https://www.gnu.org/licenses/gpl-3.0.en.html}.
     
 
 
