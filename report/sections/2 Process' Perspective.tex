@@ -93,7 +93,7 @@
         \subsection{Logging}
             \label{SubSec:logging}
             % - What do you log in your systems and how do you aggregate logs?
-            The application uses Elastic Search\footnote{TODO}, Kibana\footnote{TODO} and Serilog\footnote{TODO} to aggregate the logs. This is done by having C# logs useful information that is then propagated to \textit{http://localhost:9200} where Elastic Search monitors and collects log. Finally Kibana imports this data in order to display and query the logs.
+            The application uses Elastic Search\footnote{TODO}, Kibana\footnote{TODO} and Serilog\footnote{TODO} to aggregate the logs. This is done by having C\# logs useful information that is then propagated to \textit{http://localhost:9200} where Elastic Search monitors and collects log. Finally Kibana imports this data in order to display and query the logs.
             
             The package Serilog came with some off the shelf functionality in case of logging, where at the informational level the following functionality was utilised initially. Logging of database queries and requests and response send to and from the controllers. After evaluation this was deemed unnecessary, as the information given in the logs could be retrieved wither from the monitoring setup or from database queries themselves, hence logging was kept at an error level as this information cannot be retrieved otherwise.
 
