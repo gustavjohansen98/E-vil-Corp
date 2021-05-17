@@ -1,4 +1,4 @@
-\documentclass[12pt]{article}
+    \documentclass[12pt]{article}
 \usepackage{fullpage} %Gør margenerne mindre
 \input{report/preamble.tex} %Alle pakkerne der bruges
 
@@ -25,11 +25,17 @@
     
     \setcounter{page}{1}
     \subfile{report/sections/1 System's Perspective}
+    \newpage
     \subfile{report/sections/2 Process' Perspective}
+    \newpage
     \subfile{report/sections/3 Lessons Learned Perspective}
     \newpage
     
     \printbibliography
+    \newpage
+    
+    \subfile{report/sections/appendix}
+    \newpage
     
     % Appendix
     %\verbatiminput{assets/reports/lynis console local droplet.txt}
