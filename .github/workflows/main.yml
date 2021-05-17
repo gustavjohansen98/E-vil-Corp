@@ -12,7 +12,7 @@ jobs:
 
 ##
 
-  static-code-analysis-on-ubuntu-finding-leaks:
+  build-test-and-Infersharp:
     runs-on: ubuntu-18.04
     
     steps: 
@@ -44,7 +44,7 @@ jobs:
     
 # ##        
 
-  build-and-test:
+  build-and-SonarCloud:
     runs-on: ${{ matrix.os }}
     strategy: 
       matrix:
