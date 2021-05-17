@@ -12,29 +12,45 @@
 
 \begin{document}
     \section{Lessons Learned Perspective}
-    \label{Sec:lessons_learned_persective}
+    \label{sec:lessons_learned_persective}
         \subsection{Evolution and refactoring}
-            Since we came from different backgrounds - data science and software development-, our first issue in refactoring was settling on a language. As we didn't have a shared programming language all of us knew, we tried learning a common language none of us knew before. While we thought we can pick up a language quickly, since we knew the basic building blocks and had experience learning from documentation, we ended up settling for C\# after some gruesome weeks of learning go. This choice created some discrepancies in our abilities to interact with the codebase, which was hard to bridge for the entirety of project period.
+        \label{subsec:evolution-and-refactoring}
+            % NOTES:
+            % - CI/CD to catch errors instead of first finding them when pulling changes
+            % - Being able to push a hotfix that is automatically deplyed us extremely usefull, compared to the manual process at work
+        
+            Since we came from different backgrounds - data science and software development- our first issue in refactoring was settling on a language. As we didn't have a shared programming language all of us knew, we tried learning a common language none of us knew before. While we thought we can pick up a language quickly, since we knew the basic building blocks and had experience learning from documentation, we ended up settling for C\# after some gruesome weeks of learning go. This choice created some discrepancies in our abilities to interact with the codebase, which was hard to bridge for the entirety of project period.
     
-            When setting up virtualization, we started by deploying local copies to Digital Ocean with the help of Vagrant. Later, we switched from local copies to cloning from github, since it was easier to just specify the production branch in Vagrant than manually switching branches for spinning up the machines. An issue we were still facing was the database. Since we were working with an sqlite database, we had to manually copy the database from our VM before every destruction. At first, we bridged the issue by setting up a vagrant trigger-on-destroy to copy the database file. Later, we switched to a postgres cluster, also deployed on Digital Ocean, so that the database was more independent from the application.
-            importance of database setup initially
+            When setting up virtualization, we started by deploying local copies to Digital Ocean with the help of Vagrant. Later, we switched from local copies to cloning from GitHub, since it was easier to just specify the production branch in Vagrant than manually switching branches for spinning up the machines. An issue that we were still facing was the database. Since we were working with an Sqlite database, we had to manually copy the database from our VM before every destruction. At first, we bridged the issue by setting up a vagrant trigger-on-destroy to copy the database file. Later, we switched to a Postgres cluster, also deployed on Digital Ocean, so that the database was more independent from the application. In hindsight, it would have been much better to migrate the database in the beginning of the project since it created a lot of bottleneck for instance when setting up the Docker swarm.
+            
+            Creating the CI/CD setup, we had a lot of issues with setting up the keys the right way for everything, which is why we ended up not using Travis, but GitHub Actions, since it was more tightly integrated with the repository. Overall we had a better and more productive experience with GitHub Actions. 
     
-            Creating the CI/CD setup, we've been through hell. We had a lot of issues with setting up the keys the right way for everything, which is why we ended up not using Travis, but github actions, since it was more tightly integrated with the repository.
-    
-            Monitoring
-    
-            Logging
-    
-            Load balancing
             
         \subsection{Operations}
-            %NOTES:
-            %- CI/CD to catch errors instead of first finding them when pulling changes
-            - 
-        
-            Usage of a CI/CD pipeline was new for everyone, and several benefits became clear early on. A major hurdle in earlier projects would be a commit or merge to the main branch, that had an error such that the project would not run when another pulled the changes down. This would slow down development in other projects as the bug had to be resolved first before any work could be done, but most of this is avoided by having a CI/CD pipeline that analyses and test your code.
-        
+        \label{subsec:operations}
+            % NOTES:
+            % - Docker Swarm
+            % - https://github.com/gustavjohansen98/E-vil-Corp/issues/101
+            
+            % - Droplet unstable
+            
+            Implementing load balancing and zero downtime deployment became a major hurdle towards the end of the project, by dependencies of other implementation like the database migration elaborated on in section \ref{subsec:maintenance} and how to handle connection strings. After some researching docker secrets was discovered which solved all the issues. Often documentation is a second though with the main knowledge searching happening on google, but often taking the time and studying the documentation can be more efficient, which is the knowledge gained through this experience.
+            
         \subsection{Maintenance}
+        \label{subsec:maintenance}
+            % NOTES:
+            % - Database migration
+            
+            Having deployed with an SQLite database is sub optimal hence a issues for changing to another provider was created the 25 of February and was finally moved to deployed on the 16 of April\footnote{See this issue: \hyperlink{https://github.com/gustavjohansen98/E-vil-Corp/issues/62}{https://github.com/gustavjohansen98/E-vil-Corp/issues/62}}. By the issues being unresolved for such a long time, several problems was connected to it with their own solution. One problem does however standout by slowing the development down the most. Storing the connection string in a secure manner became a major hurdle, both before implementing Docker Swarm and after. The solution before was a .txt file located at the droplet which was a sub optimal but temporary solution, that was solved with the implementation of Docker Swarm as the connection string could be stored as a Docker secret.
+            
+            The activity of planning is often neglected in favour of developing, which time and again shows up with major bugs and issues later on. The neglect not to consider the data situation at deployment time is a prime example of this, and is if not a lesson learned then at least a reminder of the importance of thoughts before actions.
         
-        
+        \subsection{Final Reflections on DevOps}
+        \label{subsec:final-reflections-on-devops}
+            As everyone had limited experience with deployed software, it is hard to define was is different from previous projects, as everything regarding operations and maintenance was new. That said experience from other school subjects and student jobs does still provide some reflections.
+            
+            Noticeably the use of CI/CD became the defining core of the DevOps work. In relation to work experience as having to manually deploy to a server is cumbersome and error prone, where the ease of deploying with a pipeline becomes obvious.
+            
+            This became clear when two developers from the group tried setting up a CI/CD pipeline in another course - BNDN second year project - such that an mobile app release of the code base would automatically be triggered when merging into the main branch. However, due to the Product Owner not being able to provide Apple developer certificates, this was not successful. The failure of the pipeline resulted in a lot of time used building a release and manually uploading and notify the beta testers, that a new version was available. This really highlights the importance and efficiency of a working CI/CD pipeline when developing in a large group. 
+            
 \end{document}
