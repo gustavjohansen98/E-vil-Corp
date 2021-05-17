@@ -138,7 +138,7 @@
         
         Due to two factors, logging injection is seen as less of a risk. Firstly messages received containing the hashed password aren't logged or un-hashed. Secondly, the application is in a transition of moving the logs to a PostgreSQL database.
         
-        It is indeed not recommended to make use of the http protocol and not the https protocol, but we simply didn't prioritise getting a https certificate\footnote{\hyperlink{https certificate for ASP.NET core}{https://docs.microsoft.com/en-us/aspnet/core/security/enforcing-ssl?view=aspnetcore-5.0\&tabs=visual-studio}} for the ASP.NET core framework used.
+        It is of course not recommended to make use of the http protocol and not the https protocol, but we simply didn't prioritise getting a https certificate\footnote{\hyperlink{https certificate for ASP.NET core}{https://docs.microsoft.com/en-us/aspnet/core/security/enforcing-ssl?view=aspnetcore-5.0\&tabs=visual-studio}} for the ASP.NET core framework used.
         
         We have an overall acceptable technical debt of 8 hours\footnote{\hyperlink{SonarCloud documentation}{https://docs.sonarqube.org/latest/user-guide/metric-definitions/#header-4}} with 256 code smells to cover. 
 
