@@ -134,8 +134,8 @@
             From this the MD5 hash was kept due to the lack of a password reset function, as the application was first deployed with a MD5 hash, hence users made initially would not be able to log in. Though, the MD5 hash is used in the creation of the user avatar, this only hashes the email, and since this is publicly available on people's profiles, it is not seen as a risk.
             
             % TODO: Fix this, moving the logs shouldn't make us less worried
-            Due to two factors, logging injection is seen as less of a risk. First, messages received containing the hashed password aren't logged or un-hashed. Second, the application is in a transition of moving the logs to a separate PostgreSQL database.
-            
+            Due to messages received only containing hashed information, logging injection is seen as less of a risk. Furthermore, the application is in a process of moving the logs to a separate database, hence a solution might become invalid and have to be redone shortly after implementation.
+
             It is of course not recommended to make use of the http protocol instead of the https protocol, but we simply didn't prioritise getting a https certificate\footnote{\href{https://docs.microsoft.com/en-us/aspnet/core/security/enforcing-ssl?view=aspnetcore-5.0\&tabs=visual-studio}{https certificate for ASP.NET core}} for the ASP.NET core framework used.
             
             We have an overall acceptable technical debt of 8 hours\footnote{\href{https://docs.sonarqube.org/latest/user-guide/metric-definitions/\#header-4}{SonarCloud documentation}} with 256 code smells to cover.
